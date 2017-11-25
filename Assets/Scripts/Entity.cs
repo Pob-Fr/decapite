@@ -17,7 +17,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     public float movementSpeedFactor {
         set {
             MOVEMENT_SPEED_FACTOR = value;
-            animatorController.SetFloat("walkDuration", 1f/MOVEMENT_SPEED_FACTOR);
+            animatorController.SetFloat("walkDuration", 1f / MOVEMENT_SPEED_FACTOR);
         }
         get { return MOVEMENT_SPEED_FACTOR; }
     }
@@ -33,7 +33,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     public float attackSpeedFactor {
         set {
             ATTACK_SPEED_FACTOR = value;
-            animatorController.SetFloat("attackDuration", 1f/(ATTACK_SPEED_FACTOR * (attackDelay + attackRecoverTime)));
+            animatorController.SetFloat("attackDuration", 1f / (ATTACK_SPEED_FACTOR * (attackDelay + attackRecoverTime)));
         }
         get { return ATTACK_SPEED_FACTOR; }
     }
@@ -67,13 +67,13 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
         currentHealth = maxHealth;
         attackAreaLeftMin = new Vector2(-(bodyWidth / 2f), -attackThickness / 2f);
         attackAreaLeftMax = new Vector2(-(attackReach + bodyWidth / 2f), attackThickness / 2f);
-        attackAreaRightMin = new Vector2(bodyWidth / 2f, attackThickness);
-        attackAreaRightMax = new Vector2(attackReach + bodyWidth / 2f, -attackThickness / 2f);
+        attackAreaRightMin = new Vector2(bodyWidth / 2f, -attackThickness / 2);
+        attackAreaRightMax = new Vector2(attackReach + bodyWidth / 2f, attackThickness / 2f);
         collisionBox.size = new Vector2(bodyWidth, bodyThickness);
         collisionBox.offset = new Vector2(0, 0);
         movementSpeedFactor = 1;
         attackSpeedFactor = 1;
-        animatorController.SetFloat("deathDuration", 1f/ deathDuration);
+        animatorController.SetFloat("deathDuration", 1f / deathDuration);
     }
 
     protected void Animate() {
@@ -187,10 +187,10 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
         // draw attack area
         Gizmos.color = Color.yellow;
         if (isLookinkRight)
-            Gizmos.DrawCube(transform.position + new Vector3(bodyWidth / 2 + attackReach / 2, 0, 0)
+            Gizmos.DrawCube(transform.position + new Vector3((bodyWidth + attackReach) / 2f, 0, 0)
                 , new Vector2(attackReach, attackThickness));
         else
-            Gizmos.DrawCube(transform.position - new Vector3(bodyWidth / 2 + attackReach / 2, 0, 0)
+            Gizmos.DrawCube(transform.position - new Vector3((bodyWidth + attackReach) / 2f, 0, 0)
                 , new Vector2(attackReach, attackThickness));
     }
 
