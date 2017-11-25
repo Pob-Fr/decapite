@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 1eadc40e4aa15aa46b5b63989e94e454
-timeCreated: 1511618063
+timeCreated: 1511625281
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -87,12 +87,12 @@ TextureImporter:
       name: bat-guy-spritesheet-2_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 80
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 22
+        y: 83
+        width: 36
+        height: 74
+      alignment: 9
+      pivot: {x: 0.59, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -101,12 +101,12 @@ TextureImporter:
       name: bat-guy-spritesheet-2_1
       rect:
         serializedVersion: 2
-        x: 80
-        y: 80
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 102
+        y: 83
+        width: 31
+        height: 73
+      alignment: 9
+      pivot: {x: 0.68, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -115,12 +115,12 @@ TextureImporter:
       name: bat-guy-spritesheet-2_2
       rect:
         serializedVersion: 2
-        x: 160
-        y: 80
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 182
+        y: 83
+        width: 33
+        height: 74
+      alignment: 9
+      pivot: {x: 0.65, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -129,12 +129,12 @@ TextureImporter:
       name: bat-guy-spritesheet-2_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 80
-        height: 80
+        x: 27
+        y: 11
+        width: 42
+        height: 58
       alignment: 9
-      pivot: {x: 0.5, y: 0.6}
+      pivot: {x: 0.39, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -143,12 +143,12 @@ TextureImporter:
       name: bat-guy-spritesheet-2_4
       rect:
         serializedVersion: 2
-        x: 94
-        y: 0
-        width: 91
-        height: 80
+        x: 105
+        y: 11
+        width: 70
+        height: 58
       alignment: 9
-      pivot: {x: 0.2638, y: 0.6}
+      pivot: {x: 0.23, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

@@ -18,6 +18,7 @@ public class Player : Entity {
             if (Input.GetButton("Attack"))
                 Attack();
         }
+        Animate();
     }
 
 }

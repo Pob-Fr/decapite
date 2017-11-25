@@ -15,6 +15,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
 
     public float movementSpeedFactor = 5;
     public float attackSpeedFactor = 1;
+    public bool isWalking;
 
     public float attackDelay = 0.2f; // delay before the attack hit
     public float attackRecoverTime = 0.2f; // getting back to idle
@@ -38,9 +39,13 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     protected bool isLookinkRight = true;
 
     protected BoxCollider2D collisionBox;
+    protected Animator animatorController;
+    protected SpriteRenderer sprite;
 
     void Start() {
         collisionBox = GetComponent<BoxCollider2D>();
+        animatorController = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
         Init();
     }
 
@@ -54,14 +59,24 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
         collisionBox.offset = new Vector2(0, bodyThickness / 2);
     }
 
+    protected void Animate() {
+        animatorController.SetBool("isAttacking", isAttacking);
+        animatorController.SetBool("isWalking", isWalking);
+        sprite.flipX = !isLookinkRight;
+    }
+
     public void Move(Vector2 direction) {
+        isWalking = false;
         if (isAlive && !isAttacking) {
-            transform.position += new Vector3(direction.x * movementSpeedFactor * Time.deltaTime,
-                direction.y * movementSpeedFactor * verticalMovementSpeedFactor * Time.deltaTime, 0);
-            if (direction.x > float.Epsilon) {
-                isLookinkRight = true;
-            } else if (direction.x < -float.Epsilon) {
-                isLookinkRight = false;
+            if (direction.magnitude > float.Epsilon) {
+                transform.position += new Vector3(direction.x * movementSpeedFactor * Time.deltaTime,
+                    direction.y * movementSpeedFactor * verticalMovementSpeedFactor * Time.deltaTime, 0);
+                if (direction.x > float.Epsilon) {
+                    isLookinkRight = true;
+                } else if (direction.x < -float.Epsilon) {
+                    isLookinkRight = false;
+                }
+                isWalking = true;
             }
         }
     }
@@ -95,6 +110,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
             Debug.Log("Start attack animation");
             // wait for impact
             isAttacking = true;
+            isWalking = false;
             yield return new WaitForSeconds(attackDelay);
         }
         if (isAlive) { // hit

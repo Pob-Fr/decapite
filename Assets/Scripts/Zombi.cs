@@ -54,6 +54,7 @@ public class Zombi : Entity {
                 }
             }
         }
+        Animate();
     }
 
 }
