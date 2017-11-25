@@ -133,7 +133,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
         if (isAlive) { // hit
             // pick targets and damage them
             foreach (Hitable h in pickTargets(hitmask)) {
-                h.GetHit(attackDamage);
+                h.GetHit(attackDamage, this);
             }
             yield return new WaitForSeconds(attackRecoverTime * attackSpeedFactor);
         }
