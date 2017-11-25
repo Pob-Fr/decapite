@@ -13,6 +13,7 @@ public class GameDirector : MonoBehaviour {
     public float firstZombiSpawnDelay = 5;
     public float periodicZombiSpawnDelay = 10;
     public int periodicZombiSpawnCount = 3;
+    public float zombiSpawnInterval = 0.2f;
 
     public float firstDiceSpawnDelay = 15;
     public float periodicDiceSpawnDelay = 20;
@@ -44,15 +45,13 @@ public class GameDirector : MonoBehaviour {
     }
 
     public void SpawnZombis(int count) {
-        for (int i = 0; i < count; i++) {
-            SpawnZombi();
-        }
+        StartCoroutine(SpawnZombisDelayed(count));
     }
 
     public IEnumerator SpawnZombisDelayed(int count) {
         for (int i = 0; i < count; i++) {
             SpawnZombi();
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(zombiSpawnInterval);
         }
     }
 
