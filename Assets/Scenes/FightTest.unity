@@ -382,7 +382,7 @@ MonoBehaviour:
   attackRecoverTime: 0.5
   attackDamage: 1
   attackReach: 1
-  attackThickness: 0.4
+  attackThickness: 0.8
   deathDuration: 0.5
   bodyThickness: 0.4
   bodyWidth: 1
@@ -828,7 +828,7 @@ MonoBehaviour:
   attackRecoverTime: 0.5
   attackDamage: 1
   attackReach: 1
-  attackThickness: 0.4
+  attackThickness: 0.8
   deathDuration: 0.5
   bodyThickness: 0.4
   bodyWidth: 1
@@ -1088,7 +1088,7 @@ MonoBehaviour:
   attackRecoverTime: 0.5
   attackDamage: 1
   attackReach: 1
-  attackThickness: 0.4
+  attackThickness: 0.8
   deathDuration: 0.5
   bodyThickness: 0.4
   bodyWidth: 1
