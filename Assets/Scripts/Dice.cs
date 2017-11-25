@@ -9,11 +9,13 @@ public class Dice : MonoBehaviour, Hitable
     public AudioClip sound1;
 
     float throwSpeed;
+    float throwSpeedMax;
 
     public int life;
-    public Vector2 pos;
+//    public Vector2 pos;
     float height = 0;
-    public float maxHeight = 1;
+    float maxHeight = 1;
+    public float defaultHeight = 1;
     float moveUp = 1;
 
     // Bounce stats
@@ -33,7 +35,7 @@ public class Dice : MonoBehaviour, Hitable
         bool isUsed = false;
         timeToDie = 3f;
         moveUp = 1;
-        throwSpeed = 10f;
+        throwSpeedMax = 10f;
     }
 
     // Update is called once per frame
@@ -51,11 +53,21 @@ public class Dice : MonoBehaviour, Hitable
     public void GetHit(int damage, Entity hitter)
     {
         audioSource.PlayOneShot(sound1);
+        throwSpeed = throwSpeedMax;
+        maxHeight = defaultHeight;
         life -= damage;
         // Check if the dice get hit by the right of the left
-        bool toDebug = true;
+        bool fromLeft = true;
         float direction;
-        direction = toDebug ? direction = 1 : direction = -1;
+        direction = fromLeft ? direction = 1 : direction = -1;
+        if (hitter.transform.position.x <= transform.position.x)
+        {
+            direction = 1;
+        }
+        else
+        {
+            direction = -1;
+        }
         throwSpeed = Mathf.Abs(throwSpeed) * direction;
         bounce = maxBounce;
     }
@@ -70,9 +82,9 @@ public class Dice : MonoBehaviour, Hitable
     {
         // Bounce effect
         height += (2.5f * moveUp * Time.deltaTime);
-        if (height >= (maxHeight - 0.05f))
+        if (height >= (maxHeight - 0.005f))
         {
-            height = maxHeight - 0.05f;
+            height = maxHeight - 0.005f;
             moveUp = -1;
         }
         if (height <= 0)
@@ -80,13 +92,15 @@ public class Dice : MonoBehaviour, Hitable
             height = 0;
             moveUp = 1;
             bounce--;
+            throwSpeed /= 2f;
+            maxHeight /= 2f;
         }
-        spriteRender.transform.position = new Vector2(spriteRender.transform.position.x, height);
+        spriteRender.transform.position = new Vector2(spriteRender.transform.position.x, transform.position.y + height);
         transform.Translate(Vector2.right * speed * Time.deltaTime);
         
     }
     
-    public void hitSomething()
+    public void Resolve()
     {
         isUsed = true;
         height = 0;
@@ -104,13 +118,18 @@ public class Dice : MonoBehaviour, Hitable
         Die();
     }
 
+    // DEBUG
+    public Entity whoHit;
+
     void OnGUI()
     {
         //if (GUILayout.Button("Hit at right!"))
-            // GetHit(1, true);
+        // GetHit(1, true);
         //if (GUILayout.Button("Hit at left!"))
-            // GetHit(1, false);
+        // GetHit(1, false);
+        if (GUILayout.Button("Get hit"))
+            GetHit(1, whoHit);
         if (GUILayout.Button("Touch something"))
-            hitSomething();
+            Resolve();
     }
 }
