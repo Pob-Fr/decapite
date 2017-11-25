@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class Dice : MonoBehaviour, Hitable
 {
-    public float GetBodyWidth() {
-        return 0;
-    }
-    public float GetBodyThickness() {
-        return 0;
-    }
-
     Transform spriteRender;
     AudioSource audioSource;
     public AudioClip sound1;
@@ -121,9 +114,17 @@ public class Dice : MonoBehaviour, Hitable
         Die();
     }
 
-    // DEBUG
-    public Entity whoHit;
 
+    public float GetBodyWidth()
+    {
+        return 0;
+    }
+    public float GetBodyThickness()
+    {
+        return 0;
+    }
+
+    /*
     void OnGUI()
     {
         //if (GUILayout.Button("Hit at right!"))
@@ -135,4 +136,5 @@ public class Dice : MonoBehaviour, Hitable
         if (GUILayout.Button("Touch something"))
             Resolve();
     }
+    */
 }
