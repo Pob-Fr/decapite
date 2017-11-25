@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class Dice : MonoBehaviour, Hitable
 {
+
+    public static void Spawn(GameObject prefab, Vector3 position)
+    {
+        GameObject dice = GameObject.Instantiate(prefab);
+        dice.transform.position = position;
+        //dice.GetComponent<Dice>();
+    }
+
     Transform spriteRender;
     AudioSource audioSource;
     public List<AudioClip> sounds;
