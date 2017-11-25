@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Entity {
+public class Player : Entity
+{
+    public AudioClip[] soundsVoice = new AudioClip[5];
 
     //public static GameObject playerPrefab = Resources.Load("Prefabs/Player");
 
@@ -16,7 +18,9 @@ public class Player : Entity {
         if (isAlive && !isAttacking) {
             Move(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")));
             if (Input.GetButton("Attack"))
+            {
                 Attack();
+            }
         }
         Animate();
     }

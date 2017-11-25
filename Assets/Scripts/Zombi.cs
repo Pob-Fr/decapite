@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Zombi : Entity {
+public class Zombi : Entity
+{
+    public AudioClip soundSpawn;
+    public AudioClip soundIdle;
+
 
     public static void Spawn(GameObject prefab, Vector3 position, GameObject target) {
         GameObject zombi = GameObject.Instantiate(prefab);
@@ -31,6 +35,7 @@ public class Zombi : Entity {
             if (TARGET_HITABLE == null)
                 Debug.Log("Not a valid target !");
         }
+        audioSource.PlayOneShot(soundSpawn);
     }
 
     private void Update() {
