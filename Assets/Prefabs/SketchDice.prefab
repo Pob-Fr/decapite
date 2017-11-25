@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114814354390836282}
   - component: {fileID: 212514666018368494}
   - component: {fileID: 82855510966763280}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SketchDice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 4784761820660718}
   - component: {fileID: 212945046392495920}
   - component: {fileID: 95995483714504434}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SpriteRender
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,8 +54,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1131879139673250}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children:
   - {fileID: 4784761820660718}
   m_Father: {fileID: 0}
@@ -83,7 +83,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.3}
@@ -97,7 +97,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.4}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!82 &82855510966763280
 AudioSource:
@@ -207,11 +207,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f559728448c8ba440a8f500971dd63d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound1: {fileID: 8300000, guid: df820cfeaed72fa4a8c8d9e34507a96c, type: 3}
+  sounds:
+  - {fileID: 8300000, guid: df820cfeaed72fa4a8c8d9e34507a96c, type: 3}
+  - {fileID: 8300000, guid: fa5a37a0362c9874d9eef64b0a60d6fe, type: 3}
+  - {fileID: 8300000, guid: af372a10ea15bf5468689e3045c63b31, type: 3}
+  - {fileID: 8300000, guid: 70700b34545a1c24eb083c642b5561a0, type: 3}
   life: 0
   maxBounce: 2
   defaultSpeedUp: 20
-  whoHit: {fileID: 0}
+  bodyThickness: 1
+  bodyWidth: 1
 --- !u!212 &212514666018368494
 SpriteRenderer:
   m_ObjectHideFlags: 1
