@@ -49,13 +49,14 @@ public class Dice : MonoBehaviour, Hitable
         life -= damage;
     }
 
-    public void GetHit(int damage, bool hitter)
+    public void GetHit(int damage, Entity hitter)
     {
         audioSource.PlayOneShot(sound1);
         life -= damage;
         // Check if the dice get hit by the right of the left
+        bool toDebug = true;
         float direction;
-        direction = hitter ? direction = 1 : direction = -1;
+        direction = toDebug ? direction = 1 : direction = -1;
         throwSpeed = Mathf.Abs(throwSpeed) * direction;
         bounce = maxBounce;
     }
@@ -107,9 +108,9 @@ public class Dice : MonoBehaviour, Hitable
     void OnGUI()
     {
         if (GUILayout.Button("Hit at right!"))
-            GetHit(1, true);
+            // GetHit(1, true);
         if (GUILayout.Button("Hit at left!"))
-            GetHit(1, false);
+            // GetHit(1, false);
         if (GUILayout.Button("Touch something"))
             hitSomething();
     }
