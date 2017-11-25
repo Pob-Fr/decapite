@@ -1,4 +1,6 @@
-﻿public class EffectSpawnZombi : Effect
+﻿using UnityEngine;
+
+public class EffectSpawnZombi : Effect
 {
     int nbZombi;
 
@@ -14,6 +16,7 @@
 
     public void DoSomething()
     {
-        //        GameDirector.singleton.SpawnZombi(score);
+        //        GameDirector.singleton.SpawnZombi(number);
+        Debug.Log("Spawn " + nbZombi + " Zombi(s)");
     }
 }

@@ -9,24 +9,25 @@ public class DiceContent {
         effects.Add(newEffectHolder);
     }
 
-    public Effect RandomEffect(int randNb)
+    public Effect RandomEffect()
     {
-        int sommeNb = 0;
-        for (int i = 0; i < effects.Count;++i)
+        int maxRange = 0;
+        for (int i = 0; i < effects.Count; ++i)
         {
-            sommeNb += effects[i].GetChance();
+            maxRange += effects[i].GetChance();
         }
-        int resultRand = Random.Range(0, sommeNb);
+        int resultRand = Random.Range(0, maxRange);
 
-        int j = 0;
-        int currentNb = 0;
-        while (currentNb < effects[j].GetChance())
+        int index = 0;
+        int sommePrevious = 0;
+        while (index < effects.Count)
         {
-            currentNb = effects[j].GetChance();
+            if ((effects[index].GetChance() + sommePrevious - resultRand) > 0)
+                return effects[index].GetEffect();
+            sommePrevious += effects[index].GetChance();
+            ++index;
         }
-
-        Debug.Log(effects[j].GetEffect());
-        return new EffectSpawnZombi(1);
+        return effects[0].GetEffect();
     }
 }
 
@@ -35,7 +36,7 @@ public class EffectHolder
     Effect effect;
     int chance;
 
-    EffectHolder (Effect newEffet, int newChance)
+    public EffectHolder (Effect newEffet, int newChance)
     {
         this.effect = newEffet;
         this.chance = newChance;

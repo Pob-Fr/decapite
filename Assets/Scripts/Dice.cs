@@ -24,6 +24,7 @@ public class Dice : MonoBehaviour, Hitable
     // Dice specifique informations
     bool isUsed = false;
     float timeToDie = 3f;
+    public DiceContent diceContent = new DiceContent();
 
     // Use this for initialization
     void Start()
@@ -32,6 +33,11 @@ public class Dice : MonoBehaviour, Hitable
         spriteRender = this.gameObject.transform.GetChild(0);
         audioSource = GetComponent<AudioSource>();
         animator = spriteRender.GetComponent<Animator>();
+
+        // Init the content of the dice
+        diceContent.AddEffectHolder(new EffectHolder(new EffectScore(100), 25));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnZombi(1), 50));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectScore(200), 25));
 
         isUsed = false;
         timeToDie = 3f;
@@ -110,7 +116,9 @@ public class Dice : MonoBehaviour, Hitable
         // Play animation
         animator.SetBool("isOpening", true);
         yield return new WaitForSeconds(timeToDie);
-        // Faire le bonus/malus à la fin de l'animation
+        // Run the effect
+        Effect effect = diceContent.RandomEffect();
+        effect.DoSomething();
         Die();
     }
 
@@ -124,23 +132,16 @@ public class Dice : MonoBehaviour, Hitable
         return 0;
     }
 
-    // *** GESTION DICE CONTENT ***
-
-
-
-    // *** END GESTION DICE CONTENT ***
-
-    /*
+    
     void OnGUI()
     {
         //if (GUILayout.Button("Hit at right!"))
         // GetHit(1, true);
         //if (GUILayout.Button("Hit at left!"))
         // GetHit(1, false);
-        if (GUILayout.Button("Get hit"))
-            GetHit(1, whoHit);
+        //if (GUILayout.Button("Get hit"))
+        //    GetHit(1, whoHit);
         if (GUILayout.Button("Touch something"))
             Resolve();
     }
-    */
 }
