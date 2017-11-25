@@ -34,7 +34,6 @@ public class Dice : MonoBehaviour, Hitable
         timeToDie = 3f;
         moveUp = 1;
         throwSpeed = 10f;
-        transform.position = pos;
     }
 
     // Update is called once per frame
@@ -91,7 +90,7 @@ public class Dice : MonoBehaviour, Hitable
     {
         isUsed = true;
         height = 0;
-        spriteRender.transform.position = new Vector2(spriteRender.transform.position.x, height);
+        spriteRender.transform.position = new Vector2(spriteRender.transform.position.x, transform.position.y + height);
         Destroy(this.gameObject.GetComponent(typeof(BoxCollider2D)));
         StartCoroutine(Opening());
     }
@@ -107,9 +106,9 @@ public class Dice : MonoBehaviour, Hitable
 
     void OnGUI()
     {
-        if (GUILayout.Button("Hit at right!"))
+        //if (GUILayout.Button("Hit at right!"))
             // GetHit(1, true);
-        if (GUILayout.Button("Hit at left!"))
+        //if (GUILayout.Button("Hit at left!"))
             // GetHit(1, false);
         if (GUILayout.Button("Touch something"))
             hitSomething();
