@@ -62,6 +62,11 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
             Die();
     }
 
+    public void GetHit(int damage, Entity hitter) {
+        GetHit(damage);
+    }
+
+
     public virtual void Attack() {
         if (isAlive && !isAttacking)
             StartCoroutine(DoAttack(attackMask));
