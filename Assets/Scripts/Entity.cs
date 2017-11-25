@@ -4,21 +4,27 @@ using System.Collections.Generic;
 
 public abstract class Entity : MonoBehaviour, Movable, Hitable {
 
-    public int maxHealth;
+    public const float verticalMovementSpeedFactor= 0.75f;
+
+    public int maxHealth = 1;
     protected int currentHealth;
 
-    public float movementSpeedFactor;
-    public float attackSpeedFactor;
+    public bool isAlive {
+        get { return currentHealth > 0; }
+    }
 
-    public float attackDelay; // delay before the attack hit
-    public float attackRecoverTime; // getting back to idle
-    
-    protected int attackMask;
-    public int attackDamage;
-    public float attackReach;
-    protected bool attacking; // is in attack animation state
+    public float movementSpeedFactor = 5;
+    public float attackSpeedFactor = 1;
 
-    public float deathDuration;
+    public float attackDelay = 0.2f; // delay before the attack hit
+    public float attackRecoverTime = 0.2f; // getting back to idle
+
+    protected int attackMask = 0;
+    public int attackDamage = 1;
+    public float attackReach = 1;
+    protected bool isAttacking = false; // is in attack animation state
+
+    public float deathDuration = 0.5f;
 
     public float bodyThickness = 0.4f; // deepth size
     public float bodyWidth = 1;
@@ -30,10 +36,10 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     protected BoxCollider2D collisionBox;
 
     void Start() {
-        init();
+        Init();
     }
 
-    protected virtual void init() {
+    protected virtual void Init() {
         currentHealth = maxHealth;
         attackAreaLeft = new Vector2(-(attackReach + bodyWidth / 2f), bodyThickness);
         attackAreaRight = new Vector2(attackReach + bodyWidth / 2f, bodyThickness);
@@ -43,7 +49,11 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     }
 
     public void Move(Vector2 direction) {
-        transform.position += new Vector3(direction.x * movementSpeedFactor, direction.y * movementSpeedFactor * 0.75f, 0);
+        if (isAlive && !isAttacking) {
+            transform.position += new Vector3(direction.x * movementSpeedFactor * Time.deltaTime,
+                direction.y * movementSpeedFactor * verticalMovementSpeedFactor * Time.deltaTime, 0);
+            lookingRight = direction.x < 0;
+        }
     }
 
     public void GetHit(int damage) {
@@ -53,22 +63,25 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     }
 
     public virtual void Attack() {
-        if(!attacking)
-            DoAttack(attackMask);
+        if (isAlive && !isAttacking)
+            StartCoroutine(DoAttack(attackMask));
     }
 
     protected virtual IEnumerator DoAttack(int hitmask) {
         // TODO trigger animation
+        Debug.Log("Start attack animation");
         // wait for impact
-        attacking = true;
+        isAttacking = true;
         yield return new WaitForSeconds(attackDelay);
         // pick targets and damage them
-        foreach(Hitable h in pickTargets(hitmask)) {
+        Debug.Log("Attack impact");
+        foreach (Hitable h in pickTargets(hitmask)) {
             h.GetHit(attackDamage);
         }
         yield return new WaitForSeconds(attackRecoverTime);
         // back to idle
-        attacking = false;
+        Debug.Log("Attack recovered");
+        isAttacking = false;
     }
 
     protected virtual List<Hitable> pickTargets(int hitmask) {
@@ -80,7 +93,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
             colliders = Physics2D.OverlapAreaAll(transform.position, attackAreaLeft, hitmask, 0);
         }
         foreach (Collider2D c in colliders) {
-            if (c != collisionBox) {
+            if (c.gameObject != gameObject) {
                 Hitable h = null;
                 h = c.GetComponent<Entity>();
                 if (h != null) {

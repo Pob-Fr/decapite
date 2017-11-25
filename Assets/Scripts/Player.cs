@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class Player : Entity {
 
-    protected override void init() {
-        base.init();
+    //public static GameObject playerPrefab = Resources.Load("Prefabs/Player");
+
+    protected override void Init() {
+        base.Init();
         attackMask = 1; // MASK zombi + dice
     }
 
     // Update is called once per frame
     private void Update() {
-        Move(new Vector2(Input.GetAxisRaw("Horizontal") * Time.deltaTime, Input.GetAxisRaw("Vertical") * Time.deltaTime));
-        if (Input.GetButton("Attack"))
-            Attack();
+        if (isAlive && !isAttacking) {
+            Move(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")));
+            if (Input.GetButton("Attack"))
+                Attack();
+        }
     }
 
 }
