@@ -14,18 +14,19 @@ public class Dice : MonoBehaviour, Hitable
     Transform spriteRender;
     AudioSource audioSource;
     public AudioClip sound1;
+    Animator animator;
 
     float throwSpeed;
+    float throwSpeedMax;
 
     public int life;
-    public Vector2 pos;
-    float height = 0;
-    public float maxHeight = 1;
-    float moveUp = 1;
 
     // Bounce stats
     int bounce = 0;
     public int maxBounce;
+    float speedUp;
+    public float defaultSpeedUp = 20f;
+    float fakeGrav = -2f;
 
     // Dice specifique informations
     bool isUsed = false;
@@ -37,18 +38,26 @@ public class Dice : MonoBehaviour, Hitable
         // Init variables
         spriteRender = this.gameObject.transform.GetChild(0);
         audioSource = GetComponent<AudioSource>();
+        animator = spriteRender.GetComponent<Animator>();
+
         bool isUsed = false;
         timeToDie = 3f;
-        moveUp = 1;
-        throwSpeed = 10f;
-        transform.position = pos;
+        throwSpeedMax = 30f;
+        speedUp = defaultSpeedUp;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (bounce > 0 & !isUsed)
+        if (bounce > 0 && !isUsed)
+        {
+            animator.SetBool("isRolling", true);
             Throw(throwSpeed);
+        }
+        else
+        {
+            animator.SetBool("isRolling", false);
+        }
     }
 
     public void GetHit(int damage)
@@ -59,12 +68,20 @@ public class Dice : MonoBehaviour, Hitable
     public void GetHit(int damage, Entity hitter)
     {
         audioSource.PlayOneShot(sound1);
+        throwSpeed = throwSpeedMax;
         life -= damage;
         // Check if the dice get hit by the right of the left
-        bool toDebug = true;
         float direction;
-        direction = toDebug ? direction = 1 : direction = -1;
+        if (hitter.transform.position.x <= transform.position.x)
+        {
+            direction = 1;
+        }
+        else
+        {
+            direction = -1;
+        }
         throwSpeed = Mathf.Abs(throwSpeed) * direction;
+        speedUp = defaultSpeedUp;
         bounce = maxBounce;
     }
 
@@ -77,28 +94,20 @@ public class Dice : MonoBehaviour, Hitable
     public void Throw(float speed)
     {
         // Bounce effect
-        height += (2.5f * moveUp * Time.deltaTime);
-        if (height >= (maxHeight - 0.05f))
+        speedUp += fakeGrav;
+        spriteRender.transform.Translate(Vector2.up * speedUp * Time.deltaTime);
+        if (spriteRender.transform.position.y <= 0 && Mathf.Sign(speedUp) < 0)
         {
-            height = maxHeight - 0.05f;
-            moveUp = -1;
-        }
-        if (height <= 0)
-        {
-            height = 0;
-            moveUp = 1;
+            transform.position = new Vector2(spriteRender.transform.position.x, transform.position.y);
             bounce--;
+            speedUp = defaultSpeedUp / Mathf.Pow(2, maxBounce - bounce);
         }
-        spriteRender.transform.position = new Vector2(spriteRender.transform.position.x, height);
         transform.Translate(Vector2.right * speed * Time.deltaTime);
-        
     }
     
-    public void hitSomething()
+    public void Resolve()
     {
         isUsed = true;
-        height = 0;
-        spriteRender.transform.position = new Vector2(spriteRender.transform.position.x, height);
         Destroy(this.gameObject.GetComponent(typeof(BoxCollider2D)));
         StartCoroutine(Opening());
     }
@@ -106,19 +115,24 @@ public class Dice : MonoBehaviour, Hitable
     IEnumerator Opening()
     {
         // Play animation
-        spriteRender.Rotate(0f, 0f, 45f);
+        animator.SetBool("isOpening", true);
         yield return new WaitForSeconds(timeToDie);
         // Faire le bonus/malus à la fin de l'animation
         Die();
     }
 
+    // DEBUG
+    public Entity whoHit;
+
     void OnGUI()
     {
-        if (GUILayout.Button("Hit at right!"))
-            // GetHit(1, true);
-        if (GUILayout.Button("Hit at left!"))
-            // GetHit(1, false);
+        //if (GUILayout.Button("Hit at right!"))
+        // GetHit(1, true);
+        //if (GUILayout.Button("Hit at left!"))
+        // GetHit(1, false);
+        if (GUILayout.Button("Get hit"))
+            GetHit(1, whoHit);
         if (GUILayout.Button("Touch something"))
-            hitSomething();
+            Resolve();
     }
 }

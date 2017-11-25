@@ -1,7 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 8cb6472b7b40d9e42ab03855b129051f
 folderAsset: yes
 timeCreated: 1511620911
+=======
+guid: f6e7c46dba6a6c247ba36d64e98eb3e4
+folderAsset: yes
+timeCreated: 1511616117
+>>>>>>> DiceTwo
 licenseType: Free
 DefaultImporter:
   externalObjects: {}
