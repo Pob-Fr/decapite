@@ -6,7 +6,7 @@ public class Dice : MonoBehaviour, Hitable
 {
     Transform spriteRender;
     AudioSource audioSource;
-    public AudioClip sound1;
+    public List<AudioClip> sounds;
     Animator animator;
 
     float throwSpeed;
@@ -66,7 +66,7 @@ public class Dice : MonoBehaviour, Hitable
 
     public void GetHit(int damage, Entity hitter)
     {
-        audioSource.PlayOneShot(sound1);
+        audioSource.PlayOneShot(sounds[0]);
         throwSpeed = throwSpeedMax;
         life -= damage;
         // Check if the dice get hit by the right of the left
@@ -98,6 +98,7 @@ public class Dice : MonoBehaviour, Hitable
         if (spriteRender.transform.position.y <= 0 && Mathf.Sign(speedUp) < 0)
         {
             transform.position = new Vector2(spriteRender.transform.position.x, transform.position.y);
+            audioSource.PlayOneShot(sounds[1]);
             bounce--;
             speedUp = defaultSpeedUp / Mathf.Pow(2, maxBounce - bounce);
         }
