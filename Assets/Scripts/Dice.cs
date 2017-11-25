@@ -33,7 +33,7 @@ public class Dice : MonoBehaviour, Hitable
         audioSource = GetComponent<AudioSource>();
         animator = spriteRender.GetComponent<Animator>();
 
-        bool isUsed = false;
+        isUsed = false;
         timeToDie = 3f;
         throwSpeedMax = 30f;
         speedUp = defaultSpeedUp;
@@ -123,6 +123,12 @@ public class Dice : MonoBehaviour, Hitable
     {
         return 0;
     }
+
+    // *** GESTION DICE CONTENT ***
+
+
+
+    // *** END GESTION DICE CONTENT ***
 
     /*
     void OnGUI()
