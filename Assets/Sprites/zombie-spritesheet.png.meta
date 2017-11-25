@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 750d20e03e6f5aa4da1a82ea4c577e51
-timeCreated: 1511630699
+timeCreated: 1511638527
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -11,6 +11,9 @@ TextureImporter:
     21300008: zombie-spritesheet_4
     21300010: zombie-spritesheet_5
     21300012: zombie-spritesheet_6
+    21300014: zombie-spritesheet_7
+    21300016: zombie-spritesheet_8
+    21300018: zombie-spritesheet_9
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -98,11 +101,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 80
+        y: 240
         width: 80
         height: 80
       alignment: 9
-      pivot: {x: 0.4164105, y: 0.15805073}
+      pivot: {x: 0.42, y: 0.18}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -112,11 +115,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 80
-        y: 80
+        y: 240
         width: 80
         height: 80
       alignment: 9
-      pivot: {x: 0.41657773, y: 0.16741991}
+      pivot: {x: 0.4208, y: 0.18000011}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -126,11 +129,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 160
-        y: 80
+        y: 240
         width: 80
         height: 80
       alignment: 9
-      pivot: {x: 0.41636524, y: 0.16569558}
+      pivot: {x: 0.42, y: 0.1935}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -140,11 +143,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 240
-        y: 80
+        y: 240
         width: 80
         height: 80
       alignment: 9
-      pivot: {x: 0.40405577, y: 0.18038645}
+      pivot: {x: 0.408, y: 0.18}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -154,11 +157,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 160
         width: 80
         height: 80
       alignment: 9
-      pivot: {x: 0.416269, y: 0.07087888}
+      pivot: {x: 0.4262368, y: 0.06876888}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -168,11 +171,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 80
-        y: 0
+        y: 160
         width: 80
         height: 80
       alignment: 9
-      pivot: {x: 0.41975793, y: 0.06396765}
+      pivot: {x: 0.42, y: 0.08}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -182,11 +185,53 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 160
-        y: 0
+        y: 160
         width: 80
         height: 80
       alignment: 9
-      pivot: {x: 0.3823267, y: 0.07632489}
+      pivot: {x: 0.383, y: 0.092}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: zombie-spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 160
+        width: 80
+        height: 80
+      alignment: 9
+      pivot: {x: 0.49211997, y: 0.27147332}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: zombie-spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 80
+        width: 80
+        height: 80
+      alignment: 9
+      pivot: {x: 0.44, y: 0.09}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: zombie-spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 80
+        width: 137
+        height: 80
+      alignment: 9
+      pivot: {x: 0.4, y: 0.17}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
