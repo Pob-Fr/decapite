@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public abstract class Entity : MonoBehaviour, Movable, Hitable {
 
-    public const float verticalMovementSpeedFactor= 0.75f;
+    public const float verticalMovementSpeedFactor = 0.75f;
 
     public int maxHealth = 1;
     protected int currentHealth;
@@ -30,22 +30,27 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     public float bodyThickness = 0.4f; // deepth size
     public float bodyWidth = 1;
 
-    protected Vector2 attackAreaLeft;
-    protected Vector2 attackAreaRight;
-    protected bool lookingRight = true;
+    protected Vector3 attackAreaLeftMin;
+    protected Vector3 attackAreaLeftMax;
+    protected Vector3 attackAreaRightMin;
+    protected Vector3 attackAreaRightMax;
+
+    protected bool isLookinkRight = true;
 
     protected BoxCollider2D collisionBox;
 
     void Start() {
+        collisionBox = GetComponent<BoxCollider2D>();
         Init();
     }
 
     protected virtual void Init() {
         currentHealth = maxHealth;
-        attackAreaLeft = new Vector2(-(attackReach + bodyWidth / 2f), attackThickness);
-        attackAreaRight = new Vector2(attackReach + bodyWidth / 2f, attackThickness);
-        collisionBox = GetComponent<BoxCollider2D>();
-        collisionBox.size = new Vector2(bodyWidth, bodyThickness);
+        attackAreaLeftMin = new Vector2(-(bodyWidth / 2f), -attackThickness / 2f);
+        attackAreaLeftMax = new Vector2(-(attackReach + bodyWidth / 2f), attackThickness / 2f);
+        attackAreaRightMin = new Vector2(bodyWidth / 2f, attackThickness);
+        attackAreaRightMax = new Vector2(attackReach + bodyWidth / 2f, -attackThickness / 2f);
+        collisionBox.size = new Vector2(bodyWidth, bodyThickness / 2f);
         collisionBox.offset = new Vector2(0, bodyThickness / 2);
     }
 
@@ -53,7 +58,11 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
         if (isAlive && !isAttacking) {
             transform.position += new Vector3(direction.x * movementSpeedFactor * Time.deltaTime,
                 direction.y * movementSpeedFactor * verticalMovementSpeedFactor * Time.deltaTime, 0);
-            lookingRight = direction.x < 0;
+            if (direction.x > float.Epsilon) {
+                isLookinkRight = true;
+            } else if (direction.x < -float.Epsilon) {
+                isLookinkRight = false;
+            }
         }
     }
 
@@ -67,6 +76,13 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
         GetHit(damage);
     }
 
+    public float GetBodyWidth() {
+        return bodyWidth;
+    }
+
+    public float GetBodyThickness() {
+        return bodyThickness;
+    }
 
     public virtual void Attack() {
         if (isAlive && !isAttacking)
@@ -74,29 +90,35 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     }
 
     protected virtual IEnumerator DoAttack(int hitmask) {
-        // TODO trigger animation
-        Debug.Log("Start attack animation");
-        // wait for impact
-        isAttacking = true;
-        yield return new WaitForSeconds(attackDelay);
-        // pick targets and damage them
-        Debug.Log("Attack impact");
-        foreach (Hitable h in pickTargets(hitmask)) {
-            h.GetHit(attackDamage);
+        if (isAlive) { // anim
+            // TODO trigger animation
+            Debug.Log("Start attack animation");
+            // wait for impact
+            isAttacking = true;
+            yield return new WaitForSeconds(attackDelay);
         }
-        yield return new WaitForSeconds(attackRecoverTime);
-        // back to idle
-        Debug.Log("Attack recovered");
-        isAttacking = false;
+        if (isAlive) { // hit
+            // pick targets and damage them
+            Debug.Log("Attack impact");
+            foreach (Hitable h in pickTargets(hitmask)) {
+                h.GetHit(attackDamage);
+            }
+            yield return new WaitForSeconds(attackRecoverTime);
+        }
+        if (isAlive) { // recover
+            // back to idle
+            Debug.Log("Attack recovered");
+            isAttacking = false;
+        }
     }
 
     protected virtual List<Hitable> pickTargets(int hitmask) {
         List<Hitable> output = new List<Hitable>();
         Collider2D[] colliders;
-        if (lookingRight) {
-            colliders = Physics2D.OverlapAreaAll(transform.position, attackAreaRight, hitmask, 0);
+        if (isLookinkRight) {
+            colliders = Physics2D.OverlapAreaAll(transform.position + attackAreaRightMin, transform.position + attackAreaRightMax, hitmask, 0);
         } else {
-            colliders = Physics2D.OverlapAreaAll(transform.position, attackAreaLeft, hitmask, 0);
+            colliders = Physics2D.OverlapAreaAll(transform.position + attackAreaLeftMin, transform.position + attackAreaLeftMax, hitmask, 0);
         }
         foreach (Collider2D c in colliders) {
             if (c.gameObject != gameObject) {
@@ -124,4 +146,19 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
         yield return new WaitForSeconds(deathDuration);
         GameObject.Destroy(gameObject);
     }
+
+    private void OnDrawGizmos() {
+        // draw foots
+        Gizmos.color = Color.white;
+        Gizmos.DrawCube(transform.position + new Vector3(0, 0, 0), new Vector2(bodyWidth, bodyThickness));
+        // draw attack area
+        Gizmos.color = Color.yellow;
+        if (isLookinkRight)
+            Gizmos.DrawCube(transform.position + new Vector3(bodyWidth, 0, 0)
+                , new Vector2(attackReach, attackThickness));
+        else
+            Gizmos.DrawCube(transform.position - new Vector3(bodyWidth, 0, 0)
+                , new Vector2(attackReach, attackThickness));
+    }
+
 }

@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Dice : MonoBehaviour, Hitable
 {
+    public float GetBodyWidth() {
+        return 0;
+    }
+    public float GetBodyThickness() {
+        return 0;
+    }
+
     Transform spriteRender;
     AudioSource audioSource;
     public AudioClip sound1;

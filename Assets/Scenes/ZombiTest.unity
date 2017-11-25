@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 639072820}
   - component: {fileID: 639072822}
   - component: {fileID: 639072821}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 664743798}
   - component: {fileID: 664743799}
   - component: {fileID: 664743802}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -316,6 +316,7 @@ MonoBehaviour:
   attackRecoverTime: 0.4
   attackDamage: 1
   attackReach: 1
+  attackThickness: 0.4
   deathDuration: 0.5
   bodyThickness: 0.4
   bodyWidth: 1
@@ -370,7 +371,7 @@ GameObject:
   m_Component:
   - component: {fileID: 820532448}
   - component: {fileID: 820532449}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -516,7 +517,7 @@ GameObject:
   - component: {fileID: 991698631}
   - component: {fileID: 991698633}
   - component: {fileID: 991698632}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ZombiSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -692,7 +693,7 @@ GameObject:
   - component: {fileID: 1422811191}
   - component: {fileID: 1422811190}
   - component: {fileID: 1422811194}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Zombi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -717,6 +718,7 @@ MonoBehaviour:
   attackRecoverTime: 0.5
   attackDamage: 1
   attackReach: 1
+  attackThickness: 0.4
   deathDuration: 0.5
   bodyThickness: 0.4
   bodyWidth: 1
@@ -797,7 +799,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1426125020}
   - component: {fileID: 1426125021}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}

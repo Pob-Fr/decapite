@@ -16,16 +16,30 @@ public class Zombi : Entity {
 
     public GameObject target;
 
+    protected Hitable targetHitable {
+        get { return TARGET_HITABLE; }
+    }
+
+    protected Hitable TARGET_HITABLE;
+
     protected override void Init() {
         base.Init();
         attackMask = (1 << 8); // MASK player
+        if(target != null) {
+                TARGET_HITABLE = target.GetComponent<Entity>();
+            if(TARGET_HITABLE == null)
+                TARGET_HITABLE = target.GetComponent<Dice>();
+            if (TARGET_HITABLE == null)
+                Debug.Log("Not a valid target !");
+        }
     }
 
     private void Update() {
         if (isAlive && target != null) {
             if (!isAttacking) {
                 Vector2 directionToPlayer = target.transform.position - transform.position;
-                if (directionToPlayer.magnitude <= bodyWidth / 2 + attackReach) {
+                if (Mathf.Abs(directionToPlayer.x) <= attackReach + (bodyWidth + targetHitable.GetBodyWidth()) / 2
+                    && Mathf.Abs(directionToPlayer.y) <= (attackThickness + targetHitable.GetBodyThickness()) / 2) {
                     Attack();
                 } else {
                     if (Mathf.Abs(directionToPlayer.x) < Mathf.Abs(directionToPlayer.y)) { // vertical movement only
