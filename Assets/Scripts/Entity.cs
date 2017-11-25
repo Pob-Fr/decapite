@@ -7,23 +7,37 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     public const float verticalMovementSpeedFactor = 0.75f;
 
     public int maxHealth = 1;
-    protected int currentHealth;
+    public int currentHealth;
 
     public bool isAlive {
         get { return currentHealth > 0; }
     }
 
-    public float movementSpeedFactor = 5;
-    public float attackSpeedFactor = 1;
-    public bool isWalking;
-
-    public float attackDelay = 0.2f; // delay before the attack hit
-    public float attackRecoverTime = 0.2f; // getting back to idle
+    public float movementSpeed = 5;
+    public float movementSpeedFactor {
+        set {
+            MOVEMENT_SPEED_FACTOR = value;
+            animatorController.SetFloat("walkDuration", 1f/MOVEMENT_SPEED_FACTOR);
+        }
+        get { return MOVEMENT_SPEED_FACTOR; }
+    }
+    private float MOVEMENT_SPEED_FACTOR = 1;
+    private bool isWalking;
 
     protected int attackMask = 0;
     public int attackDamage = 1;
     public float attackReach = 1;
     public float attackThickness = 0.4f;
+    public float attackDelay = 0.2f; // delay before the attack hit
+    public float attackRecoverTime = 0.2f; // getting back to idle
+    public float attackSpeedFactor {
+        set {
+            ATTACK_SPEED_FACTOR = value;
+            animatorController.SetFloat("attackDuration", 1f/(ATTACK_SPEED_FACTOR * (attackDelay + attackRecoverTime)));
+        }
+        get { return ATTACK_SPEED_FACTOR; }
+    }
+    private float ATTACK_SPEED_FACTOR = 1;
     protected bool isAttacking = false; // is in attack animation state
 
     public float deathDuration = 0.5f;
@@ -55,13 +69,17 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
         attackAreaLeftMax = new Vector2(-(attackReach + bodyWidth / 2f), attackThickness / 2f);
         attackAreaRightMin = new Vector2(bodyWidth / 2f, attackThickness);
         attackAreaRightMax = new Vector2(attackReach + bodyWidth / 2f, -attackThickness / 2f);
-        collisionBox.size = new Vector2(bodyWidth, bodyThickness / 2f);
-        collisionBox.offset = new Vector2(0, bodyThickness / 2);
+        collisionBox.size = new Vector2(bodyWidth, bodyThickness);
+        collisionBox.offset = new Vector2(0, 0);
+        movementSpeedFactor = 1;
+        attackSpeedFactor = 1;
+        animatorController.SetFloat("deathDuration", 1f/ deathDuration);
     }
 
     protected void Animate() {
         animatorController.SetBool("isAttacking", isAttacking);
         animatorController.SetBool("isWalking", isWalking);
+        animatorController.SetBool("isDead", !isAlive);
         sprite.flipX = !isLookinkRight;
     }
 
@@ -69,8 +87,9 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
         isWalking = false;
         if (isAlive && !isAttacking) {
             if (direction.magnitude > float.Epsilon) {
-                transform.position += new Vector3(direction.x * movementSpeedFactor * Time.deltaTime,
-                    direction.y * movementSpeedFactor * verticalMovementSpeedFactor * Time.deltaTime, 0);
+                transform.position += new Vector3(direction.x * movementSpeed * movementSpeedFactor * Time.deltaTime,
+                    direction.y * movementSpeed * movementSpeedFactor * Time.deltaTime, 0);
+                transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.y);
                 if (direction.x > float.Epsilon) {
                     isLookinkRight = true;
                 } else if (direction.x < -float.Epsilon) {
@@ -106,24 +125,20 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
 
     protected virtual IEnumerator DoAttack(int hitmask) {
         if (isAlive) { // anim
-            // TODO trigger animation
-            Debug.Log("Start attack animation");
             // wait for impact
             isAttacking = true;
             isWalking = false;
-            yield return new WaitForSeconds(attackDelay);
+            yield return new WaitForSeconds(attackDelay * attackSpeedFactor);
         }
         if (isAlive) { // hit
             // pick targets and damage them
-            Debug.Log("Attack impact");
             foreach (Hitable h in pickTargets(hitmask)) {
                 h.GetHit(attackDamage);
             }
-            yield return new WaitForSeconds(attackRecoverTime);
+            yield return new WaitForSeconds(attackRecoverTime * attackSpeedFactor);
         }
         if (isAlive) { // recover
             // back to idle
-            Debug.Log("Attack recovered");
             isAttacking = false;
         }
     }
@@ -132,9 +147,9 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
         List<Hitable> output = new List<Hitable>();
         Collider2D[] colliders;
         if (isLookinkRight) {
-            colliders = Physics2D.OverlapAreaAll(transform.position + attackAreaRightMin, transform.position + attackAreaRightMax, hitmask, 0);
+            colliders = Physics2D.OverlapAreaAll(transform.position + attackAreaRightMin, transform.position + attackAreaRightMax, hitmask);
         } else {
-            colliders = Physics2D.OverlapAreaAll(transform.position + attackAreaLeftMin, transform.position + attackAreaLeftMax, hitmask, 0);
+            colliders = Physics2D.OverlapAreaAll(transform.position + attackAreaLeftMin, transform.position + attackAreaLeftMax, hitmask);
         }
         foreach (Collider2D c in colliders) {
             if (c.gameObject != gameObject) {
@@ -155,6 +170,8 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     }
 
     public virtual void Die() {
+        isAttacking = false;
+        isWalking = false;
         StartCoroutine(Remove());
     }
 
@@ -170,10 +187,10 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
         // draw attack area
         Gizmos.color = Color.yellow;
         if (isLookinkRight)
-            Gizmos.DrawCube(transform.position + new Vector3(bodyWidth, 0, 0)
+            Gizmos.DrawCube(transform.position + new Vector3(bodyWidth / 2 + attackReach / 2, 0, 0)
                 , new Vector2(attackReach, attackThickness));
         else
-            Gizmos.DrawCube(transform.position - new Vector3(bodyWidth, 0, 0)
+            Gizmos.DrawCube(transform.position - new Vector3(bodyWidth / 2 + attackReach / 2, 0, 0)
                 , new Vector2(attackReach, attackThickness));
     }
 
