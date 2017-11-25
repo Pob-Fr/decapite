@@ -79,7 +79,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.4164105, y: 0.15805073}
+    pivot: {x: 0.42, y: 0.18}
     oldSize: {x: 4, y: 4}
     newSize: {x: 4, y: 4}
     adaptiveTilingThreshold: 0.5
@@ -120,11 +120,11 @@ MonoBehaviour:
   maxHealth: 1
   currentHealth: 0
   movementSpeed: 1.5
-  attackDelay: 0.5
-  attackRecoverTime: 0.5
   attackDamage: 1
   attackReach: 1
   attackThickness: 0.8
+  attackDelay: 0.5
+  attackRecoverTime: 0.5
   deathDuration: 0.5
   bodyThickness: 0.4
   bodyWidth: 1
