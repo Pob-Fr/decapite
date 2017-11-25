@@ -22,6 +22,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     protected int attackMask = 0;
     public int attackDamage = 1;
     public float attackReach = 1;
+    public float attackThickness = 0.4f;
     protected bool isAttacking = false; // is in attack animation state
 
     public float deathDuration = 0.5f;
@@ -41,8 +42,8 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
 
     protected virtual void Init() {
         currentHealth = maxHealth;
-        attackAreaLeft = new Vector2(-(attackReach + bodyWidth / 2f), bodyThickness);
-        attackAreaRight = new Vector2(attackReach + bodyWidth / 2f, bodyThickness);
+        attackAreaLeft = new Vector2(-(attackReach + bodyWidth / 2f), attackThickness);
+        attackAreaRight = new Vector2(attackReach + bodyWidth / 2f, attackThickness);
         collisionBox = GetComponent<BoxCollider2D>();
         collisionBox.size = new Vector2(bodyWidth, bodyThickness);
         collisionBox.offset = new Vector2(0, bodyThickness / 2);
@@ -105,11 +106,11 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
                     output.Add(h);
                     continue;
                 }
-                //h = c.GetComponent<Dice>();
-                //if (h != null) {
-                //    output.Add(h);
-                //    continue;
-                //}
+                h = c.GetComponent<Dice>();
+                if (h != null) {
+                    output.Add(h);
+                    continue;
+                }
             }
         }
         return output;

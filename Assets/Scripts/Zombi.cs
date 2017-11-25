@@ -18,7 +18,7 @@ public class Zombi : Entity {
 
     protected override void Init() {
         base.Init();
-        attackMask = 1; // MASK player
+        attackMask = (1 << 8); // MASK player
     }
 
     private void Update() {

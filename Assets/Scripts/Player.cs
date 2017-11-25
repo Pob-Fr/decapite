@@ -8,7 +8,7 @@ public class Player : Entity {
 
     protected override void Init() {
         base.Init();
-        attackMask = 1; // MASK zombi + dice
+        attackMask = (1 << 9) + (1 << 10); // MASK zombi + dice
     }
 
     // Update is called once per frame
