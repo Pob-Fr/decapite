@@ -15,7 +15,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
 
     public float movementSpeedFactor = 5;
     public float attackSpeedFactor = 1;
-    public bool isWalking;
+    private bool isWalking;
 
     public float attackDelay = 0.2f; // delay before the attack hit
     public float attackRecoverTime = 0.2f; // getting back to idle
@@ -71,6 +71,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
             if (direction.magnitude > float.Epsilon) {
                 transform.position += new Vector3(direction.x * movementSpeedFactor * Time.deltaTime,
                     direction.y * movementSpeedFactor * verticalMovementSpeedFactor * Time.deltaTime, 0);
+                transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.y);
                 if (direction.x > float.Epsilon) {
                     isLookinkRight = true;
                 } else if (direction.x < -float.Epsilon) {
