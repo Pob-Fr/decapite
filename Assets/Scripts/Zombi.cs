@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class Zombi : Entity {
 
-    //public static GameObject zombiPrefab = Resources.Load("Prefabs/Zombi");
-
-    public static void Spawn(Vector2 position, GameObject target) {
-        // GameObject zombi = GameObject.Instantiate(zombiPrefab);
-        // zombi.GetComponent<Zombi>().target = target;
+    public static void Spawn(GameObject prefab, Vector3 position, GameObject target) {
+        GameObject zombi = GameObject.Instantiate(prefab);
+        zombi.transform.position = position;
+        zombi.GetComponent<Zombi>().target = target;
     }
 
     // public bool attackPlayer;
