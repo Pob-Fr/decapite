@@ -7,20 +7,19 @@ public class Dice : MonoBehaviour, Hitable
     Transform spriteRender;
     AudioSource audioSource;
     public AudioClip sound1;
+    Animator animator;
 
     float throwSpeed;
     float throwSpeedMax;
 
     public int life;
-//    public Vector2 pos;
-    float height = 0;
-    float maxHeight = 1;
-    public float defaultHeight = 1;
-    float moveUp = 1;
 
     // Bounce stats
     int bounce = 0;
     public int maxBounce;
+    float speedUp;
+    public float defaultSpeedUp = 20f;
+    float fakeGrav = -2f;
 
     // Dice specifique informations
     bool isUsed = false;
@@ -32,17 +31,26 @@ public class Dice : MonoBehaviour, Hitable
         // Init variables
         spriteRender = this.gameObject.transform.GetChild(0);
         audioSource = GetComponent<AudioSource>();
+        animator = spriteRender.GetComponent<Animator>();
+
         bool isUsed = false;
         timeToDie = 3f;
-        moveUp = 1;
-        throwSpeedMax = 10f;
+        throwSpeedMax = 30f;
+        speedUp = defaultSpeedUp;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (bounce > 0 & !isUsed)
+        if (bounce > 0 && !isUsed)
+        {
+            animator.SetBool("isRolling", true);
             Throw(throwSpeed);
+        }
+        else
+        {
+            animator.SetBool("isRolling", false);
+        }
     }
 
     public void GetHit(int damage)
@@ -54,12 +62,9 @@ public class Dice : MonoBehaviour, Hitable
     {
         audioSource.PlayOneShot(sound1);
         throwSpeed = throwSpeedMax;
-        maxHeight = defaultHeight;
         life -= damage;
         // Check if the dice get hit by the right of the left
-        bool fromLeft = true;
         float direction;
-        direction = fromLeft ? direction = 1 : direction = -1;
         if (hitter.transform.position.x <= transform.position.x)
         {
             direction = 1;
@@ -69,6 +74,7 @@ public class Dice : MonoBehaviour, Hitable
             direction = -1;
         }
         throwSpeed = Mathf.Abs(throwSpeed) * direction;
+        speedUp = defaultSpeedUp;
         bounce = maxBounce;
     }
 
@@ -81,30 +87,20 @@ public class Dice : MonoBehaviour, Hitable
     public void Throw(float speed)
     {
         // Bounce effect
-        height += (2.5f * moveUp * Time.deltaTime);
-        if (height >= (maxHeight - 0.005f))
+        speedUp += fakeGrav;
+        spriteRender.transform.Translate(Vector2.up * speedUp * Time.deltaTime);
+        if (spriteRender.transform.position.y <= 0 && Mathf.Sign(speedUp) < 0)
         {
-            height = maxHeight - 0.005f;
-            moveUp = -1;
-        }
-        if (height <= 0)
-        {
-            height = 0;
-            moveUp = 1;
+            transform.position = new Vector2(spriteRender.transform.position.x, transform.position.y);
             bounce--;
-            throwSpeed /= 2f;
-            maxHeight /= 2f;
+            speedUp = defaultSpeedUp / Mathf.Pow(2, maxBounce - bounce);
         }
-        spriteRender.transform.position = new Vector2(spriteRender.transform.position.x, transform.position.y + height);
         transform.Translate(Vector2.right * speed * Time.deltaTime);
-        
     }
     
     public void Resolve()
     {
         isUsed = true;
-        height = 0;
-        spriteRender.transform.position = new Vector2(spriteRender.transform.position.x, transform.position.y + height);
         Destroy(this.gameObject.GetComponent(typeof(BoxCollider2D)));
         StartCoroutine(Opening());
     }
@@ -112,7 +108,7 @@ public class Dice : MonoBehaviour, Hitable
     IEnumerator Opening()
     {
         // Play animation
-        spriteRender.Rotate(0f, 0f, 45f);
+        animator.SetBool("isOpening", true);
         yield return new WaitForSeconds(timeToDie);
         // Faire le bonus/malus à la fin de l'animation
         Die();
