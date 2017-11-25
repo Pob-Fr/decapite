@@ -128,7 +128,7 @@ Animator:
   m_GameObject: {fileID: 1441850536943938}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 64f20317a546e914795c27ea08c8f4e4, type: 2}
+  m_Controller: {fileID: 9100000, guid: 52f6f0d99471fd94a982184d70c1789c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -186,7 +186,6 @@ MonoBehaviour:
   maxHealth: 1
   movementSpeedFactor: 1.5
   attackSpeedFactor: 1
-  isWalking: 0
   attackDelay: 0.5
   attackRecoverTime: 0.5
   attackDamage: 1
