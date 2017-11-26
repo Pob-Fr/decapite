@@ -13,7 +13,9 @@ public class Dice : MonoBehaviour, Hitable {
     Transform spriteRender;
     AudioSource audioSource;
     public List<AudioClip> sounds;
-    new Animator animator;
+    public AudioClip clipBonus;
+    public AudioClip clipMalus;
+    Animator animator;
 
     public int life;
 
@@ -85,10 +87,10 @@ public class Dice : MonoBehaviour, Hitable {
         colliders = Physics2D.OverlapAreaAll(transform.position + crushAreaMin, transform.position + crushAreaMax, 1 << 9);
         foreach (Collider2D c in colliders) {
             if (c.gameObject != gameObject) {
-                Hitable h = null;
-                h = c.GetComponent<Entity>();
-                if (h != null) {
-                    h.GetHit(100);
+                Entity e = null;
+                e = c.GetComponent<Entity>();
+                if (e != null && e.isAlive) {
+                    e.GetHit(100);
                     kills++;
                     continue;
                 }
@@ -144,7 +146,6 @@ public class Dice : MonoBehaviour, Hitable {
     }
 
     public void Resolve() {
-
         Destroy(this.gameObject.GetComponent(typeof(BoxCollider2D)));
         StartCoroutine(Opening());
     }
@@ -157,7 +158,12 @@ public class Dice : MonoBehaviour, Hitable {
         Effect effect = diceContent.RandomEffect();
         if (kills > 7)
             GameDirector.singleton.PlayerPunchLine();
+        kills = 0;
         effect.DoSomething();
+        if (effect.isBonus())
+            audioSource.PlayOneShot(clipBonus);
+        else if (effect.isMalus())
+            audioSource.PlayOneShot(clipMalus);
         Die();
     }
 
@@ -167,17 +173,5 @@ public class Dice : MonoBehaviour, Hitable {
     }
     public float GetBodyThickness() {
         return 0;
-    }
-
-
-    void OnGUI() {
-        //if (GUILayout.Button("Hit at right!"))
-        // GetHit(1, true);
-        //if (GUILayout.Button("Hit at left!"))
-        // GetHit(1, false);
-        //if (GUILayout.Button("Get hit"))
-        //    GetHit(1, whoHit);
-        //if (GUILayout.Button("Touch something"))
-        //    Resolve();
     }
 }

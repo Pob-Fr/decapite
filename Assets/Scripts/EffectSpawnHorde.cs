@@ -17,6 +17,14 @@ public class EffectSpawnHorde : Effect
         this.nbZombi = number;
     }
 
+    public bool isBonus() {
+        return false;
+    }
+
+    public bool isMalus() {
+        return true;
+    }
+
     public void DoSomething()
     {
         GameDirector.singleton.SpawnHorde(nbZombi);

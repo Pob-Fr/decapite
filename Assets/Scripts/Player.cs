@@ -38,8 +38,8 @@ public class Player : Entity {
     }
 
     private Vector2 GetInput() {
-        Vector2 output = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        if (output.magnitude < 0.35f)
+        Vector2 output = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if (output.magnitude < 0.5f)
             output = Vector2.zero;
         return output;
     }

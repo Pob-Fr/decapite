@@ -11,6 +11,14 @@ public class EffectSpawnZombiMore : Effect {
         this.nbZombiIncr = number;
     }
 
+    public bool isBonus() {
+        return false;
+    }
+
+    public bool isMalus() {
+        return true;
+    }
+
     public void DoSomething() {
         GameDirector.singleton.IncreaseZombiSpawnCount(nbZombiIncr);
         GameDirector.singleton.Event("More Z !!");

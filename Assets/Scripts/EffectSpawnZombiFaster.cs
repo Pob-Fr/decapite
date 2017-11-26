@@ -11,6 +11,14 @@ public class EffectSpawnZombiFaster : Effect {
         this.zombiDelayDecr = number;
     }
 
+    public bool isBonus() {
+        return false;
+    }
+
+    public bool isMalus() {
+        return true;
+    }
+
     public void DoSomething() {
         GameDirector.singleton.DecreaseZombiSpawnDelay(zombiDelayDecr);
         GameDirector.singleton.Event("Faster Z !!");

@@ -10,7 +10,7 @@ public class GameDirector : MonoBehaviour {
 
     private bool isPlaying = true;
     public int currentScore = 0;
-    public float currentTime = 0;
+    public double currentTime = 0;
 
     public float firstZombiSpawnDelay = 5;
     public float periodicZombiSpawnDelay = 10;
@@ -65,7 +65,19 @@ public class GameDirector : MonoBehaviour {
             Application.Quit();
         if (isPlaying) {
             currentTime += Time.deltaTime;
-            timerDisplayer.text = "" + ((float)((int)(currentTime * 10))) / 10f;
+            string h = "", m = "", s = "";
+            int amount;
+            if (currentTime > 3600) {
+                amount = ((int)currentTime) / 3600;
+                h = (amount < 10 ? "0" + amount : "" + amount) + ":";
+            }
+            if (currentTime > 60) {
+                amount = (((int)currentTime) % 3600) / 60;
+                m = (amount < 10 ? "0" + amount : "" + amount) + ":";
+            }
+            amount = (((int)currentTime) % 60);
+            s = (amount < 10 ? "0" + amount : "" + amount);
+            timerDisplayer.text = h + m + s;
         } else {
             if (tryagainDisplayer.enabled && Input.GetButton("Attack"))
                 Restart();
@@ -185,9 +197,10 @@ public class GameDirector : MonoBehaviour {
         audioPlayer.clip = gameoverMusic;
         audioPlayer.Play();
         lifeDisplayer.enabled = false;
+        yield return new WaitForSeconds(0.5f);
         gameoverDisplayer.enabled = true;
-        yield return new WaitForSeconds(1.2f);
         audioPlayer.PlayOneShot(gameoverJingle, 1f);
+        yield return new WaitForSeconds(0.5f);
         tryagainDisplayer.enabled = true;
     }
 
