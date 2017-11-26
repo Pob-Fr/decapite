@@ -15,7 +15,7 @@ public class Dice : MonoBehaviour, Hitable
     Transform spriteRender;
     AudioSource audioSource;
     public List<AudioClip> sounds;
-    Animator animator;
+    new Animator animator;
     
     public int life;
 
@@ -70,7 +70,6 @@ public class Dice : MonoBehaviour, Hitable
     {
         if (bounce > 0)
         {
-            animator.SetBool("isRolling", true);
             Throw(throwSpeed);
         }
         else
@@ -109,6 +108,7 @@ public class Dice : MonoBehaviour, Hitable
     public void GetHit(int damage, Entity hitter)
     {
         audioSource.PlayOneShot(sounds[0]);
+        animator.SetBool("isRolling", true);
         isUsed = true;
         throwSpeed = throwSpeedMax;
         life -= damage;

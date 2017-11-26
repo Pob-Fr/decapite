@@ -2,7 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public abstract class Entity : MonoBehaviour, Movable, Hitable {
+public abstract class Entity : MonoBehaviour, Movable, Hitable
+{
+    public AudioSource audioSource;
+    public AudioClip soundAttack;
+    public AudioClip soundDamaged;
+    public AudioClip soundDie;
+    public AudioClip[] soundsBatHit = new AudioClip[0];
 
     public const float verticalMovementSpeedFactor = 0.75f;
 
@@ -59,6 +65,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     void Start() {
         collisionBox = GetComponent<BoxCollider2D>();
         animatorController = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         sprite = GetComponent<SpriteRenderer>();
         Init();
     }
@@ -101,6 +108,12 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     }
 
     public virtual void GetHit(int damage) {
+        audioSource.PlayOneShot(soundDamaged);
+        if (soundsBatHit.Length != 0)
+        {
+            int soundToPlay = Random.Range(0, 1);
+            audioSource.PlayOneShot(soundsBatHit[soundToPlay]);
+        }
         currentHealth -= damage;
         if (currentHealth <= 0)
             Die();
@@ -134,6 +147,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
         }
         if (isAlive) { // hit
             // pick targets and damage them
+            audioSource.PlayOneShot(soundAttack);
             foreach (Hitable h in pickTargets(hitmask)) {
                 h.GetHit(attackDamage, this);
             }
@@ -171,7 +185,9 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
         return output;
     }
 
-    public virtual void Die() {
+    public virtual void Die()
+    {
+        audioSource.PlayOneShot(soundDie);
         isAttacking = false;
         isWalking = false;
         StopAllCoroutines();
