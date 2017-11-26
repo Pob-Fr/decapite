@@ -11,6 +11,7 @@ public class GameDirector : MonoBehaviour {
     private bool isPlaying = true;
     public int currentScore = 0;
     public double currentTime = 0;
+    public int zombieKills = 0;
 
     public float firstZombiSpawnDelay = 5;
     public float periodicZombiSpawnDelay = 10;
@@ -41,6 +42,8 @@ public class GameDirector : MonoBehaviour {
     public UnityEngine.UI.Text eventDisplayer;
     public UnityEngine.UI.Text lifeDisplayer;
     public UnityEngine.UI.Image gameoverDisplayer;
+    public UnityEngine.UI.Text highscoreDisplayer;
+    public UnityEngine.UI.Text zombiekillsDisplayer;
     public UnityEngine.UI.Text tryagainDisplayer;
 
     public AudioClip hordeJingle; // instant zombies
@@ -198,10 +201,19 @@ public class GameDirector : MonoBehaviour {
         audioPlayer.Play();
         lifeDisplayer.enabled = false;
         yield return new WaitForSeconds(0.5f);
-        gameoverDisplayer.enabled = true;
+        //gameoverDisplayer.enabled = true;
         audioPlayer.PlayOneShot(gameoverJingle, 1f);
         yield return new WaitForSeconds(0.5f);
         tryagainDisplayer.enabled = true;
+        if(currentScore > highScore) {
+            highscoreDisplayer.text = "New high score : " + currentScore;
+            highscoreDisplayer.enabled = true;
+        } else if(highScore > 0) {
+            highscoreDisplayer.text = "High score : " + currentScore;
+            highscoreDisplayer.enabled = true;
+        }
+        zombiekillsDisplayer.text = "Zombie killed : " + zombieKills;
+        zombiekillsDisplayer.enabled = true;
     }
 
     public void Restart() {

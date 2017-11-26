@@ -38,6 +38,11 @@ public class Zombi : Entity {
         StartCoroutine(Enrage());
     }
 
+    public override void Die() {
+        base.Die();
+        GameDirector.singleton.zombieKills++;
+    }
+
     private IEnumerator Enrage() {
         if (isAlive) {
             yield return new WaitForSeconds(6f);
