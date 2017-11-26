@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 1eadc40e4aa15aa46b5b63989e94e454
-timeCreated: 1511625281
+timeCreated: 1511687911
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -10,6 +10,7 @@ TextureImporter:
     21300006: bat-guy-spritesheet-2_3
     21300008: bat-guy-spritesheet-2_4
     21300010: bat-guy-spritesheet-2_5
+    21300012: bat-guy-spritesheet-2_6
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -149,6 +150,34 @@ TextureImporter:
         height: 58
       alignment: 9
       pivot: {x: 0.23, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: bat-guy-spritesheet-2_5
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 11
+        width: 34
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: bat-guy-spritesheet-2_6
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 10
+        width: 92
+        height: 23
+      alignment: 9
+      pivot: {x: 0.49558425, y: 0.08315206}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
