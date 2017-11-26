@@ -43,11 +43,11 @@ public class GameDirector : MonoBehaviour {
     public UnityEngine.UI.Image gameoverDisplayer;
     public UnityEngine.UI.Text tryagainDisplayer;
 
-    //public AudioClip hordeJingle; // instant zombies
-    //public AudioClip scoreJingle; // extra score
-    //public AudioClip frenzyJingle; // faster zombies
-    //public AudioClip lifeJingle; // extra health
-    //public AudioClip floodJingle; // extra zombies
+    public AudioClip hordeJingle; // instant zombies
+    public AudioClip scoreJingle; // extra score
+    public AudioClip frenzyJingle; // faster zombies
+    public AudioClip lifeJingle; // extra health
+    public AudioClip floodJingle; // extra zombies
 
     // Use this for initialization
     void Start() {
@@ -55,6 +55,7 @@ public class GameDirector : MonoBehaviour {
         zombiPrefab = zombiPrefabs[0];
         StartCoroutine(PeriodicZombiSpawn());
         StartCoroutine(PeriodicDiceSpawn());
+        EffectSpawnHorde.eventClip = hordeJingle;
     }
 
     void Update() {
@@ -98,8 +99,6 @@ public class GameDirector : MonoBehaviour {
             float y = Random.Range(-5, 5);
 
             Zombi.Spawn(zombiPrefab, new Vector3(x, y, 0), player);
-
-            AddScore(100);
         }
     }
 
@@ -115,10 +114,9 @@ public class GameDirector : MonoBehaviour {
 
     public void SpawnDice() {
         if (isPlaying) {
-            /*float x = Random.Range(-5, 5);
+            float x = Random.Range(-5, 5);
             float y = Random.Range(-5, 5);
-            Dice.Spawn(dicePrefab, new Vector3(x, y, 0));*/
-            //ShakeCamera(4);
+            Dice.Spawn(dicePrefab, new Vector3(x, y, 0));
         }
     }
 
@@ -149,8 +147,8 @@ public class GameDirector : MonoBehaviour {
 
     private IEnumerator DoShakeCamera(int iterations) {
         for (int i = 0; i < iterations; ++i) {
-            gameCamera.transform.position = new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f), -10);
-            yield return new WaitForSeconds(0.1f);
+            gameCamera.transform.position = new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), -10);
+            yield return null;
         }
     }
 
@@ -169,6 +167,7 @@ public class GameDirector : MonoBehaviour {
 
     public IEnumerator ShowGameOver() {
         isPlaying = false;
+        audioPlayer.PlayOneShot(gameoverJingle);
         lifeDisplayer.enabled = false;
         gameoverDisplayer.enabled = true;
         yield return new WaitForSeconds(1);
@@ -176,16 +175,18 @@ public class GameDirector : MonoBehaviour {
     }
 
     public void Restart() {
-        SceneManager.LoadScene("Scenes/GameDirectorTest");
+        SceneManager.LoadScene("Scenes/Game");
     }
 
-    public void Event(string text) {
+    public void Event(string text, AudioClip jingle = null) {
         if (isPlaying) {
             StartCoroutine(ShowEvent(text));
+            if (jingle != null)
+                audioPlayer.PlayOneShot(jingle, 1.25f);
         }
     }
 
-    public IEnumerator ShowEvent(string text) {
+    private IEnumerator ShowEvent(string text) {
         if (isPlaying) {
             eventDisplayer.text = text;
             eventDisplayer.enabled = true;

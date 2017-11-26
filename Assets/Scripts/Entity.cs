@@ -164,7 +164,8 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
             yield return new WaitForSeconds(attackDelay * attackSpeedFactor);
         }
         if (isAlive) { // hit
-                       // pick targets and damage them
+
+            // pick targets and damage them
             audioSource.PlayOneShot(soundAttack);
             foreach (Hitable h in pickTargets(hitmask)) {
                 h.GetHit(attackDamage, this);

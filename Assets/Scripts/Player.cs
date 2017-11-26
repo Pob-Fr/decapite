@@ -28,7 +28,7 @@ public class Player : Entity
     public override void GetHit(int damage) {
         base.GetHit(damage);
         GameDirector.singleton.UpdatePlayerHealth(currentHealth);
-        GameDirector.singleton.ShakeCamera(2);
+        GameDirector.singleton.ShakeCamera(8);
     }
 
     public override void Die() {

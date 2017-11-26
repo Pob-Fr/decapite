@@ -16,7 +16,7 @@ public class EffectSpawnZombi : Effect
 
     public void DoSomething()
     {
-        //        GameDirector.singleton.SpawnZombi(number);
-        Debug.Log("Spawn " + nbZombi + " Zombi(s)");
+        GameDirector.singleton.SpawnZombis(nbZombi);
+        GameDirector.singleton.Event("Zombies !!");
     }
 }

@@ -11,3 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameDirectorTest.unity
     guid: f3a41e1408a8f3c418cf92d80de2db4c
+  - enabled: 1
+    path: Assets/Scenes/Credit.unity
+    guid: 9cb70a2f3b6739b40851ad5c3aeea795

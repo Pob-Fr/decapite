@@ -13,6 +13,6 @@ public class MenuController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (Input.GetButton("Attack"))
-            SceneManager.LoadScene("Scenes/GameDirectorTest");
+            SceneManager.LoadScene("Scenes/Game");
     }
 }

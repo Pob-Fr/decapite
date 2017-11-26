@@ -53,6 +53,7 @@ public class Dice : MonoBehaviour, Hitable
         // Init the content of the dice
         diceContent.AddEffectHolder(new EffectHolder(new EffectScore(100), 25));
         diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnZombi(1), 50));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnHorde(5), 10000));
         diceContent.AddEffectHolder(new EffectHolder(new EffectScore(200), 25));
 
         isUsed = false;
@@ -125,6 +126,7 @@ public class Dice : MonoBehaviour, Hitable
         throwSpeed = Mathf.Abs(throwSpeed) * direction;
         speedUp = defaultSpeedUp;
         bounce = maxBounce;
+        GameDirector.singleton.ShakeCamera(6);
     }
 
     public void Die()
