@@ -162,6 +162,7 @@ public class GameDirector : MonoBehaviour {
 
     public void GameOver() {
         if (isPlaying) {
+            StopAllCoroutines();
             StartCoroutine(ShowGameOver());
         }
     }
