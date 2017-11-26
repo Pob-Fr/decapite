@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Zombi : Entity {
+public class Zombi : Entity
+{
+    public AudioClip soundSpawn;
+    public AudioClip soundIdle;
+
 
     public static void Spawn(GameObject prefab, Vector3 position, GameObject target) {
         GameObject zombi = GameObject.Instantiate(prefab);
@@ -31,6 +35,7 @@ public class Zombi : Entity {
             if (TARGET_HITABLE == null)
                 Debug.Log("Not a valid target !");
         }
+        audioSource.PlayOneShot(soundSpawn);
     }
 
     private void Update() {
@@ -44,7 +49,7 @@ public class Zombi : Entity {
                     if (Mathf.Abs(directionToPlayer.x) < Mathf.Abs(directionToPlayer.y)) { // vertical movement only
                         Move(new Vector2(0, Mathf.Sign(directionToPlayer.y) * 1));
                     } else {
-                        if (Mathf.Abs(directionToPlayer.y) > 1) { // diagonal movement
+                        if (Mathf.Abs(directionToPlayer.y) > 0.5f) { // diagonal movement
                             Move(new Vector2(Mathf.Sign(directionToPlayer.x) * 1, Mathf.Sign(directionToPlayer.y) * 1));
                         } else { // horizontal movement
                             Move(new Vector2(Mathf.Sign(directionToPlayer.x) * 1, 0));
