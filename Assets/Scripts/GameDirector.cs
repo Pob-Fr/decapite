@@ -39,6 +39,7 @@ public class GameDirector : MonoBehaviour {
     public UnityEngine.UI.Text scoreDisplayer;
     public UnityEngine.UI.Text timerDisplayer;
     public UnityEngine.UI.Text eventDisplayer;
+    public UnityEngine.UI.Text lifeDisplayer;
     public UnityEngine.UI.Image gameoverDisplayer;
     public UnityEngine.UI.Text tryagainDisplayer;
 
@@ -59,7 +60,7 @@ public class GameDirector : MonoBehaviour {
     void Update() {
         if (isPlaying) {
             currentTime += Time.deltaTime;
-            timerDisplayer.text = "" + (int)currentTime;
+            timerDisplayer.text = "" + ((float)((int)(currentTime * 10))) / 10f;
         } else {
             if (tryagainDisplayer.enabled && Input.GetButton("Attack"))
                 Restart();
@@ -69,60 +70,77 @@ public class GameDirector : MonoBehaviour {
     public IEnumerator PeriodicZombiSpawn() {
         yield return new WaitForSeconds(firstZombiSpawnDelay);
         while (true) {
-            StartCoroutine(SpawnZombisDelayed(periodicZombiSpawnCount));
-            yield return new WaitForSeconds(periodicZombiSpawnDelay);
+            if (isPlaying) {
+                StartCoroutine(SpawnZombisDelayed(periodicZombiSpawnCount));
+                yield return new WaitForSeconds(periodicZombiSpawnDelay);
+            }
         }
     }
 
     public void SpawnZombis(int count) {
-        StartCoroutine(SpawnZombisDelayed(count));
+        if (isPlaying) {
+            StartCoroutine(SpawnZombisDelayed(count));
+        }
     }
 
     public IEnumerator SpawnZombisDelayed(int count) {
         for (int i = 0; i < count; i++) {
-            SpawnZombi();
-            yield return new WaitForSeconds(zombiSpawnInterval);
+            if (isPlaying) {
+                SpawnZombi();
+                yield return new WaitForSeconds(zombiSpawnInterval);
+            }
         }
     }
 
     public void SpawnZombi() {
-        float x = Random.Range(-5, 5);
-        float y = Random.Range(-5, 5);
+        if (isPlaying) {
+            float x = Random.Range(-5, 5);
+            float y = Random.Range(-5, 5);
 
-        Zombi.Spawn(zombiPrefab, new Vector3(x, y, 0), player);
+            Zombi.Spawn(zombiPrefab, new Vector3(x, y, 0), player);
 
-        ShakeCamera(2);
-        AddScore(100);
+            AddScore(100);
+        }
     }
 
     public IEnumerator PeriodicDiceSpawn() {
         yield return new WaitForSeconds(firstDiceSpawnDelay);
         while (true) {
-            SpawnDice();
-            yield return new WaitForSeconds(periodicDiceSpawnDelay);
+            if (isPlaying) {
+                SpawnDice();
+                yield return new WaitForSeconds(periodicDiceSpawnDelay);
+            }
         }
     }
 
     public void SpawnDice() {
-        /*float x = Random.Range(-5, 5);
-        float y = Random.Range(-5, 5);
-        Dice.Spawn(dicePrefab, new Vector3(x, y, 0));*/
-        //ShakeCamera(4);
+        if (isPlaying) {
+            /*float x = Random.Range(-5, 5);
+            float y = Random.Range(-5, 5);
+            Dice.Spawn(dicePrefab, new Vector3(x, y, 0));*/
+            //ShakeCamera(4);
+        }
     }
 
     public void AddScore(int score) {
-        currentScore += score;
-        if (!scoreDisplayer.enabled)
-            scoreDisplayer.enabled = true;
-        scoreDisplayer.text = "" + currentScore;
+        if (isPlaying) {
+            currentScore += score;
+            if (!scoreDisplayer.enabled)
+                scoreDisplayer.enabled = true;
+            scoreDisplayer.text = "" + currentScore;
+        }
     }
 
     public void IncreaseZombiSpawnCount(int incr) {
-        periodicZombiSpawnCount += incr;
+        if (isPlaying) {
+            periodicZombiSpawnCount += incr;
+        }
     }
 
     public void DecreaseZombiSpawnDelay(float decr) {
-        periodicZombiSpawnDelay -= decr;
+        if (isPlaying) {
+            periodicZombiSpawnDelay -= decr;
+        }
     }
 
     public void ShakeCamera(int iterations) {
@@ -136,12 +154,21 @@ public class GameDirector : MonoBehaviour {
         }
     }
 
+    public void UpdatePlayerHealth(int health) {
+        if (isPlaying) {
+            lifeDisplayer.text = "LIFE : " + health;
+        }
+    }
+
     public void GameOver() {
-        StartCoroutine(ShowGameOver());
+        if (isPlaying) {
+            StartCoroutine(ShowGameOver());
+        }
     }
 
     public IEnumerator ShowGameOver() {
         isPlaying = false;
+        lifeDisplayer.enabled = false;
         gameoverDisplayer.enabled = true;
         yield return new WaitForSeconds(1);
         tryagainDisplayer.enabled = true;
@@ -152,14 +179,20 @@ public class GameDirector : MonoBehaviour {
     }
 
     public void Event(string text) {
-        StartCoroutine(ShowEvent(text));
+        if (isPlaying) {
+            StartCoroutine(ShowEvent(text));
+        }
     }
 
     public IEnumerator ShowEvent(string text) {
-        eventDisplayer.text = text;
-        eventDisplayer.enabled = true;
-        yield return new WaitForSeconds(3);
-        eventDisplayer.enabled = false;
+        if (isPlaying) {
+            eventDisplayer.text = text;
+            eventDisplayer.enabled = true;
+            yield return new WaitForSeconds(3);
+        }
+        if (isPlaying) {
+            eventDisplayer.enabled = false;
+        }
     }
 
 }

@@ -25,6 +25,12 @@ public class Player : Entity
         Animate();
     }
 
+    public override void GetHit(int damage) {
+        base.GetHit(damage);
+        GameDirector.singleton.UpdatePlayerHealth(currentHealth);
+        GameDirector.singleton.ShakeCamera(2);
+    }
+
     public override void Die() {
         base.Die();
         GameDirector.singleton.GameOver();

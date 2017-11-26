@@ -107,8 +107,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable
         }
     }
 
-    public void GetHit(int damage)
-    {
+    public virtual void GetHit(int damage) {
         audioSource.PlayOneShot(soundDamaged);
         if (soundsBatHit.Length != 0)
         {
