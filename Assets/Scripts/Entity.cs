@@ -100,7 +100,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
         }
     }
 
-    public void GetHit(int damage) {
+    public virtual void GetHit(int damage) {
         currentHealth -= damage;
         if (currentHealth <= 0)
             Die();
