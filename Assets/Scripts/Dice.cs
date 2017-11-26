@@ -51,10 +51,13 @@ public class Dice : MonoBehaviour, Hitable
         crushAreaMax = new Vector2(bodyWidth / 2, bodyThickness / 2);
 
         // Init the content of the dice
-        diceContent.AddEffectHolder(new EffectHolder(new EffectScore(100), 25));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectScore(100), 50));
         diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnZombi(1), 50));
-        diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnHorde(5), 10000));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnHorde(3), 25));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnZombiMore(1), 25));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnZombiFaster(0.5f), 25));
         diceContent.AddEffectHolder(new EffectHolder(new EffectScore(200), 25));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectHealth(1), 25));
 
         isUsed = false;
         timeToDie = 3f;
@@ -145,7 +148,6 @@ public class Dice : MonoBehaviour, Hitable
         {
             spriteRender.transform.localPosition = new Vector2(0, 0);
             audioSource.PlayOneShot(sounds[1]);
-            Debug.Log("BOuing !");
             bounce--;
             speedUp = defaultSpeedUp / 1.2f;
         }

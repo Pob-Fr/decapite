@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Zombi : Entity
 {
-    public AudioClip soundSpawn;
     public AudioClip soundIdle;
 
 
@@ -37,6 +36,15 @@ public class Zombi : Entity
                 Debug.Log("Not a valid target !");
         }
         audioSource.PlayOneShot(soundSpawn);
+        StartCoroutine(Enrage());
+    }
+
+    private IEnumerator Enrage() {
+        if(isAlive) {
+            yield return new WaitForSeconds(6f);
+            movementSpeedFactor = 2.5f;
+            attackSpeedFactor = 0.5f;
+        }
     }
 
     private void Update() {

@@ -19,7 +19,7 @@ public class EffectSpawnHorde : Effect
 
     public void DoSomething()
     {
-        GameDirector.singleton.SpawnZombis(nbZombi);
+        GameDirector.singleton.SpawnHorde(nbZombi);
         GameDirector.singleton.Event("Horde !!!", eventClip);
         GameDirector.singleton.ShakeCamera(10);
     }

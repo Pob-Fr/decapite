@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public abstract class Entity : MonoBehaviour, Movable, Hitable {
     public AudioSource audioSource;
+    public AudioClip soundSpawn;
     public AudioClip soundAttack;
     public AudioClip soundDamaged;
     public AudioClip soundDie;

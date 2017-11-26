@@ -1,22 +1,18 @@
 ﻿using UnityEngine;
 
-public class EffectSpawnZombi : Effect
-{
+public class EffectSpawnZombi : Effect {
     int nbZombi;
 
-    public EffectSpawnZombi(int number)
-    {
+    public EffectSpawnZombi(int number) {
         this.nbZombi = number;
     }
 
-    public void ChangeNbZombi(int number)
-    {
+    public void ChangeNbZombi(int number) {
         this.nbZombi = number;
     }
 
-    public void DoSomething()
-    {
-        GameDirector.singleton.SpawnZombis(nbZombi);
+    public void DoSomething() {
+        GameDirector.singleton.SpawnZombis(nbZombi + GameDirector.singleton.periodicZombiSpawnCount);
         GameDirector.singleton.Event("Zombies !!");
     }
 }

@@ -10,6 +10,12 @@ public class Player : Entity {
     protected override void Init() {
         base.Init();
         attackMask = (1 << 9) + (1 << 10); // MASK zombi + dice
+        StartCoroutine(PlaySpawnSound());
+    }
+
+    private IEnumerator PlaySpawnSound() {
+        yield return new WaitForSeconds(1.5f);
+        audioSource.PlayOneShot(soundSpawn);
     }
 
     // Update is called once per frame

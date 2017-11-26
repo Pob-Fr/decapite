@@ -88,6 +88,12 @@ public class GameDirector : MonoBehaviour {
         }
     }
 
+    public void SpawnHorde(int multiplier) {
+        if (isPlaying) {
+            StartCoroutine(SpawnZombisDelayed(periodicZombiSpawnCount * multiplier));
+        }
+    }
+
     public IEnumerator SpawnZombisDelayed(int count) {
         for (int i = 0; i < count; i++) {
             if (isPlaying) {
@@ -120,7 +126,7 @@ public class GameDirector : MonoBehaviour {
         if (isPlaying) {
             float x = Random.Range(-5, 5);
             float y = Random.Range(-5, 5);
-            Dice.Spawn(dicePrefab, new Vector3(x, y, 0));
+            Dice.Spawn(dicePrefab, new Vector3(x, y, y));
         }
     }
 
@@ -174,7 +180,7 @@ public class GameDirector : MonoBehaviour {
         audioPlayer.PlayOneShot(gameoverJingle);
         lifeDisplayer.enabled = false;
         gameoverDisplayer.enabled = true;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1.2f);
         tryagainDisplayer.enabled = true;
     }
 

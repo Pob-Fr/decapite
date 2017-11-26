@@ -199,6 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 82599606722876512}
+  soundSpawn: {fileID: 8300000, guid: eb7d0f24e3083dd409de990364dc4283, type: 3}
   soundAttack: {fileID: 8300000, guid: 8a6a2151ea817564fa25365069a03502, type: 3}
   soundDamaged: {fileID: 8300000, guid: fbd57b0b771c0f640bb2c92ddd89cfbf, type: 3}
   soundDie: {fileID: 8300000, guid: 90c799a77231c234a9394c59712f5302, type: 3}
@@ -213,7 +214,7 @@ MonoBehaviour:
   attackThickness: 0.8
   attackDelay: 0.2
   attackRecoverTime: 0.1
-  deathDuration: 0.5
+  deathDuration: 1
   bodyThickness: 0.4
   bodyWidth: 1
   soundsVoice:
