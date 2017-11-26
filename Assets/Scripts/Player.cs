@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Entity
-{
+public class Player : Entity {
     public AudioClip[] soundsVoice = new AudioClip[5];
 
     //public static GameObject playerPrefab = Resources.Load("Prefabs/Player");
@@ -16,13 +15,19 @@ public class Player : Entity
     // Update is called once per frame
     private void Update() {
         if (isAlive && !isAttacking) {
-            Move(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")));
-            if (Input.GetButton("Attack"))
-            {
+            Move(GetInput());
+            if (Input.GetButton("Attack")) {
                 Attack();
             }
         }
         Animate();
+    }
+
+    private Vector2 GetInput() {
+        Vector2 output = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        if (output.magnitude < 0.2f)
+            output = Vector2.zero;
+        return output;
     }
 
     public override void GetHit(int damage) {

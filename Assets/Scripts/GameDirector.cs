@@ -59,7 +59,11 @@ public class GameDirector : MonoBehaviour {
     }
 
     void Update() {
-        if (isPlaying) {
+        if (Input.GetButton("Menu"))
+            SceneManager.LoadScene("Scenes/MainMenu");
+        if (Input.GetButton("Quit"))
+            Application.Quit();
+                if (isPlaying) {
             currentTime += Time.deltaTime;
             timerDisplayer.text = "" + ((float)((int)(currentTime * 10))) / 10f;
         } else {

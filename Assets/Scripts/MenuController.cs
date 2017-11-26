@@ -14,5 +14,9 @@ public class MenuController : MonoBehaviour {
     void Update() {
         if (Input.GetButton("Attack"))
             SceneManager.LoadScene("Scenes/Game");
+        if (Input.GetButton("Menu"))
+            SceneManager.LoadScene("Scenes/Credit");
+        if (Input.GetButton("Quit"))
+            Application.Quit();
     }
 }
