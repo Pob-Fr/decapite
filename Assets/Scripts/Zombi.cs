@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Zombi : Entity
-{
+public class Zombi : Entity {
     public AudioClip soundIdle;
 
 
@@ -28,9 +27,9 @@ public class Zombi : Entity
     protected override void Init() {
         base.Init();
         attackMask = (1 << 8); // MASK player
-        if(target != null) {
-                TARGET_HITABLE = target.GetComponent<Entity>();
-            if(TARGET_HITABLE == null)
+        if (target != null) {
+            TARGET_HITABLE = target.GetComponent<Entity>();
+            if (TARGET_HITABLE == null)
                 TARGET_HITABLE = target.GetComponent<Dice>();
             if (TARGET_HITABLE == null)
                 Debug.Log("Not a valid target !");
@@ -40,10 +39,11 @@ public class Zombi : Entity
     }
 
     private IEnumerator Enrage() {
-        if(isAlive) {
+        if (isAlive) {
             yield return new WaitForSeconds(6f);
             movementSpeedFactor = 2.5f;
             attackSpeedFactor = 0.5f;
+            GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.4f, 0.4f);
         }
     }
 

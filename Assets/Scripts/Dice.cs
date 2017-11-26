@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dice : MonoBehaviour, Hitable
-{
+public class Dice : MonoBehaviour, Hitable {
 
-    public static void Spawn(GameObject prefab, Vector3 position)
-    {
+    public static void Spawn(GameObject prefab, Vector3 position) {
         GameObject dice = GameObject.Instantiate(prefab);
         dice.transform.position = position;
         //dice.GetComponent<Dice>();
@@ -16,7 +14,7 @@ public class Dice : MonoBehaviour, Hitable
     AudioSource audioSource;
     public List<AudioClip> sounds;
     new Animator animator;
-    
+
     public int life;
 
     // Bounce stats
@@ -38,10 +36,11 @@ public class Dice : MonoBehaviour, Hitable
     protected Vector3 crushAreaMax;
     public float bodyThickness = 0.4f;
     public float bodyWidth = 1f;
+    private int kills = 0;
+
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         // Init variables
         spriteRender = this.gameObject.transform.GetChild(0);
         audioSource = GetComponent<AudioSource>();
@@ -70,14 +69,10 @@ public class Dice : MonoBehaviour, Hitable
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (bounce > 0)
-        {
+    void Update() {
+        if (bounce > 0) {
             Throw(throwSpeed);
-        }
-        else
-        {
+        } else {
             animator.SetBool("isRolling", false);
         }
 
@@ -85,32 +80,27 @@ public class Dice : MonoBehaviour, Hitable
             Resolve();
     }
 
-    void CrushZombis()
-    {
+    void CrushZombis() {
         Collider2D[] colliders;
-        colliders = Physics2D.OverlapAreaAll(transform.position + crushAreaMin, transform.position + crushAreaMax, 1<<9);
-        foreach (Collider2D c in colliders)
-        {
-            if (c.gameObject != gameObject)
-            {
+        colliders = Physics2D.OverlapAreaAll(transform.position + crushAreaMin, transform.position + crushAreaMax, 1 << 9);
+        foreach (Collider2D c in colliders) {
+            if (c.gameObject != gameObject) {
                 Hitable h = null;
                 h = c.GetComponent<Entity>();
-                if (h != null)
-                {
+                if (h != null) {
                     h.GetHit(100);
+                    kills++;
                     continue;
                 }
             }
         }
     }
 
-    public void GetHit(int damage)
-    {
+    public void GetHit(int damage) {
         life -= damage;
     }
 
-    public void GetHit(int damage, Entity hitter)
-    {
+    public void GetHit(int damage, Entity hitter) {
         audioSource.PlayOneShot(sounds[0]);
         animator.SetBool("isRolling", true);
         isUsed = true;
@@ -118,12 +108,9 @@ public class Dice : MonoBehaviour, Hitable
         life -= damage;
         // Check if the dice get hit by the right of the left
         float direction;
-        if (hitter.transform.position.x <= transform.position.x)
-        {
+        if (hitter.transform.position.x <= transform.position.x) {
             direction = 1;
-        }
-        else
-        {
+        } else {
             direction = -1;
         }
         throwSpeed = Mathf.Abs(throwSpeed) * direction;
@@ -132,58 +119,58 @@ public class Dice : MonoBehaviour, Hitable
         GameDirector.singleton.ShakeCamera(6);
     }
 
-    public void Die()
-    {
+    public void Die() {
         // Must wait to be immobile before die and do his stuff.
         Destroy(gameObject);
     }
-    
-    public void Throw(float speed)
-    {
+
+    public void Throw(float speed) {
         CrushZombis();
         // Bounce effect
         speedUp += fakeGrav;
         spriteRender.transform.Translate(Vector2.up * speedUp * Time.deltaTime);
-        if (spriteRender.transform.localPosition.y <= 0 && (Mathf.Sign(speedUp) < 0))
-        {
+        if (spriteRender.transform.localPosition.y <= 0 && (Mathf.Sign(speedUp) < 0)) {
             spriteRender.transform.localPosition = new Vector2(0, 0);
             audioSource.PlayOneShot(sounds[1]);
             bounce--;
             speedUp = defaultSpeedUp / 1.2f;
         }
         transform.Translate(Vector2.right * speed * Time.deltaTime);
+        if (transform.position.x > 16.5f || transform.position.x < -16.5f) {
+            this.throwSpeed *= -1;
+            transform.Translate(Vector2.right * throwSpeed * 2 * Time.deltaTime);
+            audioSource.PlayOneShot(sounds[1]);
+        }
     }
-    
-    public void Resolve()
-    {
+
+    public void Resolve() {
+
         Destroy(this.gameObject.GetComponent(typeof(BoxCollider2D)));
         StartCoroutine(Opening());
     }
 
-    IEnumerator Opening()
-    {
+    IEnumerator Opening() {
         // Play animation
         animator.SetBool("isOpening", true);
         yield return new WaitForSeconds(timeToDie);
         // Run the effect
         Effect effect = diceContent.RandomEffect();
+        if (kills > 7)
+            GameDirector.singleton.PlayerPunchLine();
         effect.DoSomething();
         Die();
     }
 
 
-    public float GetBodyWidth()
-    {
+    public float GetBodyWidth() {
         return 0;
     }
-    public float GetBodyThickness()
-    {
+    public float GetBodyThickness() {
         return 0;
     }
 
-    
-    void OnGUI()
-    {
+
+    void OnGUI() {
         //if (GUILayout.Button("Hit at right!"))
         // GetHit(1, true);
         //if (GUILayout.Button("Hit at left!"))

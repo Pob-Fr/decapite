@@ -217,6 +217,11 @@ MonoBehaviour:
   defaultSpeedUp: 20
   bodyThickness: 1
   bodyWidth: 1
+  killShouts:
+  - {fileID: 8300000, guid: cbc5beed544aac24682a3fe4b8924b67, type: 3}
+  - {fileID: 8300000, guid: f3bdf42f502c5c946a6fb4b348e77514, type: 3}
+  - {fileID: 8300000, guid: d39c5d587f2bc4b4ba4453264cb9e704, type: 3}
+  - {fileID: 8300000, guid: 62b393219546e5c4dbad365d392bb053, type: 3}
 --- !u!212 &212335526807565560
 SpriteRenderer:
   m_ObjectHideFlags: 1

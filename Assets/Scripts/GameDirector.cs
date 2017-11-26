@@ -63,7 +63,7 @@ public class GameDirector : MonoBehaviour {
             SceneManager.LoadScene("Scenes/MainMenu");
         if (Input.GetButton("Quit"))
             Application.Quit();
-                if (isPlaying) {
+        if (isPlaying) {
             currentTime += Time.deltaTime;
             timerDisplayer.text = "" + ((float)((int)(currentTime * 10))) / 10f;
         } else {
@@ -105,10 +105,10 @@ public class GameDirector : MonoBehaviour {
 
     public void SpawnZombi() {
         if (isPlaying) {
-            float x = Random.Range(-5, 5);
-            float y = Random.Range(-5, 5);
+            float x = Random.Range(-16, 16);
+            float y = Random.Range(-9, 3);
 
-            Zombi.Spawn(zombiPrefab, new Vector3(x, y, 0), player);
+            Zombi.Spawn(zombiPrefab, new Vector3(x, y, y), player);
         }
     }
 
@@ -124,8 +124,8 @@ public class GameDirector : MonoBehaviour {
 
     public void SpawnDice() {
         if (isPlaying) {
-            float x = Random.Range(-5, 5);
-            float y = Random.Range(-5, 5);
+            float x = Random.Range(-16, 16);
+            float y = Random.Range(-9, 3);
             Dice.Spawn(dicePrefab, new Vector3(x, y, y));
         }
     }
@@ -162,6 +162,11 @@ public class GameDirector : MonoBehaviour {
         }
     }
 
+    public void PlayerPunchLine() {
+        if (isPlaying)
+            player.GetComponent<Player>().PunchLine();
+    }
+
     public void UpdatePlayerHealth(int health) {
         if (isPlaying) {
             lifeDisplayer.text = "LIFE : " + health;
@@ -177,10 +182,12 @@ public class GameDirector : MonoBehaviour {
 
     public IEnumerator ShowGameOver() {
         isPlaying = false;
-        audioPlayer.PlayOneShot(gameoverJingle);
+        audioPlayer.clip = gameoverMusic;
+        audioPlayer.Play();
         lifeDisplayer.enabled = false;
         gameoverDisplayer.enabled = true;
         yield return new WaitForSeconds(1.2f);
+        audioPlayer.PlayOneShot(gameoverJingle, 1f);
         tryagainDisplayer.enabled = true;
     }
 
@@ -192,7 +199,7 @@ public class GameDirector : MonoBehaviour {
         if (isPlaying) {
             StartCoroutine(ShowEvent(text));
             if (jingle != null)
-                audioPlayer.PlayOneShot(jingle, 1.25f);
+                audioPlayer.PlayOneShot(jingle, 1f);
         }
     }
 

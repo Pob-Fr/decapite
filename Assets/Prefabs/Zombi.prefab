@@ -101,7 +101,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -199,6 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 82033844860164502}
+  soundSpawn: {fileID: 8300000, guid: dc9d72e3e1341da4581df70f6fcf4367, type: 3}
   soundAttack: {fileID: 8300000, guid: 52d98590224ea5a4c8950c64657283ed, type: 3}
   soundDamaged: {fileID: 8300000, guid: 33fbc622032f92b43af2bf73925a8a6e, type: 3}
   soundDie: {fileID: 8300000, guid: 5d66755a804ee0f49a04383e62107273, type: 3}
@@ -218,7 +219,6 @@ MonoBehaviour:
   deathDuration: 0.5
   bodyThickness: 0.4
   bodyWidth: 1
-  soundSpawn: {fileID: 8300000, guid: dc9d72e3e1341da4581df70f6fcf4367, type: 3}
   soundIdle: {fileID: 8300000, guid: a326113a64ccb57479d94e38e1ee514e, type: 3}
   target: {fileID: 0}
 --- !u!212 &212549701863987958

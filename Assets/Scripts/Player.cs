@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : Entity {
     public AudioClip[] soundsVoice = new AudioClip[5];
+    public List<AudioClip> killShouts = new List<AudioClip>();
 
     //public static GameObject playerPrefab = Resources.Load("Prefabs/Player");
 
@@ -16,6 +17,13 @@ public class Player : Entity {
     private IEnumerator PlaySpawnSound() {
         yield return new WaitForSeconds(1.5f);
         audioSource.PlayOneShot(soundSpawn);
+    }
+
+    public void PunchLine() {
+        int index = Random.Range(0, killShouts.Count - 1);
+        audioSource.PlayOneShot(killShouts[index], 1);
+        if (index > 2)
+            killShouts.Remove(killShouts[index]);
     }
 
     // Update is called once per frame
@@ -31,7 +39,7 @@ public class Player : Entity {
 
     private Vector2 GetInput() {
         Vector2 output = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        if (output.magnitude < 0.2f)
+        if (output.magnitude < 0.35f)
             output = Vector2.zero;
         return output;
     }
