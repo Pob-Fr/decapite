@@ -11,7 +11,8 @@ public class Zombi : Entity
     public static void Spawn(GameObject prefab, Vector3 position, GameObject target) {
         GameObject zombi = GameObject.Instantiate(prefab);
         zombi.transform.position = position;
-        zombi.GetComponent<Zombi>().target = target;
+        Zombi z = zombi.GetComponent<Zombi>();
+        z.target = target;
     }
 
     // public bool attackPlayer;
@@ -39,7 +40,7 @@ public class Zombi : Entity
     }
 
     private void Update() {
-        if (isAlive && target != null) {
+        if (isAlive && target != null && !isSpawning) {
             if (!isAttacking) {
                 Vector2 directionToPlayer = target.transform.position - transform.position;
                 if (Mathf.Abs(directionToPlayer.x) <= attackReach + (bodyWidth + targetHitable.GetBodyWidth()) / 2

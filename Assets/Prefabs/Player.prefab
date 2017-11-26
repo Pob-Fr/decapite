@@ -145,7 +145,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -169,7 +169,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!95 &95980759532164390
 Animator:
   serializedVersion: 3
@@ -198,10 +198,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c34a4775570418418ce79feae9e2bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
+  audioSource: {fileID: 82599606722876512}
   soundAttack: {fileID: 8300000, guid: 8a6a2151ea817564fa25365069a03502, type: 3}
   soundDamaged: {fileID: 8300000, guid: fbd57b0b771c0f640bb2c92ddd89cfbf, type: 3}
   soundDie: {fileID: 8300000, guid: 90c799a77231c234a9394c59712f5302, type: 3}
+  soundsBatHit: []
+  isSpawning: 0
+  spawnDuration: 1
   maxHealth: 3
   currentHealth: 0
   movementSpeed: 4

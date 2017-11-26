@@ -80,7 +80,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.42, y: 0.18}
+    pivot: {x: 0.49211997, y: 0.27147332}
     oldSize: {x: 4, y: 4}
     newSize: {x: 4, y: 4}
     adaptiveTilingThreshold: 0.5
@@ -145,7 +145,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -169,7 +169,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!95 &95226236567904208
 Animator:
   serializedVersion: 3
@@ -198,13 +198,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e9998d85dfe284dba2d6ccefe36acf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
+  audioSource: {fileID: 82033844860164502}
   soundAttack: {fileID: 8300000, guid: 52d98590224ea5a4c8950c64657283ed, type: 3}
   soundDamaged: {fileID: 8300000, guid: 33fbc622032f92b43af2bf73925a8a6e, type: 3}
   soundDie: {fileID: 8300000, guid: 5d66755a804ee0f49a04383e62107273, type: 3}
   soundsBatHit:
   - {fileID: 8300000, guid: 2516d4b41f363074aa174c3f292c3d86, type: 3}
   - {fileID: 8300000, guid: 68ea27b8a4777464bb2ae7f232751835, type: 3}
+  isSpawning: 1
+  spawnDuration: 1
   maxHealth: 1
   currentHealth: 0
   movementSpeed: 1.5
@@ -253,7 +255,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 750d20e03e6f5aa4da1a82ea4c577e51, type: 3}
+  m_Sprite: {fileID: 21300014, guid: 750d20e03e6f5aa4da1a82ea4c577e51, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

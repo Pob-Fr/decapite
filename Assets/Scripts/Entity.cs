@@ -2,8 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public abstract class Entity : MonoBehaviour, Movable, Hitable
-{
+public abstract class Entity : MonoBehaviour, Movable, Hitable {
     public AudioSource audioSource;
     public AudioClip soundAttack;
     public AudioClip soundDamaged;
@@ -11,6 +10,9 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable
     public AudioClip[] soundsBatHit = new AudioClip[0];
 
     public const float verticalMovementSpeedFactor = 0.75f;
+
+    public bool isSpawning = false;
+    public float spawnDuration = 1f;
 
     public int maxHealth = 1;
     public int currentHealth;
@@ -68,6 +70,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable
         audioSource = GetComponent<AudioSource>();
         sprite = GetComponent<SpriteRenderer>();
         Init();
+        Spawn();
     }
 
     protected virtual void Init() {
@@ -81,6 +84,20 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable
         movementSpeedFactor = 1;
         attackSpeedFactor = 1;
         animatorController.SetFloat("deathDuration", 1f / deathDuration);
+    }
+
+    public void Spawn() {
+        StartCoroutine(DoSpawn());
+    }
+
+    public IEnumerator DoSpawn() {
+        if (isSpawning) {
+            animatorController.SetFloat("spawnDuration", 1f / spawnDuration);
+            animatorController.SetBool("isSpawning", true);
+            yield return new WaitForSeconds(deathDuration);
+            animatorController.SetBool("isSpawning", false);
+            isSpawning = false;
+        }
     }
 
     protected void Animate() {
@@ -108,15 +125,16 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable
     }
 
     public virtual void GetHit(int damage) {
-        audioSource.PlayOneShot(soundDamaged);
-        if (soundsBatHit.Length != 0)
-        {
-            int soundToPlay = Random.Range(0, 1);
-            audioSource.PlayOneShot(soundsBatHit[soundToPlay]);
+        if (isAlive) {
+            audioSource.PlayOneShot(soundDamaged);
+            if (soundsBatHit.Length != 0) {
+                int soundToPlay = Random.Range(0, 1);
+                audioSource.PlayOneShot(soundsBatHit[soundToPlay]);
+            }
+            currentHealth -= damage;
+            if (currentHealth <= 0)
+                Die();
         }
-        currentHealth -= damage;
-        if (currentHealth <= 0)
-            Die();
     }
 
     public void GetHit(int damage, Entity hitter) {
@@ -140,13 +158,13 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable
 
     protected virtual IEnumerator DoAttack(int hitmask) {
         if (isAlive) { // anim
-            // wait for impact
+                       // wait for impact
             isAttacking = true;
             isWalking = false;
             yield return new WaitForSeconds(attackDelay * attackSpeedFactor);
         }
         if (isAlive) { // hit
-            // pick targets and damage them
+                       // pick targets and damage them
             audioSource.PlayOneShot(soundAttack);
             foreach (Hitable h in pickTargets(hitmask)) {
                 h.GetHit(attackDamage, this);
@@ -154,7 +172,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable
             yield return new WaitForSeconds(attackRecoverTime * attackSpeedFactor);
         }
         if (isAlive) { // recover
-            // back to idle
+                       // back to idle
             isAttacking = false;
         }
     }
@@ -185,8 +203,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable
         return output;
     }
 
-    public virtual void Die()
-    {
+    public virtual void Die() {
         audioSource.PlayOneShot(soundDie);
         isAttacking = false;
         isWalking = false;
