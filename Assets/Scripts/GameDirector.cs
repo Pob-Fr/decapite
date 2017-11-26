@@ -9,8 +9,8 @@ public class GameDirector : MonoBehaviour {
     public static int highScore = 0;
 
     private bool isPlaying = true;
-    public static int currentScore = 0;
-    public static float currentTime = 0;
+    public int currentScore = 0;
+    public float currentTime = 0;
 
     public float firstZombiSpawnDelay = 5;
     public float periodicZombiSpawnDelay = 10;
