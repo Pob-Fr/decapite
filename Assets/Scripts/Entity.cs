@@ -119,8 +119,10 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     }
 
     public virtual void Attack() {
-        if (isAlive && !isAttacking)
+        if (isAlive && !isAttacking) {
+            StopAllCoroutines();
             StartCoroutine(DoAttack(attackMask));
+        }
     }
 
     protected virtual IEnumerator DoAttack(int hitmask) {
@@ -172,6 +174,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     public virtual void Die() {
         isAttacking = false;
         isWalking = false;
+        StopAllCoroutines();
         StartCoroutine(Remove());
     }
 
