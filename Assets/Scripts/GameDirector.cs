@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameDirector : MonoBehaviour {
 
     public static GameDirector singleton;
     public static int highScore = 0;
 
+    private bool isPlaying = true;
     public static int currentScore = 0;
     public static float currentTime = 0;
 
@@ -28,9 +30,18 @@ public class GameDirector : MonoBehaviour {
 
     public Camera gameCamera;
 
-    public AudioClip playMusic;
+    public AudioSource audioPlayer;
+
+    public AudioClip gameMusic;
     public AudioClip gameoverMusic;
     public AudioClip gameoverJingle;
+
+    public UnityEngine.UI.Text scoreDisplayer;
+    public UnityEngine.UI.Text timerDisplayer;
+    public UnityEngine.UI.Text eventDisplayer;
+    public UnityEngine.UI.Image gameoverDisplayer;
+    public UnityEngine.UI.Text tryagainDisplayer;
+
     //public AudioClip hordeJingle; // instant zombies
     //public AudioClip scoreJingle; // extra score
     //public AudioClip frenzyJingle; // faster zombies
@@ -46,7 +57,13 @@ public class GameDirector : MonoBehaviour {
     }
 
     void Update() {
-        currentTime += Time.deltaTime;
+        if (isPlaying) {
+            currentTime += Time.deltaTime;
+            timerDisplayer.text = "" + (int)currentTime;
+        } else {
+            if (tryagainDisplayer.enabled && Input.GetButton("Attack"))
+                Restart();
+        }
     }
 
     public IEnumerator PeriodicZombiSpawn() {
@@ -73,6 +90,9 @@ public class GameDirector : MonoBehaviour {
         float y = Random.Range(-5, 5);
 
         Zombi.Spawn(zombiPrefab, new Vector3(x, y, 0), player);
+
+        ShakeCamera(2);
+        AddScore(100);
     }
 
     public IEnumerator PeriodicDiceSpawn() {
@@ -87,11 +107,14 @@ public class GameDirector : MonoBehaviour {
         /*float x = Random.Range(-5, 5);
         float y = Random.Range(-5, 5);
         Dice.Spawn(dicePrefab, new Vector3(x, y, 0));*/
-        ShakeCamera(4);
+        //ShakeCamera(4);
     }
 
     public void AddScore(int score) {
         currentScore += score;
+        if (!scoreDisplayer.enabled)
+            scoreDisplayer.enabled = true;
+        scoreDisplayer.text = "" + currentScore;
     }
 
     public void IncreaseZombiSpawnCount(int incr) {
@@ -108,15 +131,35 @@ public class GameDirector : MonoBehaviour {
 
     private IEnumerator DoShakeCamera(int iterations) {
         for (int i = 0; i < iterations; ++i) {
-            gameCamera.transform.position = new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), -10);
+            gameCamera.transform.position = new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f), -10);
             yield return new WaitForSeconds(0.1f);
         }
     }
 
-    void OnGUI() {
-        GUI.Label(new Rect(0, 10, 200, 20), "Timer : " + currentTime);
-        GUI.Label(new Rect(0, 30, 200, 20), "Score : " + currentScore);
+    public void GameOver() {
+        StartCoroutine(ShowGameOver());
     }
 
+    public IEnumerator ShowGameOver() {
+        isPlaying = false;
+        gameoverDisplayer.enabled = true;
+        yield return new WaitForSeconds(1);
+        tryagainDisplayer.enabled = true;
+    }
+
+    public void Restart() {
+        SceneManager.LoadScene("Scenes/GameDirectorTest");
+    }
+
+    public void Event(string text) {
+        StartCoroutine(ShowEvent(text));
+    }
+
+    public IEnumerator ShowEvent(string text) {
+        eventDisplayer.text = text;
+        eventDisplayer.enabled = true;
+        yield return new WaitForSeconds(3);
+        eventDisplayer.enabled = false;
+    }
 
 }
