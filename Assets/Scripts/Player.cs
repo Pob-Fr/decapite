@@ -21,4 +21,9 @@ public class Player : Entity {
         Animate();
     }
 
+    public override void Die() {
+        base.Die();
+        GameDirector.singleton.GameOver();
+    }
+
 }

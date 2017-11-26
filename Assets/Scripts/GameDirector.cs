@@ -39,6 +39,8 @@ public class GameDirector : MonoBehaviour {
     public UnityEngine.UI.Text scoreDisplayer;
     public UnityEngine.UI.Text timerDisplayer;
     public UnityEngine.UI.Text eventDisplayer;
+    public UnityEngine.UI.Image gameoverDisplayer;
+    public UnityEngine.UI.Text tryagainDisplayer;
 
     //public AudioClip hordeJingle; // instant zombies
     //public AudioClip scoreJingle; // extra score
@@ -59,7 +61,8 @@ public class GameDirector : MonoBehaviour {
             currentTime += Time.deltaTime;
             timerDisplayer.text = "" + (int)currentTime;
         } else {
-
+            if (tryagainDisplayer.enabled && Input.GetButton("Attack"))
+                Restart();
         }
     }
 
@@ -134,7 +137,14 @@ public class GameDirector : MonoBehaviour {
     }
 
     public void GameOver() {
+        StartCoroutine(ShowGameOver());
+    }
+
+    public IEnumerator ShowGameOver() {
         isPlaying = false;
+        gameoverDisplayer.enabled = true;
+        yield return new WaitForSeconds(1);
+        tryagainDisplayer.enabled = true;
     }
 
     public void Restart() {
