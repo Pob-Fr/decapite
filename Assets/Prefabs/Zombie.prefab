@@ -20,8 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4991324880733692}
   - component: {fileID: 61329175980788950}
-  - component: {fileID: 114438120531633552}
   - component: {fileID: 50880730261064740}
+  - component: {fileID: 114177196636444840}
   - component: {fileID: 212549701863987958}
   - component: {fileID: 95226236567904208}
   - component: {fileID: 82033844860164502}
@@ -39,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1732878638722534}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -203.90341, y: 315.21204, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -187,7 +187,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114438120531633552
+--- !u!114 &114177196636444840
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -195,7 +195,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1732878638722534}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20e9998d85dfe284dba2d6ccefe36acf, type: 3}
+  m_Script: {fileID: 11500000, guid: 03e8941546f0e1c4d98d922eea4338db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 82033844860164502}
@@ -207,7 +207,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2516d4b41f363074aa174c3f292c3d86, type: 3}
   - {fileID: 8300000, guid: 68ea27b8a4777464bb2ae7f232751835, type: 3}
   isSpawning: 1
-  spawnDuration: 1
+  spawnDuration: 0.75
   currentHealth: 1
   movementSpeed: 1.5
   attackDamage: 1
@@ -215,7 +215,7 @@ MonoBehaviour:
   attackThickness: 0.8
   attackDelay: 0.5
   attackRecoverTime: 0.4
-  deathDuration: 0.65
+  deathDuration: 1
   bodyThickness: 0.4
   bodyWidth: 1
   soundIdle: {fileID: 8300000, guid: a326113a64ccb57479d94e38e1ee514e, type: 3}

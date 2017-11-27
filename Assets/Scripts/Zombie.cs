@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Zombie : Entity {
+public class Zombie : ZombieAbstract {
 
 
     public static Zombie Spawn(GameObject prefab, Vector3 position, GameObject target) {
@@ -16,14 +16,9 @@ public class Zombie : Entity {
     // public bool attackPlayer;
     // public bool attackDice;
 
-    public AudioClip soundIdle;
-    public GameObject target;
-
-    protected Hitable targetHitable {
+    protected new Hitable targetHitable {
         get { return TARGET_HITABLE; }
     }
-
-    protected Hitable TARGET_HITABLE;
 
     protected override void Init() {
         base.Init();
@@ -35,7 +30,6 @@ public class Zombie : Entity {
             if (TARGET_HITABLE == null)
                 Debug.Log("Not a valid target !");
         }
-        audioSource.PlayOneShot(soundSpawn);
     }
 
     public override void Die() {
@@ -50,29 +44,6 @@ public class Zombie : Entity {
             attackSpeedFactor = 0.5f;
             GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.4f, 0.4f);
         }
-    }
-
-    private void Update() {
-        if (isAlive && target != null && !isSpawning) {
-            if (!isAttacking) {
-                Vector2 directionToPlayer = target.transform.position - transform.position;
-                if (Mathf.Abs(directionToPlayer.x) <= attackReach + (bodyWidth + targetHitable.GetBodyWidth()) / 2
-                    && Mathf.Abs(directionToPlayer.y) <= (attackThickness + targetHitable.GetBodyThickness()) / 2) {
-                    Attack();
-                } else {
-                    if (Mathf.Abs(directionToPlayer.x) < Mathf.Abs(directionToPlayer.y)) { // vertical movement only
-                        Move(new Vector2(0, Mathf.Sign(directionToPlayer.y) * 1));
-                    } else {
-                        if (Mathf.Abs(directionToPlayer.y) > 0.5f) { // diagonal movement
-                            Move(new Vector2(Mathf.Sign(directionToPlayer.x) * 1, Mathf.Sign(directionToPlayer.y) * 1));
-                        } else { // horizontal movement
-                            Move(new Vector2(Mathf.Sign(directionToPlayer.x) * 1, 0));
-                        }
-                    }
-                }
-            }
-        }
-        Animate();
     }
 
 }
