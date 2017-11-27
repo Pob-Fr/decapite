@@ -98,9 +98,9 @@ public class GameDirector : MonoBehaviour {
         }
     }
 
-    public void SpawnZombis(int count) {
+    public void SpawnZombis() {
         if (isPlaying) {
-            StartCoroutine(SpawnZombisDelayed(count));
+            StartCoroutine(SpawnZombisDelayed(periodicZombiSpawnCount));
         }
     }
 

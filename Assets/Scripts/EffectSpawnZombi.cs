@@ -1,15 +1,6 @@
 ﻿using UnityEngine;
 
 public class EffectSpawnZombi : Effect {
-    int nbZombi;
-
-    public EffectSpawnZombi(int number) {
-        this.nbZombi = number;
-    }
-
-    public void ChangeNbZombi(int number) {
-        this.nbZombi = number;
-    }
 
     public bool isBonus() {
         return false;
@@ -20,7 +11,7 @@ public class EffectSpawnZombi : Effect {
     }
 
     public void DoSomething() {
-        GameDirector.singleton.SpawnZombis(nbZombi + GameDirector.singleton.periodicZombiSpawnCount);
-        GameDirector.singleton.Event("Zombies !!");
+        GameDirector.singleton.SpawnZombis();
+        GameDirector.singleton.Event("<color=#FF000>Wave !</color>");
     }
 }

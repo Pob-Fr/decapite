@@ -53,12 +53,13 @@ public class Dice : MonoBehaviour, Hitable {
 
         // Init the content of the dice
         diceContent.AddEffectHolder(new EffectHolder(new EffectScore(100), 50));
-        diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnZombi(1), 50));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnZombi(), 50));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnHorde(2), 35));
         diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnHorde(3), 25));
-        diceContent.AddEffectHolder(new EffectHolder(new EffectZombiIncreaseSpawn(1), 25));
-        diceContent.AddEffectHolder(new EffectHolder(new EffectZombiRageFaster(0.5f), 25));
-        diceContent.AddEffectHolder(new EffectHolder(new EffectScore(200), 25));
         diceContent.AddEffectHolder(new EffectHolder(new EffectHealth(1), 25));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectZombiIncreaseSpawn(1), 30));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectZombiRageFaster(1f), 15));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectScore(200), 25));
 
         isUsed = false;
         timeToDie = 3f;
