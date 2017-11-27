@@ -21,6 +21,6 @@ public class EffectZombieIncreaseSpawn : Effect {
 
     public void DoSomething() {
         GameDirector.singleton.IncreaseZombieSpawnCount(zombieSpawnIncr);
-        GameDirector.singleton.Event("<color=#FF0000>Endless !</color>");
+        GameDirector.singleton.Event("<color=#FF0000>Multiplication !</color>");
     }
 }
