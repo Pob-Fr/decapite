@@ -200,20 +200,25 @@ public class GameDirector : MonoBehaviour {
         audioPlayer.clip = gameoverMusic;
         audioPlayer.Play();
         lifeDisplayer.enabled = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         //gameoverDisplayer.enabled = true;
         audioPlayer.PlayOneShot(gameoverJingle, 1f);
         yield return new WaitForSeconds(0.5f);
-        tryagainDisplayer.enabled = true;
         if(currentScore > highScore) {
             highscoreDisplayer.text = "New high score : " + currentScore;
             highscoreDisplayer.enabled = true;
         } else if(highScore > 0) {
-            highscoreDisplayer.text = "High score : " + currentScore;
+            highscoreDisplayer.text = "High score : " + highScore;
+            highscoreDisplayer.enabled = true;
+        } else {
+            highscoreDisplayer.text = "No score";
             highscoreDisplayer.enabled = true;
         }
+        yield return new WaitForSeconds(0.5f);
         zombiekillsDisplayer.text = "Zombie killed : " + zombieKills;
         zombiekillsDisplayer.enabled = true;
+        yield return new WaitForSeconds(0.5f);
+        tryagainDisplayer.enabled = true;
     }
 
     public void Restart() {
