@@ -19,6 +19,8 @@ public abstract class ZombieAbstract : Entity {
 
     public override void Die() {
         base.Die();
+        GetComponent<BoxCollider2D>().enabled = false;
+        Object.Destroy(GetComponent<Rigidbody2D>());
     }
 
     private void Update() {
