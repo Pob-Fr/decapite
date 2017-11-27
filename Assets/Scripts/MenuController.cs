@@ -12,7 +12,7 @@ public class MenuController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetButton("Attack"))
+        if (Input.GetButton("AttackJ")|| Input.GetButton("AttackK"))
             SceneManager.LoadScene("Scenes/Game");
         if (Input.GetButton("Quit"))
             Application.Quit();

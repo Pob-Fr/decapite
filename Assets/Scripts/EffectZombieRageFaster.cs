@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 
-public class EffectZombiRageFaster : Effect {
-    float zombiRageDelayDecr = 0.5f;
+public class EffectZombieRageFaster : Effect {
+    float zombieRageDelayDecr = 0.5f;
 
-    public EffectZombiRageFaster(float decr) {
-        this.zombiRageDelayDecr = decr;
+    public EffectZombieRageFaster(float decr) {
+        this.zombieRageDelayDecr = decr;
     }
 
     public void ChangeZombiDelayDecr(float decr) {
-        this.zombiRageDelayDecr = decr;
+        this.zombieRageDelayDecr = decr;
     }
 
     public bool isBonus() {
@@ -20,7 +20,7 @@ public class EffectZombiRageFaster : Effect {
     }
 
     public void DoSomething() {
-        GameDirector.singleton.DecreaseZombiRageDelay(zombiRageDelayDecr);
+        GameDirector.singleton.DecreaseZombieRageDelay(zombieRageDelayDecr);
         GameDirector.singleton.Event("<color=#FF0000>Frenzy !</color>");
     }
 }

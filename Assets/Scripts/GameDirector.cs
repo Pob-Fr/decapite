@@ -12,20 +12,19 @@ public class GameDirector : MonoBehaviour {
     public int currentScore = 0;
     public double currentTime = 0;
     public int zombieKills = 0;
+    //public int bestDiceStreak = 0;
 
-    public float firstZombiSpawnDelay = 5f;
-    public float periodicZombiSpawnDelay = 10f;
-    public int periodicZombiSpawnCount = 3;
-    public float zombiSpawnInterval = 0.2f;
-    public float zombiRageDelay = 8f;
+    public float firstZombieSpawnDelay = 5f;
+    public float periodicZombieSpawnDelay = 5f;
+    public int periodicZombieSpawnCount = 3;
+    public float zombieSpawnInterval = 0.2f;
+    public float zombieRageDelay = 8f;
 
     public float firstDiceSpawnDelay = 5;
     public float periodicDiceSpawnDelay = 5;
 
 
-    public List<GameObject> zombiPrefabs;
-
-    public GameObject zombiPrefab;
+    public GameObject zombiePrefab;
     public GameObject dicePrefab;
 
     public GameObject player;
@@ -56,8 +55,7 @@ public class GameDirector : MonoBehaviour {
     // Use this for initialization
     void Start() {
         singleton = this;
-        zombiPrefab = zombiPrefabs[0];
-        StartCoroutine(PeriodicZombiSpawn());
+        StartCoroutine(PeriodicZombieSpawn());
         StartCoroutine(PeriodicDiceSpawn());
         EffectSpawnHorde.eventClip = hordeJingle;
     }
@@ -83,49 +81,49 @@ public class GameDirector : MonoBehaviour {
             s = (amount < 10 ? "0" + amount : "" + amount);
             timerDisplayer.text = h + m + s;
         } else {
-            if (tryagainDisplayer.enabled && Input.GetButton("Attack"))
+            if (tryagainDisplayer.enabled && (Input.GetButton("AttackJ") || Input.GetButton("AttackK")))
                 Restart();
         }
     }
 
-    public IEnumerator PeriodicZombiSpawn() {
-        yield return new WaitForSeconds(firstZombiSpawnDelay);
+    public IEnumerator PeriodicZombieSpawn() {
+        yield return new WaitForSeconds(firstZombieSpawnDelay);
         while (true) {
             if (isPlaying) {
-                StartCoroutine(SpawnZombisDelayed(periodicZombiSpawnCount));
-                yield return new WaitForSeconds(periodicZombiSpawnDelay);
+                StartCoroutine(SpawnZombiesDelayed(periodicZombieSpawnCount));
+                yield return new WaitForSeconds(periodicZombieSpawnDelay);
             }
         }
     }
 
-    public void SpawnZombis() {
+    public void SpawnZombies() {
         if (isPlaying) {
-            StartCoroutine(SpawnZombisDelayed(periodicZombiSpawnCount));
+            StartCoroutine(SpawnZombiesDelayed(periodicZombieSpawnCount));
         }
     }
 
     public void SpawnHorde(int multiplier) {
         if (isPlaying) {
-            StartCoroutine(SpawnZombisDelayed(periodicZombiSpawnCount * multiplier));
+            StartCoroutine(SpawnZombiesDelayed(periodicZombieSpawnCount * multiplier));
         }
     }
 
-    public IEnumerator SpawnZombisDelayed(int count) {
+    public IEnumerator SpawnZombiesDelayed(int count) {
         for (int i = 0; i < count; i++) {
             if (isPlaying) {
-                SpawnZombi();
-                yield return new WaitForSeconds(zombiSpawnInterval);
+                SpawnZombie();
+                yield return new WaitForSeconds(zombieSpawnInterval);
             }
         }
     }
 
-    public void SpawnZombi() {
+    public void SpawnZombie() {
         if (isPlaying) {
             float x = Random.Range(-16, 16);
             float y = Random.Range(-9, 3);
 
-            Zombi z = Zombi.Spawn(zombiPrefab, new Vector3(x, y, y), player);
-            z.StartCoroutine(z.Enrage(zombiRageDelay));
+            Zombie z = Zombie.Spawn(zombiePrefab, new Vector3(x, y, y), player);
+            z.StartCoroutine(z.Enrage(zombieRageDelay));
         }
     }
 
@@ -156,15 +154,15 @@ public class GameDirector : MonoBehaviour {
         }
     }
 
-    public void IncreaseZombiSpawnCount(int incr) {
+    public void IncreaseZombieSpawnCount(int incr) {
         if (isPlaying) {
-            periodicZombiSpawnCount += incr;
+            periodicZombieSpawnCount += incr;
         }
     }
 
-    public void DecreaseZombiRageDelay(float decr) {
+    public void DecreaseZombieRageDelay(float decr) {
         if (isPlaying) {
-            zombiRageDelay -= decr;
+            zombieRageDelay -= decr;
         }
     }
 
@@ -223,7 +221,7 @@ public class GameDirector : MonoBehaviour {
             highscoreDisplayer.enabled = true;
         }
         yield return new WaitForSeconds(0.5f);
-        zombiekillsDisplayer.text = "Zombie killed : " + zombieKills;
+        zombiekillsDisplayer.text = "Zombies killed : " + zombieKills;
         zombiekillsDisplayer.enabled = true;
         yield return new WaitForSeconds(0.5f);
         tryagainDisplayer.enabled = true;

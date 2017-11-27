@@ -55,12 +55,12 @@ public class Dice : MonoBehaviour, Hitable {
 
         // Init the content of the dice
         diceContent.AddEffectHolder(new EffectHolder(new EffectScore(100), 50));
-        diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnZombi(), 50));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnZombie(), 50));
         diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnHorde(2), 35));
         diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnHorde(3), 25));
         diceContent.AddEffectHolder(new EffectHolder(new EffectHealth(1), 25));
-        diceContent.AddEffectHolder(new EffectHolder(new EffectZombiIncreaseSpawn(1), 30));
-        diceContent.AddEffectHolder(new EffectHolder(new EffectZombiRageFaster(1f), 15));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectZombieIncreaseSpawn(1), 30));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectZombieRageFaster(1f), 15));
         diceContent.AddEffectHolder(new EffectHolder(new EffectScore(200), 25));
 
         isUsed = false;
@@ -161,6 +161,11 @@ public class Dice : MonoBehaviour, Hitable {
         Effect effect = diceContent.RandomEffect();
         if (kills > 7)
             GameDirector.singleton.PlayerPunchLine();
+
+        //if (kills > GameDirector.singleton.bestDiceStreak) {
+        //    GameDirector.singleton.bestDiceStreak = kills;
+        //    GameDirector.singleton.PlayerPunchLine();
+        //}
         kills = 0;
         effect.DoSomething();
         if (effect.isBonus())

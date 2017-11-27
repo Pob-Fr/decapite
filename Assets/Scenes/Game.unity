@@ -1128,15 +1128,14 @@ MonoBehaviour:
   currentScore: 0
   currentTime: 0
   zombieKills: 0
-  firstZombiSpawnDelay: 5
-  periodicZombiSpawnDelay: 5
-  periodicZombiSpawnCount: 3
-  zombiSpawnInterval: 0.2
+  firstZombieSpawnDelay: 5
+  periodicZombieSpawnDelay: 5
+  periodicZombieSpawnCount: 3
+  zombieSpawnInterval: 0.2
+  zombieRageDelay: 5
   firstDiceSpawnDelay: 5
   periodicDiceSpawnDelay: 5
-  zombiPrefabs:
-  - {fileID: 1732878638722534, guid: 4c51d4b754213854eabd45506f0d7752, type: 2}
-  zombiPrefab: {fileID: 1732878638722534, guid: 4c51d4b754213854eabd45506f0d7752,
+  zombiePrefab: {fileID: 1732878638722534, guid: 4c51d4b754213854eabd45506f0d7752,
     type: 2}
   dicePrefab: {fileID: 1632464331374832, guid: fa562dc40d383bf4cb83d01db3d12d93, type: 2}
   player: {fileID: 753152948}

@@ -14,7 +14,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
 
     public bool isSpawning = false;
     public float spawnDuration = 1f;
-    
+
     public int currentHealth;
 
     public bool isAlive {

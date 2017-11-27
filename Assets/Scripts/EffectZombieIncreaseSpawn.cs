@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 
-public class EffectZombiIncreaseSpawn : Effect {
-    int zombiSpawnIncr = 1;
+public class EffectZombieIncreaseSpawn : Effect {
+    int zombieSpawnIncr = 1;
 
-    public EffectZombiIncreaseSpawn(int incr) {
-        this.zombiSpawnIncr = incr;
+    public EffectZombieIncreaseSpawn(int incr) {
+        this.zombieSpawnIncr = incr;
     }
 
     public void ChangeNbZombiIncr(int incr) {
-        this.zombiSpawnIncr = incr;
+        this.zombieSpawnIncr = incr;
     }
 
     public bool isBonus() {
@@ -20,7 +20,7 @@ public class EffectZombiIncreaseSpawn : Effect {
     }
 
     public void DoSomething() {
-        GameDirector.singleton.IncreaseZombiSpawnCount(zombiSpawnIncr);
+        GameDirector.singleton.IncreaseZombieSpawnCount(zombieSpawnIncr);
         GameDirector.singleton.Event("<color=#FF0000>Endless !</color>");
     }
 }

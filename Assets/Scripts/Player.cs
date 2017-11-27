@@ -28,9 +28,9 @@ public class Player : Entity {
 
     // Update is called once per frame
     private void Update() {
-        if (isAlive && !isAttacking) {
+        if (isAlive) {
             Move(GetMoveInput());
-            if (Input.GetButton("Attack")) {
+            if (!isAttacking && Input.GetButton("AttackJ") || Input.GetButton("AttackK")) {
                 Attack();
             }
         }
