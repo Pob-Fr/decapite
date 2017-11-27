@@ -25,7 +25,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     public float movementSpeedFactor {
         set {
             MOVEMENT_SPEED_FACTOR = value;
-            animatorController.SetFloat("walkDuration", 1f / MOVEMENT_SPEED_FACTOR);
+            animatorController.SetFloat("walkDuration", 1f * MOVEMENT_SPEED_FACTOR);
         }
         get { return MOVEMENT_SPEED_FACTOR; }
     }

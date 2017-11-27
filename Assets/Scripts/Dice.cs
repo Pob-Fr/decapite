@@ -46,9 +46,6 @@ public class Dice : MonoBehaviour, Hitable {
     // Use this for initialization
     void Start() {
         // Init variables
-        //spriteRender = this.gameObject.transform.GetChild(0);
-        //audioSource = GetComponent<AudioSource>();
-        //animator = spriteRender.GetComponent<Animator>();
 
         crushAreaMin = new Vector2(-bodyWidth / 2, -bodyThickness / 2);
         crushAreaMax = new Vector2(bodyWidth / 2, bodyThickness / 2);
@@ -159,13 +156,11 @@ public class Dice : MonoBehaviour, Hitable {
         yield return new WaitForSeconds(timeToDie);
         // Run the effect
         Effect effect = diceContent.RandomEffect();
-        if (kills > 7)
-            GameDirector.singleton.PlayerPunchLine();
 
-        //if (kills > GameDirector.singleton.bestDiceStreak) {
-        //    GameDirector.singleton.bestDiceStreak = kills;
-        //    GameDirector.singleton.PlayerPunchLine();
-        //}
+        if (kills > ScoreHelper.bestDiceStreak) {
+            ScoreHelper.bestDiceStreak = kills;
+            GameDirector.singleton.PlayerPunchLine();
+        }
         kills = 0;
         effect.DoSomething();
         if (effect.isBonus())

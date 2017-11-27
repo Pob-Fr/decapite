@@ -38,7 +38,8 @@ public class GameDirector : MonoBehaviour {
     public UnityEngine.UI.Text lifeDisplayer;
     public UnityEngine.UI.Image gameoverDisplayer;
     public UnityEngine.UI.Text highscoreDisplayer;
-    public UnityEngine.UI.Text zombiekillsDisplayer;
+    public UnityEngine.UI.Text totalZombiekillsDisplayer;
+    public UnityEngine.UI.Text bestDiceStreakDisplayer;
     public UnityEngine.UI.Text tryagainDisplayer;
 
     public AudioClip hordeJingle; // instant zombies
@@ -216,8 +217,11 @@ public class GameDirector : MonoBehaviour {
             highscoreDisplayer.enabled = true;
         }
         yield return new WaitForSeconds(0.5f);
-        zombiekillsDisplayer.text = "Zombies killed : " + ScoreHelper.totalZombieKills;
-        zombiekillsDisplayer.enabled = true;
+        totalZombiekillsDisplayer.text = "Total Zombie kills : " + ScoreHelper.totalZombieKills;
+        totalZombiekillsDisplayer.enabled = true;
+        yield return new WaitForSeconds(0.5f);
+        bestDiceStreakDisplayer.text = "Best dice streak : " + ScoreHelper.bestDiceStreak;
+        bestDiceStreakDisplayer.enabled = true;
         yield return new WaitForSeconds(0.5f);
         tryagainDisplayer.enabled = true;
     }
