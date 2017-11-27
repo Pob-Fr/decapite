@@ -20,7 +20,7 @@ public class EffectHealth : Effect {
     }
 
     public void DoSomething() {
-        GameDirector.singleton.UpdatePlayerHealth(GameDirector.singleton.player.GetComponent<Player>().currentHealth += hp);
+        GameDirector.singleton.HealPlayer(hp);
         GameDirector.singleton.Event("Life +" + hp + " !");
     }
 }

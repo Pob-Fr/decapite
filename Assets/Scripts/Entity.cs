@@ -14,8 +14,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
 
     public bool isSpawning = false;
     public float spawnDuration = 1f;
-
-    public int maxHealth = 1;
+    
     public int currentHealth;
 
     public bool isAlive {
@@ -75,7 +74,6 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     }
 
     protected virtual void Init() {
-        currentHealth = maxHealth;
         attackAreaLeftMin = new Vector2(-(bodyWidth / 2f), -attackThickness / 2f);
         attackAreaLeftMax = new Vector2(-(attackReach + bodyWidth / 2f), attackThickness / 2f);
         attackAreaRightMin = new Vector2(bodyWidth / 2f, -attackThickness / 2);
@@ -125,6 +123,12 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
         }
     }
 
+    public virtual void Heal(int heal) {
+        if (isAlive) {
+            currentHealth += heal;
+        }
+    }
+
     public virtual void GetHit(int damage) {
         if (isAlive) {
             audioSource.PlayOneShot(soundDamaged);
@@ -138,7 +142,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
         }
     }
 
-    public void GetHit(int damage, Entity hitter) {
+    public virtual void GetHit(int damage, Entity hitter) {
         GetHit(damage);
     }
 

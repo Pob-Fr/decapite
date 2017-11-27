@@ -208,8 +208,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 68ea27b8a4777464bb2ae7f232751835, type: 3}
   isSpawning: 1
   spawnDuration: 1
-  maxHealth: 1
-  currentHealth: 0
+  currentHealth: 1
   movementSpeed: 1.5
   attackDamage: 1
   attackReach: 1

@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Zombi : Entity {
-    public AudioClip soundIdle;
 
 
-    public static void Spawn(GameObject prefab, Vector3 position, GameObject target) {
+    public static Zombi Spawn(GameObject prefab, Vector3 position, GameObject target) {
         GameObject zombi = GameObject.Instantiate(prefab);
         zombi.transform.position = position;
         Zombi z = zombi.GetComponent<Zombi>();
         z.target = target;
+        return z;
     }
 
     // public bool attackPlayer;
     // public bool attackDice;
 
+    public AudioClip soundIdle;
     public GameObject target;
 
     protected Hitable targetHitable {
@@ -35,7 +36,6 @@ public class Zombi : Entity {
                 Debug.Log("Not a valid target !");
         }
         audioSource.PlayOneShot(soundSpawn);
-        StartCoroutine(Enrage());
     }
 
     public override void Die() {
@@ -43,9 +43,9 @@ public class Zombi : Entity {
         GameDirector.singleton.zombieKills++;
     }
 
-    private IEnumerator Enrage() {
+    public IEnumerator Enrage(float rageDelay) {
         if (isAlive) {
-            yield return new WaitForSeconds(6f);
+            yield return new WaitForSeconds(rageDelay);
             movementSpeedFactor = 2.5f;
             attackSpeedFactor = 0.5f;
             GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.4f, 0.4f);

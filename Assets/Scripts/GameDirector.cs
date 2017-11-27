@@ -13,10 +13,11 @@ public class GameDirector : MonoBehaviour {
     public double currentTime = 0;
     public int zombieKills = 0;
 
-    public float firstZombiSpawnDelay = 5;
-    public float periodicZombiSpawnDelay = 10;
+    public float firstZombiSpawnDelay = 5f;
+    public float periodicZombiSpawnDelay = 10f;
     public int periodicZombiSpawnCount = 3;
     public float zombiSpawnInterval = 0.2f;
+    public float zombiRageDelay = 8f;
 
     public float firstDiceSpawnDelay = 5;
     public float periodicDiceSpawnDelay = 5;
@@ -123,7 +124,8 @@ public class GameDirector : MonoBehaviour {
             float x = Random.Range(-16, 16);
             float y = Random.Range(-9, 3);
 
-            Zombi.Spawn(zombiPrefab, new Vector3(x, y, y), player);
+            Zombi z = Zombi.Spawn(zombiPrefab, new Vector3(x, y, y), player);
+            z.StartCoroutine(z.Enrage(zombiRageDelay));
         }
     }
 
@@ -160,9 +162,9 @@ public class GameDirector : MonoBehaviour {
         }
     }
 
-    public void DecreaseZombiSpawnDelay(float decr) {
+    public void DecreaseZombiRageDelay(float decr) {
         if (isPlaying) {
-            periodicZombiSpawnDelay -= decr;
+            zombiRageDelay -= decr;
         }
     }
 
@@ -180,6 +182,12 @@ public class GameDirector : MonoBehaviour {
     public void PlayerPunchLine() {
         if (isPlaying)
             player.GetComponent<Player>().PunchLine();
+    }
+
+    public void HealPlayer(int health) {
+        if (isPlaying) {
+            player.GetComponent<Player>().Heal(health);
+        }
     }
 
     public void UpdatePlayerHealth(int health) {
@@ -204,10 +212,10 @@ public class GameDirector : MonoBehaviour {
         //gameoverDisplayer.enabled = true;
         audioPlayer.PlayOneShot(gameoverJingle, 1f);
         yield return new WaitForSeconds(0.5f);
-        if(currentScore > highScore) {
+        if (currentScore > highScore) {
             highscoreDisplayer.text = "New high score : " + currentScore;
             highscoreDisplayer.enabled = true;
-        } else if(highScore > 0) {
+        } else if (highScore > 0) {
             highscoreDisplayer.text = "High score : " + highScore;
             highscoreDisplayer.enabled = true;
         } else {

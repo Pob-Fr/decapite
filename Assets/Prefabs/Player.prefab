@@ -206,8 +206,7 @@ MonoBehaviour:
   soundsBatHit: []
   isSpawning: 0
   spawnDuration: 1
-  maxHealth: 3
-  currentHealth: 0
+  currentHealth: 3
   movementSpeed: 4
   attackDamage: 1
   attackReach: 2

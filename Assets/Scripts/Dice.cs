@@ -56,7 +56,7 @@ public class Dice : MonoBehaviour, Hitable {
         diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnZombi(1), 50));
         diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnHorde(3), 25));
         diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnZombiMore(1), 25));
-        diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnZombiFaster(0.5f), 25));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectZombiRageFaster(0.5f), 25));
         diceContent.AddEffectHolder(new EffectHolder(new EffectScore(200), 25));
         diceContent.AddEffectHolder(new EffectHolder(new EffectHealth(1), 25));
 

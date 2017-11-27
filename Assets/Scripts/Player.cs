@@ -29,7 +29,7 @@ public class Player : Entity {
     // Update is called once per frame
     private void Update() {
         if (isAlive && !isAttacking) {
-            Move(GetInput());
+            Move(GetMoveInput());
             if (Input.GetButton("Attack")) {
                 Attack();
             }
@@ -37,12 +37,17 @@ public class Player : Entity {
         Animate();
     }
 
-    private Vector2 GetInput() {
+    private Vector2 GetMoveInput() {
         Vector2 output = new Vector2(Input.GetAxisRaw("HorizontalJ") + Input.GetAxisRaw("HorizontalK"),
             Input.GetAxisRaw("VerticalJ") + Input.GetAxisRaw("VerticalK"));
         if (output.magnitude < 0.5f)
             output = Vector2.zero;
         return output;
+    }
+
+    public override void Heal(int heal) {
+        base.Heal(heal);
+        GameDirector.singleton.UpdatePlayerHealth(currentHealth);
     }
 
     public override void GetHit(int damage) {
