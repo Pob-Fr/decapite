@@ -10,7 +10,7 @@ public class Dice : MonoBehaviour, Hitable {
         //dice.GetComponent<Dice>();
     }
 
-    Transform spriteRender;
+    public Transform spriteRender;
     AudioSource audioSource;
     public List<AudioClip> sounds;
     public AudioClip clipBonus;
@@ -44,7 +44,7 @@ public class Dice : MonoBehaviour, Hitable {
     // Use this for initialization
     void Start() {
         // Init variables
-        spriteRender = this.gameObject.transform.GetChild(0);
+        //spriteRender = this.gameObject.transform.GetChild(0);
         audioSource = GetComponent<AudioSource>();
         animator = spriteRender.GetComponent<Animator>();
 
