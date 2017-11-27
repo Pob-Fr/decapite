@@ -19,7 +19,6 @@ public abstract class ZombieAbstract : Entity {
 
     public override void Die() {
         base.Die();
-        GameDirector.singleton.zombieKills++;
     }
 
     private void Update() {

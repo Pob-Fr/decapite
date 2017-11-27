@@ -34,7 +34,7 @@ public class Zombie : ZombieAbstract {
 
     public override void Die() {
         base.Die();
-        GameDirector.singleton.zombieKills++;
+        ScoreHelper.totalZombieKills++;
     }
 
     public IEnumerator Enrage(float rageDelay) {

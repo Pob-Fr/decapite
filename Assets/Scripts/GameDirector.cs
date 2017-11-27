@@ -6,13 +6,8 @@ using UnityEngine.SceneManagement;
 public class GameDirector : MonoBehaviour {
 
     public static GameDirector singleton;
-    public static int highScore = 0;
 
     private bool isPlaying = true;
-    public int currentScore = 0;
-    public double currentTime = 0;
-    public int zombieKills = 0;
-    //public int bestDiceStreak = 0;
 
     public float firstZombieSpawnDelay = 5f;
     public float periodicZombieSpawnDelay = 5f;
@@ -55,9 +50,10 @@ public class GameDirector : MonoBehaviour {
     // Use this for initialization
     void Start() {
         singleton = this;
+        ScoreHelper.Reset();
+        EffectSpawnHorde.eventClip = hordeJingle;
         StartCoroutine(PeriodicZombieSpawn());
         StartCoroutine(PeriodicDiceSpawn());
-        EffectSpawnHorde.eventClip = hordeJingle;
     }
 
     void Update() {
@@ -66,18 +62,18 @@ public class GameDirector : MonoBehaviour {
         if (Input.GetButton("Quit"))
             Application.Quit();
         if (isPlaying) {
-            currentTime += Time.deltaTime;
+            float currentGameTime = ScoreHelper.totalTimeSurvived += Time.deltaTime;
             string h = "", m = "", s = "";
             int amount;
-            if (currentTime > 3600) {
-                amount = ((int)currentTime) / 3600;
+            if (currentGameTime > 3600) {
+                amount = ((int)currentGameTime) / 3600;
                 h = (amount < 10 ? "0" + amount : "" + amount) + ":";
             }
-            if (currentTime > 60) {
-                amount = (((int)currentTime) % 3600) / 60;
+            if (currentGameTime > 60) {
+                amount = (((int)currentGameTime) % 3600) / 60;
                 m = (amount < 10 ? "0" + amount : "" + amount) + ":";
             }
-            amount = (((int)currentTime) % 60);
+            amount = (((int)currentGameTime) % 60);
             s = (amount < 10 ? "0" + amount : "" + amount);
             timerDisplayer.text = h + m + s;
         } else {
@@ -147,10 +143,9 @@ public class GameDirector : MonoBehaviour {
 
     public void AddScore(int score) {
         if (isPlaying) {
-            currentScore += score;
+            scoreDisplayer.text = "" + (ScoreHelper.currentScore += score);
             if (!scoreDisplayer.enabled)
                 scoreDisplayer.enabled = true;
-            scoreDisplayer.text = "" + currentScore;
         }
     }
 
@@ -210,18 +205,18 @@ public class GameDirector : MonoBehaviour {
         //gameoverDisplayer.enabled = true;
         audioPlayer.PlayOneShot(gameoverJingle, 1f);
         yield return new WaitForSeconds(0.5f);
-        if (currentScore > highScore) {
-            highscoreDisplayer.text = "New high score : " + currentScore;
+        if (ScoreHelper.currentScore > ScoreHelper.highScore) {
+            highscoreDisplayer.text = "New high score : " + (ScoreHelper.highScore = ScoreHelper.currentScore);
             highscoreDisplayer.enabled = true;
-        } else if (highScore > 0) {
-            highscoreDisplayer.text = "High score : " + highScore;
+        } else if (ScoreHelper.highScore > 0) {
+            highscoreDisplayer.text = "High score : " + ScoreHelper.highScore;
             highscoreDisplayer.enabled = true;
         } else {
             highscoreDisplayer.text = "No score";
             highscoreDisplayer.enabled = true;
         }
         yield return new WaitForSeconds(0.5f);
-        zombiekillsDisplayer.text = "Zombies killed : " + zombieKills;
+        zombiekillsDisplayer.text = "Zombies killed : " + ScoreHelper.totalZombieKills;
         zombiekillsDisplayer.enabled = true;
         yield return new WaitForSeconds(0.5f);
         tryagainDisplayer.enabled = true;

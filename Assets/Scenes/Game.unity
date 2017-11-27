@@ -1051,7 +1051,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -1125,9 +1125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17a1b8b6252f69346bfbe676f9af1c87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentScore: 0
-  currentTime: 0
-  zombieKills: 0
   firstZombieSpawnDelay: 5
   periodicZombieSpawnDelay: 5
   periodicZombieSpawnCount: 3
