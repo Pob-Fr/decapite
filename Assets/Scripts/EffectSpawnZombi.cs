@@ -12,6 +12,6 @@ public class EffectSpawnZombi : Effect {
 
     public void DoSomething() {
         GameDirector.singleton.SpawnZombis();
-        GameDirector.singleton.Event("<color=#FF000>Wave !</color>");
+        GameDirector.singleton.Event("<color=#FF0000>Wave !</color>");
     }
 }

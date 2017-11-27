@@ -237,6 +237,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRender: {fileID: 4741411178661904}
+  audioSource: {fileID: 82193449292740810}
+  animator: {fileID: 95258474821542400}
   sounds:
   - {fileID: 8300000, guid: df820cfeaed72fa4a8c8d9e34507a96c, type: 3}
   - {fileID: 8300000, guid: fa5a37a0362c9874d9eef64b0a60d6fe, type: 3}

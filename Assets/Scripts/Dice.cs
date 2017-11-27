@@ -11,11 +11,13 @@ public class Dice : MonoBehaviour, Hitable {
     }
 
     public Transform spriteRender;
-    AudioSource audioSource;
+    public AudioSource audioSource;
+    public Animator animator;
+
     public List<AudioClip> sounds;
+
     public AudioClip clipBonus;
     public AudioClip clipMalus;
-    Animator animator;
 
     public int life;
 
@@ -45,8 +47,8 @@ public class Dice : MonoBehaviour, Hitable {
     void Start() {
         // Init variables
         //spriteRender = this.gameObject.transform.GetChild(0);
-        audioSource = GetComponent<AudioSource>();
-        animator = spriteRender.GetComponent<Animator>();
+        //audioSource = GetComponent<AudioSource>();
+        //animator = spriteRender.GetComponent<Animator>();
 
         crushAreaMin = new Vector2(-bodyWidth / 2, -bodyThickness / 2);
         crushAreaMax = new Vector2(bodyWidth / 2, bodyThickness / 2);

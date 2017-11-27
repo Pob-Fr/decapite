@@ -21,6 +21,6 @@ public class EffectScore : Effect {
 
     public void DoSomething() {
         GameDirector.singleton.AddScore(score);
-        GameDirector.singleton.Event("Score +" + score + " !");
+        GameDirector.singleton.Event("Score <color=#FFFF00>+" + score + "</color> !");
     }
 }

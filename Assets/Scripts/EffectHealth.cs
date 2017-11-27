@@ -21,6 +21,6 @@ public class EffectHealth : Effect {
 
     public void DoSomething() {
         GameDirector.singleton.HealPlayer(hp);
-        GameDirector.singleton.Event("Life +" + hp + " !");
+        GameDirector.singleton.Event("Life <color=#00FF00>+" + hp + "</color> !");
     }
 }
