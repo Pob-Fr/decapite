@@ -3,7 +3,7 @@
 public class EffectScore : Effect {
     int score;
 
-    public EffectScore(int score) {
+    public EffectScore(Dice dice, int score) : base(dice) {
         this.score = score;
     }
 
@@ -11,15 +11,11 @@ public class EffectScore : Effect {
         this.score = score;
     }
 
-    public bool isBonus() {
+    public override bool isBonus() {
         return true;
     }
 
-    public bool isMalus() {
-        return false;
-    }
-
-    public void DoSomething() {
+    public override void DoSomething() {
         GameDirector.singleton.AddScore(score);
         GameDirector.singleton.Event("Score <color=#FFFF00>+" + score + "</color> !");
     }

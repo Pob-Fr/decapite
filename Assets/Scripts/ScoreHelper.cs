@@ -8,6 +8,7 @@ public abstract class ScoreHelper {
 
     public static int currentScore = 0;
     public static int totalZombieKills = 0;
+    public static int totalMaggotKills = 0;
     public static int bestDiceStreak = 0;
     public static float totalTimeSurvived = 0;
 

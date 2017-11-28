@@ -2,15 +2,15 @@
 
 public class EffectSpawnZombie : Effect {
 
-    public bool isBonus() {
-        return false;
+    public EffectSpawnZombie(Dice dice) : base(dice) {
+
     }
 
-    public bool isMalus() {
+    public override bool isMalus() {
         return true;
     }
 
-    public void DoSomething() {
+    public override void DoSomething() {
         GameDirector.singleton.SpawnZombies();
         GameDirector.singleton.Event("<color=#FF0000>Wave !</color>");
     }

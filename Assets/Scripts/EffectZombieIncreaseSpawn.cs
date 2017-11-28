@@ -3,7 +3,7 @@
 public class EffectZombieIncreaseSpawn : Effect {
     int zombieSpawnIncr = 1;
 
-    public EffectZombieIncreaseSpawn(int incr) {
+    public EffectZombieIncreaseSpawn(Dice dice, int incr) : base(dice) {
         this.zombieSpawnIncr = incr;
     }
 
@@ -11,16 +11,12 @@ public class EffectZombieIncreaseSpawn : Effect {
         this.zombieSpawnIncr = incr;
     }
 
-    public bool isBonus() {
-        return false;
-    }
-
-    public bool isMalus() {
+    public override bool isMalus() {
         return true;
     }
 
-    public void DoSomething() {
+    public override void DoSomething() {
         GameDirector.singleton.IncreaseZombieSpawnCount(zombieSpawnIncr);
-        GameDirector.singleton.Event("<color=#FF0000>Multiplication !</color>");
+        GameDirector.singleton.Event("<color=#FF0000>Infestation !</color>");
     }
 }

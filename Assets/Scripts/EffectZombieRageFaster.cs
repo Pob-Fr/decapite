@@ -3,7 +3,7 @@
 public class EffectZombieRageFaster : Effect {
     float zombieRageDelayDecr = 0.5f;
 
-    public EffectZombieRageFaster(float decr) {
+    public EffectZombieRageFaster(Dice dice, float decr) : base(dice) {
         this.zombieRageDelayDecr = decr;
     }
 
@@ -11,15 +11,11 @@ public class EffectZombieRageFaster : Effect {
         this.zombieRageDelayDecr = decr;
     }
 
-    public bool isBonus() {
-        return false;
-    }
-
-    public bool isMalus() {
+    public override bool isMalus() {
         return true;
     }
 
-    public void DoSomething() {
+    public override void DoSomething() {
         GameDirector.singleton.DecreaseZombieRageDelay(zombieRageDelayDecr);
         GameDirector.singleton.Event("<color=#FF0000>Frenzy !</color>");
     }

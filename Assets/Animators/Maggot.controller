@@ -5,7 +5,7 @@ AnimatorController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Zombie
+  m_Name: Maggot
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: isWalking
@@ -243,7 +243,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: ZombieDeath
+  m_Name: MaggotDeath
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -256,7 +256,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 97298af8d0d0880468c7390e13193789, type: 2}
+  m_Motion: {fileID: 7400000, guid: 6475187b5781b3b43ad6ed9f8ddfa696, type: 2}
   m_Tag: 
   m_SpeedParameter: deathDuration
   m_MirrorParameter: 
@@ -268,7 +268,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: ZombieAttack
+  m_Name: MaggotAttack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -282,7 +282,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 29fc8a071b0faca479def73104fb590b, type: 2}
+  m_Motion: {fileID: 7400000, guid: bdd9456c29a49d746ba8ce83cf87eb63, type: 2}
   m_Tag: 
   m_SpeedParameter: attackDuration
   m_MirrorParameter: 
@@ -294,7 +294,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: ZombieIdle
+  m_Name: MaggotIdle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -311,7 +311,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 50b9a75dcf12e8f4cbc1e1e18c536f68, type: 2}
+  m_Motion: {fileID: 7400000, guid: 076b20e61a7431c4e9592fc1b4b46aa4, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -323,7 +323,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: ZombieWalk
+  m_Name: MaggotWalk
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -337,7 +337,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 63555fd55c8495b428e04d8fe2c08cde, type: 2}
+  m_Motion: {fileID: 7400000, guid: a04664b47e287c34db14c7146003c824, type: 2}
   m_Tag: 
   m_SpeedParameter: walkDuration
   m_MirrorParameter: 
@@ -349,7 +349,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: ZombieSpawn
+  m_Name: MaggotSpawn
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -363,7 +363,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: b219bb532f02a464b8a1d62916a1c1a0, type: 2}
+  m_Motion: {fileID: 7400000, guid: fc1b80cfde2674140bf0a469a22efdcd, type: 2}
   m_Tag: 
   m_SpeedParameter: spawnDuration
   m_MirrorParameter: 

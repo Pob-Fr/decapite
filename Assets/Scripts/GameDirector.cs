@@ -20,6 +20,7 @@ public class GameDirector : MonoBehaviour {
 
 
     public GameObject zombiePrefab;
+    public GameObject maggotPrefab;
     public GameObject dicePrefab;
 
     public GameObject player;
@@ -116,11 +117,30 @@ public class GameDirector : MonoBehaviour {
 
     public void SpawnZombie() {
         if (isPlaying) {
-            float x = Random.Range(-16, 16);
-            float y = Random.Range(-9, 3);
+            float x = Random.Range(-16f, 16f);
+            float y = Random.Range(-9f, 3f);
 
             Zombie z = Zombie.Spawn(zombiePrefab, new Vector3(x, y, y), player);
             z.StartCoroutine(z.Enrage(zombieRageDelay));
+        }
+    }
+
+    public void SpawnMaggots(Vector2 position, int count) {
+        for (int i = 0; i < count; i++) {
+            if (isPlaying) {
+                SpawnMaggot(position);
+            }
+        }
+    }
+
+    public void SpawnMaggot(Vector2 position) {
+        if (isPlaying) {
+            float x = Random.Range(-2f, 2f);
+            float y = Random.Range(-2f, 2f);
+
+            Maggot m = Maggot.Spawn(maggotPrefab, new Vector3(position.x + x, position.y + y, position.y + y), player);
+            if (x < 0)
+                m.isLookinkRight = false;
         }
     }
 
@@ -136,8 +156,8 @@ public class GameDirector : MonoBehaviour {
 
     public void SpawnDice() {
         if (isPlaying) {
-            float x = Random.Range(-16, 16);
-            float y = Random.Range(-9, 3);
+            float x = Random.Range(-16f, 16f);
+            float y = Random.Range(-9f, 3f);
             Dice.Spawn(dicePrefab, new Vector3(x, y, y));
         }
     }

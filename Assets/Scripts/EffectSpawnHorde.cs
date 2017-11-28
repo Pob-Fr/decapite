@@ -6,7 +6,7 @@ public class EffectSpawnHorde : Effect {
 
     int multiplier;
 
-    public EffectSpawnHorde(int number) {
+    public EffectSpawnHorde(Dice dice, int number) : base(dice) {
         this.multiplier = number;
     }
 
@@ -14,15 +14,11 @@ public class EffectSpawnHorde : Effect {
         this.multiplier = number;
     }
 
-    public bool isBonus() {
-        return false;
-    }
-
-    public bool isMalus() {
+    public override bool isMalus() {
         return true;
     }
 
-    public void DoSomething() {
+    public override void DoSomething() {
         GameDirector.singleton.SpawnHorde(multiplier);
         GameDirector.singleton.Event("<color=#FF0000>Horde x" + multiplier + " !!!</color>", eventClip);
         GameDirector.singleton.ShakeCamera(10);

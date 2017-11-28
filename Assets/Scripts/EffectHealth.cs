@@ -3,7 +3,7 @@
 public class EffectHealth : Effect {
     int hp;
 
-    public EffectHealth(int hp) {
+    public EffectHealth(Dice dice, int hp) : base(dice){
         this.hp = hp;
     }
 
@@ -11,15 +11,11 @@ public class EffectHealth : Effect {
         this.hp = hp;
     }
 
-    public bool isBonus() {
+    public override bool isBonus() {
         return true;
     }
 
-    public bool isMalus() {
-        return false;
-    }
-
-    public void DoSomething() {
+    public override void DoSomething() {
         GameDirector.singleton.HealPlayer(hp);
         GameDirector.singleton.Event("Life <color=#00FF00>+" + hp + "</color> !");
     }

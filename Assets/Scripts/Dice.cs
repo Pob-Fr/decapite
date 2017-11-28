@@ -51,14 +51,15 @@ public class Dice : MonoBehaviour, Hitable {
         crushAreaMax = new Vector2(bodyWidth / 2, bodyThickness / 2);
 
         // Init the content of the dice
-        diceContent.AddEffectHolder(new EffectHolder(new EffectScore(100), 50));
-        diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnZombie(), 40));
-        diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnHorde(2), 30));
-        diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnHorde(3), 20));
-        diceContent.AddEffectHolder(new EffectHolder(new EffectHealth(1), 30));
-        diceContent.AddEffectHolder(new EffectHolder(new EffectZombieIncreaseSpawn(1), 50));
-        diceContent.AddEffectHolder(new EffectHolder(new EffectZombieRageFaster(1f), 10));
-        diceContent.AddEffectHolder(new EffectHolder(new EffectScore(200), 30));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectScore(this,100), 50));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnZombie(this), 40));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnHorde(this, 2), 30));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnMaggot(this), 50));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnHorde(this, 3), 20));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectHealth(this, 1), 30));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectZombieIncreaseSpawn(this, 1), 50));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectZombieRageFaster(this, 1f), 10));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectScore(this, 200), 30));
 
         isUsed = false;
         timeToDie = 3f;

@@ -58,7 +58,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     protected Vector3 attackAreaRightMin;
     protected Vector3 attackAreaRightMax;
 
-    protected bool isLookinkRight = true;
+    public bool isLookinkRight = true;
 
     protected BoxCollider2D collisionBox;
     protected Animator animatorController;
