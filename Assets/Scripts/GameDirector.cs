@@ -78,7 +78,7 @@ public class GameDirector : MonoBehaviour {
             s = (amount < 10 ? "0" + amount : "" + amount);
             timerDisplayer.text = h + m + s;
         } else {
-            if (tryagainDisplayer.enabled && (Input.GetButton("AttackJ") || Input.GetButton("AttackK")))
+            if (tryagainDisplayer.enabled && (Input.GetButton("AttackC") || Input.GetButton("AttackK")))
                 Restart();
         }
     }
