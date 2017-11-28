@@ -4,26 +4,30 @@ using UnityEngine;
 public abstract class ZombieAbstract : Entity {
 
     public AudioClip soundIdle;
-    public GameObject target;
+
     protected Vector2 roamDirection;
 
+    protected TargetAbstract TARGET_HELPER;
 
-    protected Hitable targetHitable {
-        get { return TARGET_HITABLE; }
+    public GameObject target {
+        get { return TARGET_HELPER.currentTarget; }
+        set { TARGET_HELPER.currentTarget = value; }
     }
 
-    protected Hitable TARGET_HITABLE;
+    protected Hitable targetHitable {
+        get { return TARGET_HELPER.currentTartegHitable; }
+    }
 
     protected override void Init() {
         base.Init();
         audioSource.PlayOneShot(soundSpawn);
-        StartCoroutine(repickRoamDirection());
+        StartCoroutine(RepickRoamDirection());
     }
 
-    protected IEnumerator repickRoamDirection() {
+    protected IEnumerator RepickRoamDirection() {
         while (true) {
-            roamDirection = new Vector2(Random.Range(-1, 1) * .2f, Random.Range(-1, 1)*.2f);
-            yield return new WaitForSeconds(3f);
+            roamDirection = new Vector2(Random.Range(-1, 2), Random.Range(-1, 2));
+            yield return new WaitForSeconds(2f);
         }
     }
 
@@ -43,12 +47,12 @@ public abstract class ZombieAbstract : Entity {
                         Attack();
                     } else {
                         if (Mathf.Abs(directionToPlayer.x) < Mathf.Abs(directionToPlayer.y)) { // vertical movement only
-                            Move(new Vector2(0, Mathf.Sign(directionToPlayer.y) * 1));
+                            Move(new Vector2(0, Mathf.Sign(directionToPlayer.y) ));
                         } else {
                             if (Mathf.Abs(directionToPlayer.y) > 0.5f) { // diagonal movement
-                                Move(new Vector2(Mathf.Sign(directionToPlayer.x) * 1, Mathf.Sign(directionToPlayer.y) * 1));
+                                Move(new Vector2(Mathf.Sign(directionToPlayer.x) , Mathf.Sign(directionToPlayer.y) ));
                             } else { // horizontal movement
-                                Move(new Vector2(Mathf.Sign(directionToPlayer.x) * 1, 0));
+                                Move(new Vector2(Mathf.Sign(directionToPlayer.x) , 0));
                             }
                         }
                     }

@@ -5,31 +5,18 @@ using UnityEngine;
 public class Zombie : ZombieAbstract {
 
 
-    public static Zombie Spawn(GameObject prefab, Vector3 position, GameObject target) {
+    public static Zombie Spawn(GameObject prefab, Vector3 position, GameObject target = null) {
         GameObject zombie = GameObject.Instantiate(prefab);
         zombie.transform.position = position;
         Zombie z = zombie.GetComponent<Zombie>();
+        z.TARGET_HELPER = new TargetPlayer();
         z.target = target;
         return z;
-    }
-
-    // public bool attackPlayer;
-    // public bool attackDice;
-
-    protected new Hitable targetHitable {
-        get { return TARGET_HITABLE; }
     }
 
     protected override void Init() {
         base.Init();
         attackMask = (1 << 8); // MASK player
-        if (target != null) {
-            TARGET_HITABLE = target.GetComponent<Entity>();
-            if (TARGET_HITABLE == null)
-                TARGET_HITABLE = target.GetComponent<Dice>();
-            if (TARGET_HITABLE == null)
-                Debug.Log("Not a valid target !");
-        }
     }
 
     public override void Die() {

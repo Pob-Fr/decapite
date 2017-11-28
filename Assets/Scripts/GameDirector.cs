@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,7 +14,7 @@ public class GameDirector : MonoBehaviour {
     public float periodicZombieSpawnDelay = 5f;
     public int periodicZombieSpawnCount = 3;
     public float zombieSpawnInterval = 0.2f;
-    public float zombieRageDelay = 8f;
+    public float zombieRageDelay = 10f;
 
     public float firstDiceSpawnDelay = 5;
     public float periodicDiceSpawnDelay = 5;
@@ -83,6 +84,8 @@ public class GameDirector : MonoBehaviour {
                 Restart();
         }
     }
+
+    #region SPAWNS
 
     public IEnumerator PeriodicZombieSpawn() {
         yield return new WaitForSeconds(firstZombieSpawnDelay);
@@ -162,6 +165,48 @@ public class GameDirector : MonoBehaviour {
         }
     }
 
+    #endregion
+
+    #region TARGETS
+
+    private List<Player> playerTracker = new List<Player>();
+
+    public void StartTrackingPlayer(Player player) {
+        playerTracker.Add(player);
+    }
+
+    public void StopTrackingPlayere(Player player) {
+        playerTracker.Remove(player);
+    }
+
+    public GameObject RequestPlayerTarget() {
+        if (playerTracker.Count() > 0)
+            return playerTracker.ElementAt(Random.Range(0, diceTracker.Count())).gameObject;
+        return null;
+    }
+
+
+
+    private List<Dice> diceTracker = new List<Dice>();
+
+    public void StartTrackingDice(Dice dice) {
+        diceTracker.Add(dice);
+    }
+
+    public void StopTrackingDice(Dice dice) {
+        diceTracker.Remove(dice);
+    }
+
+    public GameObject RequestDiceTarget() {
+        if (diceTracker.Count() > 0)
+            return diceTracker.ElementAt(Random.Range(0, diceTracker.Count())).gameObject;
+        return null;
+    }
+
+    #endregion
+
+    #region DICE_EVENTS
+
     public void AddScore(int score) {
         if (isPlaying) {
             scoreDisplayer.text = "" + (ScoreHelper.currentScore += score);
@@ -182,17 +227,6 @@ public class GameDirector : MonoBehaviour {
         }
     }
 
-    public void ShakeCamera(int iterations) {
-        StartCoroutine(DoShakeCamera(iterations));
-    }
-
-    private IEnumerator DoShakeCamera(int iterations) {
-        for (int i = 0; i < iterations; ++i) {
-            gameCamera.transform.position = new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), -10);
-            yield return null;
-        }
-    }
-
     public void PlayerPunchLine() {
         if (isPlaying)
             player.GetComponent<Player>().PunchLine();
@@ -208,6 +242,44 @@ public class GameDirector : MonoBehaviour {
         if (isPlaying) {
             lifeDisplayer.text = "LIFE : " + health;
         }
+    }
+
+    public void ShakeCamera(int iterations) {
+        StartCoroutine(DoShakeCamera(iterations));
+    }
+
+    private IEnumerator DoShakeCamera(int iterations) {
+        for (int i = 0; i < iterations; ++i) {
+            gameCamera.transform.position = new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), -10);
+            yield return null;
+        }
+    }
+
+    public void Event(string text, AudioClip jingle = null) {
+        if (isPlaying) {
+            StartCoroutine(ShowEvent(text));
+            if (jingle != null)
+                audioPlayer.PlayOneShot(jingle, 1f);
+        }
+    }
+
+    private IEnumerator ShowEvent(string text) {
+        if (isPlaying) {
+            eventDisplayer.text = text;
+            eventDisplayer.enabled = true;
+            yield return new WaitForSeconds(3);
+        }
+        if (isPlaying) {
+            eventDisplayer.enabled = false;
+        }
+    }
+
+    #endregion
+
+    #region META
+
+    public void Restart() {
+        SceneManager.LoadScene("Scenes/Game");
     }
 
     public void GameOver() {
@@ -246,27 +318,6 @@ public class GameDirector : MonoBehaviour {
         tryagainDisplayer.enabled = true;
     }
 
-    public void Restart() {
-        SceneManager.LoadScene("Scenes/Game");
-    }
-
-    public void Event(string text, AudioClip jingle = null) {
-        if (isPlaying) {
-            StartCoroutine(ShowEvent(text));
-            if (jingle != null)
-                audioPlayer.PlayOneShot(jingle, 1f);
-        }
-    }
-
-    private IEnumerator ShowEvent(string text) {
-        if (isPlaying) {
-            eventDisplayer.text = text;
-            eventDisplayer.enabled = true;
-            yield return new WaitForSeconds(3);
-        }
-        if (isPlaying) {
-            eventDisplayer.enabled = false;
-        }
-    }
+    #endregion
 
 }

@@ -110,6 +110,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
         isWalking = false;
         if (isAlive && !isAttacking) {
             if (direction.magnitude > float.Epsilon) {
+                direction.Normalize();
                 transform.position += new Vector3(direction.x * movementSpeed * movementSpeedFactor * Time.deltaTime,
                     direction.y * movementSpeed * movementSpeedFactor * Time.deltaTime, 0);
                 transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.y);
