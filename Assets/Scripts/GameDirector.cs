@@ -8,6 +8,7 @@ public class GameDirector : MonoBehaviour {
     public static GameDirector singleton;
 
     private bool isPlaying = true;
+    public int numberPlayers = 1;
 
     public float firstZombieSpawnDelay = 5f;
     public float periodicZombieSpawnDelay = 5f;
@@ -22,7 +23,7 @@ public class GameDirector : MonoBehaviour {
     public GameObject zombiePrefab;
     public GameObject dicePrefab;
 
-    public GameObject player;
+    public List<GameObject> players;
 
     public Camera gameCamera;
 
@@ -51,6 +52,7 @@ public class GameDirector : MonoBehaviour {
     // Use this for initialization
     void Start() {
         singleton = this;
+        numberPlayers = players.Count;
         ScoreHelper.Reset();
         EffectSpawnHorde.eventClip = hordeJingle;
         StartCoroutine(PeriodicZombieSpawn());
@@ -119,9 +121,15 @@ public class GameDirector : MonoBehaviour {
             float x = Random.Range(-16, 16);
             float y = Random.Range(-9, 3);
 
-            Zombie z = Zombie.Spawn(zombiePrefab, new Vector3(x, y, y), player);
+            GameObject playerToChase = GetRandomPlayerToChase();
+            Zombie z = Zombie.Spawn(zombiePrefab, new Vector3(x, y, y), playerToChase);
             z.StartCoroutine(z.Enrage(zombieRageDelay));
         }
+    }
+
+    public GameObject GetRandomPlayerToChase()
+    {
+        return players[((int)Random.Range(0, players.Count))];
     }
 
     public IEnumerator PeriodicDiceSpawn() {
@@ -175,12 +183,12 @@ public class GameDirector : MonoBehaviour {
 
     public void PlayerPunchLine() {
         if (isPlaying)
-            player.GetComponent<Player>().PunchLine();
+            players[0].GetComponent<Player>().PunchLine();
     }
 
     public void HealPlayer(int health) {
         if (isPlaying) {
-            player.GetComponent<Player>().Heal(health);
+            players[0].GetComponent<Player>().Heal(health);
         }
     }
 
@@ -188,6 +196,13 @@ public class GameDirector : MonoBehaviour {
         if (isPlaying) {
             lifeDisplayer.text = "LIFE : " + health;
         }
+    }
+
+    public void OnePlayerDead(GameObject o)
+    {
+        --numberPlayers;
+        players.Remove(o);
+        if (numberPlayers == 0) GameOver();
     }
 
     public void GameOver() {

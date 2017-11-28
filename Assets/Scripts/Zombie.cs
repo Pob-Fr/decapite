@@ -30,6 +30,7 @@ public class Zombie : ZombieAbstract {
             if (TARGET_HITABLE == null)
                 Debug.Log("Not a valid target !");
         }
+        StartCoroutine(AutoChangeTarget());
     }
 
     public override void Die() {
@@ -43,6 +44,26 @@ public class Zombie : ZombieAbstract {
             movementSpeedFactor = 2.5f;
             attackSpeedFactor = 0.5f;
             GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.4f, 0.4f);
+        }
+    }
+
+    private IEnumerator AutoChangeTarget()
+    {
+        GameDirector gd = GameDirector.singleton;
+        while (gd.numberPlayers > 0)
+        {
+            yield return new WaitForSeconds(0.5f);
+            if (target == null || target.Equals(null))
+            {
+                Debug.Log("Change target");
+                GameObject o = gd.GetRandomPlayerToChase();
+                if (o != null && !o.Equals(null))
+                {
+                    target = o;
+                    TARGET_HITABLE = target.GetComponent<Entity>();
+                }
+                   
+            }
         }
     }
 

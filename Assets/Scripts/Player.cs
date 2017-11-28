@@ -57,7 +57,7 @@ public class Player : Entity {
 
     public override void Die() {
         base.Die();
-        GameDirector.singleton.GameOver();
+        GameDirector.singleton.OnePlayerDead(gameObject);
     }
 
 }

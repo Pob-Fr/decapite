@@ -1230,7 +1230,9 @@ MonoBehaviour:
   zombiePrefab: {fileID: 1732878638722534, guid: 4c51d4b754213854eabd45506f0d7752,
     type: 2}
   dicePrefab: {fileID: 1632464331374832, guid: fa562dc40d383bf4cb83d01db3d12d93, type: 2}
-  player: {fileID: 753152948}
+  players:
+  - {fileID: 753152948}
+  - {fileID: 1806862183}
   gameCamera: {fileID: 61503471}
   audioPlayer: {fileID: 1554746850}
   gameMusic: {fileID: 8300000, guid: 3f80e5e336bf92f43b3ad1f85b65cc6e, type: 3}
@@ -1340,6 +1342,66 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 37.67, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &1806862183 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1497773986489562, guid: e5a7a78187194da42b7e89276921171e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1852691639}
+--- !u!1001 &1852691639
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4891765314535972, guid: e5a7a78187194da42b7e89276921171e, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -10.93
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891765314535972, guid: e5a7a78187194da42b7e89276921171e, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891765314535972, guid: e5a7a78187194da42b7e89276921171e, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891765314535972, guid: e5a7a78187194da42b7e89276921171e, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891765314535972, guid: e5a7a78187194da42b7e89276921171e, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891765314535972, guid: e5a7a78187194da42b7e89276921171e, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891765314535972, guid: e5a7a78187194da42b7e89276921171e, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891765314535972, guid: e5a7a78187194da42b7e89276921171e, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1497773986489562, guid: e5a7a78187194da42b7e89276921171e, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114806981736652258, guid: e5a7a78187194da42b7e89276921171e,
+        type: 2}
+      propertyPath: playerNum
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1497773986489562, guid: e5a7a78187194da42b7e89276921171e, type: 2}
+      propertyPath: m_Name
+      value: Player 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: e5a7a78187194da42b7e89276921171e, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1971798646
 GameObject:
   m_ObjectHideFlags: 0
