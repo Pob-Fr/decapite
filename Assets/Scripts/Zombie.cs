@@ -30,7 +30,7 @@ public class Zombie : ZombieAbstract {
             if (TARGET_HITABLE == null)
                 Debug.Log("Not a valid target !");
         }
-        StartCoroutine(AutoChangeTarget());
+        if (GameDirector.singleton.numberPlayers > 1) StartCoroutine(AutoChangeTarget());
     }
 
     public override void Die() {
@@ -55,14 +55,8 @@ public class Zombie : ZombieAbstract {
             yield return new WaitForSeconds(0.5f);
             if (target == null || target.Equals(null))
             {
-                Debug.Log("Change target");
-                GameObject o = gd.GetRandomPlayerToChase();
-                if (o != null && !o.Equals(null))
-                {
-                    target = o;
-                    TARGET_HITABLE = target.GetComponent<Entity>();
-                }
-                   
+                target = gd.GetRandomPlayerToChase();
+                TARGET_HITABLE = target.GetComponent<Entity>();                                 
             }
         }
     }

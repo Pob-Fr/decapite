@@ -156,7 +156,6 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
 
     public virtual void Attack() {
         if (isAlive && !isAttacking) {
-            StopAllCoroutines();
             StartCoroutine(DoAttack(attackMask));
         }
     }
