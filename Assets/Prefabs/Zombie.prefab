@@ -157,7 +157,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -218,8 +218,11 @@ MonoBehaviour:
   deathDuration: 1
   bodyThickness: 0.4
   bodyWidth: 1
+  isLookinkRight: 1
+  lastHitter: {fileID: 0}
   soundIdle: {fileID: 8300000, guid: a326113a64ccb57479d94e38e1ee514e, type: 3}
-  target: {fileID: 0}
+  bloodParticleSystem: {fileID: 1524734035476150, guid: 59b4839aed3bdfe40bb9bb86d613ee98,
+    type: 2}
 --- !u!212 &212549701863987958
 SpriteRenderer:
   m_ObjectHideFlags: 1

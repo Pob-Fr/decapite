@@ -64,6 +64,8 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     protected Animator animatorController;
     protected SpriteRenderer sprite;
 
+    public Entity lastHitter;
+
     void Start() {
         collisionBox = GetComponent<BoxCollider2D>();
         animatorController = GetComponent<Animator>();
@@ -144,6 +146,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     }
 
     public virtual void GetHit(int damage, Entity hitter) {
+        lastHitter = hitter;
         GetHit(damage);
     }
 

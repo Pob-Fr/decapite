@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class ZombieAbstract : Entity {
 
     public AudioClip soundIdle;
+    public GameObject bloodParticleSystem;
 
     protected Vector2 roamDirection;
 
@@ -33,6 +34,7 @@ public abstract class ZombieAbstract : Entity {
 
     public override void Die() {
         base.Die();
+        if (bloodParticleSystem != null) PlayDeathParticle();
         GetComponent<BoxCollider2D>().enabled = false;
         Object.Destroy(GetComponent<Rigidbody2D>());
     }
@@ -62,6 +64,21 @@ public abstract class ZombieAbstract : Entity {
             }
         }
         Animate();
+    }
+
+    private void PlayDeathParticle()
+    {
+        Vector3 particlePos = transform.position + new Vector3(0, 1.5f, 0);
+        GameObject bloodParticleObj = Instantiate(bloodParticleSystem, particlePos, Quaternion.identity);
+        ParticleSystem bloodParticleSys = bloodParticleObj.GetComponent<ParticleSystem>();
+        var vel = bloodParticleSys.velocityOverLifetime;
+        if (lastHitter != null)
+        {
+            int direction = 1;
+            if (lastHitter.transform.position.x > transform.position.x) direction = -1;
+            vel.xMultiplier = direction * Random.Range(3, 8);
+        }
+        vel.yMultiplier = Random.Range(-1, 2);
     }
 
 }
