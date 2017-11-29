@@ -17,6 +17,7 @@ public class Zombie : ZombieAbstract {
     protected override void Init() {
         base.Init();
         attackMask = (1 << 8); // MASK player
+        if (GameDirector.singleton.numberPlayers > 1) StartCoroutine(AutoChangeTarget());
     }
 
     public override void Die() {
@@ -30,6 +31,16 @@ public class Zombie : ZombieAbstract {
             movementSpeedFactor = 2.5f;
             attackSpeedFactor = 0.5f;
             GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.4f, 0.4f);
+        }
+    }
+
+    private IEnumerator AutoChangeTarget() {
+        GameDirector gd = GameDirector.singleton;
+        while (gd.numberPlayers > 0) {
+            yield return new WaitForSeconds(0.5f);
+            if (target == null || target.Equals(null)) {
+                target = gd.GetRandomPlayerToChase();
+            }
         }
     }
 

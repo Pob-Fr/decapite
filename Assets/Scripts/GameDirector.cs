@@ -8,7 +8,10 @@ public class GameDirector : MonoBehaviour {
 
     public static GameDirector singleton;
 
+
+    public bool isMultiplayer = false;
     private bool isPlaying = true;
+    public int numberPlayers = 1;
 
     public float firstZombieSpawnDelay = 5f;
     public float periodicZombieSpawnDelay = 5f;
@@ -24,7 +27,7 @@ public class GameDirector : MonoBehaviour {
     public GameObject maggotPrefab;
     public GameObject dicePrefab;
 
-    public GameObject player;
+    public List<GameObject> players;
 
     public Camera gameCamera;
 
@@ -53,6 +56,7 @@ public class GameDirector : MonoBehaviour {
     // Use this for initialization
     void Start() {
         singleton = this;
+        numberPlayers = players.Count;
         ScoreHelper.Reset();
         EffectSpawnHorde.eventClip = hordeJingle;
         StartCoroutine(PeriodicZombieSpawn());
@@ -80,7 +84,7 @@ public class GameDirector : MonoBehaviour {
             s = (amount < 10 ? "0" + amount : "" + amount);
             timerDisplayer.text = h + m + s;
         } else {
-            if (tryagainDisplayer.enabled && (Input.GetButton("AttackJ") || Input.GetButton("AttackK")))
+            if (tryagainDisplayer.enabled && (Input.GetButton("AttackC") || Input.GetButton("AttackK")))
                 Restart();
         }
     }
@@ -123,7 +127,8 @@ public class GameDirector : MonoBehaviour {
             float x = Random.Range(-16f, 16f);
             float y = Random.Range(-9f, 3f);
 
-            Zombie z = Zombie.Spawn(zombiePrefab, new Vector3(x, y, y), player);
+            GameObject playerToChase = GetRandomPlayerToChase();
+            Zombie z = Zombie.Spawn(zombiePrefab, new Vector3(x, y, y), playerToChase);
             z.StartCoroutine(z.Enrage(zombieRageDelay));
         }
     }
@@ -141,7 +146,8 @@ public class GameDirector : MonoBehaviour {
             float x = Random.Range(-2f, 2f);
             float y = Random.Range(-2f, 2f);
 
-            Maggot m = Maggot.Spawn(maggotPrefab, new Vector3(position.x + x, position.y + y, position.y + y), player);
+            GameObject playerToChase = GetRandomPlayerToChase();
+            Maggot m = Maggot.Spawn(maggotPrefab, new Vector3(position.x + x, position.y + y, position.y + y), playerToChase);
             if (x < 0)
                 m.isLookinkRight = false;
         }
@@ -168,6 +174,12 @@ public class GameDirector : MonoBehaviour {
     #endregion
 
     #region TARGETS
+
+    public GameObject GetRandomPlayerToChase() {
+        if (players.Count > 0)
+            return players[((int)Random.Range(0, players.Count))];
+        return null;
+    }
 
     private List<Player> playerTracker = new List<Player>();
 
@@ -229,12 +241,12 @@ public class GameDirector : MonoBehaviour {
 
     public void PlayerPunchLine() {
         if (isPlaying)
-            player.GetComponent<Player>().PunchLine();
+            players[0].GetComponent<Player>().PunchLine();
     }
 
     public void HealPlayer(int health) {
         if (isPlaying) {
-            player.GetComponent<Player>().Heal(health);
+            players[0].GetComponent<Player>().Heal(health);
         }
     }
 
@@ -278,8 +290,17 @@ public class GameDirector : MonoBehaviour {
 
     #region META
 
+    public void OnePlayerDead(GameObject o) {
+        --numberPlayers;
+        players.Remove(o);
+        if (numberPlayers == 0) GameOver();
+    }
+
     public void Restart() {
-        SceneManager.LoadScene("Scenes/Game");
+        if (isMultiplayer)
+            SceneManager.LoadScene("Scenes/Game_duo");
+        else
+            SceneManager.LoadScene("Scenes/Game");
     }
 
     public void GameOver() {
