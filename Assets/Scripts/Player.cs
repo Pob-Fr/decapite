@@ -6,10 +6,16 @@ public class Player : Entity {
     public AudioClip[] soundsVoice = new AudioClip[5];
     public List<AudioClip> killShouts = new List<AudioClip>();
 
+    public int playerNum = 1;
+    private PlayerControls controls;
+
+
     //public static GameObject playerPrefab = Resources.Load("Prefabs/Player");
 
     protected override void Init() {
         base.Init();
+        if (playerNum == 1) controls = PlayerControls.BuildPlayer1Controls();
+        else controls = PlayerControls.BuildPlayer2Controls();
         attackMask = (1 << 9) + (1 << 10); // MASK zombi + dice
         StartCoroutine(PlaySpawnSound());
     }
@@ -28,21 +34,14 @@ public class Player : Entity {
 
     // Update is called once per frame
     private void Update() {
+        controls.UpdateControls();
         if (isAlive) {
-            Move(GetMoveInput());
-            if (!isAttacking && Input.GetButton("AttackJ") || Input.GetButton("AttackK")) {
+            Move(controls.moveInput);
+            if (!isAttacking && controls.attackInput) {
                 Attack();
             }
         }
         Animate();
-    }
-
-    private Vector2 GetMoveInput() {
-        Vector2 output = new Vector2(Input.GetAxisRaw("HorizontalJ") + Input.GetAxisRaw("HorizontalK"),
-            Input.GetAxisRaw("VerticalJ") + Input.GetAxisRaw("VerticalK"));
-        if (output.magnitude < 0.5f)
-            output = Vector2.zero;
-        return output;
     }
 
     public override void Heal(int heal) {
@@ -58,7 +57,7 @@ public class Player : Entity {
 
     public override void Die() {
         base.Die();
-        GameDirector.singleton.GameOver();
+        GameDirector.singleton.OnePlayerDead(gameObject);
     }
 
 }

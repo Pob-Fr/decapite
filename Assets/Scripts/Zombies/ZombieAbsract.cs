@@ -47,12 +47,12 @@ public abstract class ZombieAbstract : Entity {
                         Attack();
                     } else {
                         if (Mathf.Abs(directionToPlayer.x) < Mathf.Abs(directionToPlayer.y)) { // vertical movement only
-                            Move(new Vector2(0, Mathf.Sign(directionToPlayer.y) ));
+                            Move(new Vector2(0, Mathf.Sign(directionToPlayer.y)));
                         } else {
                             if (Mathf.Abs(directionToPlayer.y) > 0.5f) { // diagonal movement
-                                Move(new Vector2(Mathf.Sign(directionToPlayer.x) , Mathf.Sign(directionToPlayer.y) ));
+                                Move(new Vector2(Mathf.Sign(directionToPlayer.x), Mathf.Sign(directionToPlayer.y)));
                             } else { // horizontal movement
-                                Move(new Vector2(Mathf.Sign(directionToPlayer.x) , 0));
+                                Move(new Vector2(Mathf.Sign(directionToPlayer.x), 0));
                             }
                         }
                     }
