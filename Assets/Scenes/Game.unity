@@ -426,7 +426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentGameTime: 0
-  isMultiplayer: 1
+  isMultiplayer: 0
   numberPlayers: 1
   firstZombieSpawnDelay: 5
   periodicZombieSpawnDelay: 5

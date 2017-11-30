@@ -48,6 +48,8 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     private float ATTACK_SPEED_FACTOR = 1;
     protected bool isAttacking = false; // is in attack animation state
 
+    protected bool isStunt = false;
+
     public float deathDuration = 0.5f;
 
     public float bodyThickness = 0.4f; // deepth size
@@ -63,6 +65,9 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     protected BoxCollider2D collisionBox;
     protected Animator animatorController;
     protected SpriteRenderer sprite;
+
+    protected Coroutine attackCoroutine = null;
+    protected Coroutine stunCoroutine = null;
 
     void Start() {
         collisionBox = GetComponent<BoxCollider2D>();
@@ -108,7 +113,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
 
     public void Move(Vector2 direction) {
         isWalking = false;
-        if (isAlive && !isAttacking) {
+        if (isAlive && !isAttacking && !isStunt) {
             if (direction.magnitude > float.Epsilon) {
                 direction.Normalize();
                 transform.position += new Vector3(direction.x * movementSpeed * movementSpeedFactor * Time.deltaTime,
@@ -122,6 +127,10 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
                 isWalking = true;
             }
         }
+    }
+
+    public void InterruptMove() {
+        isWalking = false;
     }
 
     public virtual void Heal(int heal) {
@@ -165,30 +174,53 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     }
 
     public virtual void Attack() {
-        if (isAlive && !isAttacking) {
-            StartCoroutine(DoAttack(attackMask));
+        if (isAlive && !isAttacking && !isStunt) {
+            attackCoroutine = StartCoroutine(DoAttack(attackMask));
         }
     }
 
     protected virtual IEnumerator DoAttack(int hitmask) {
-        if (isAlive) { // anim
-                       // wait for impact
-            isAttacking = true;
-            isWalking = false;
-            yield return new WaitForSeconds(attackDelay * attackSpeedFactor);
+        isAttacking = true;
+        isWalking = false;
+        yield return new WaitForSeconds(attackDelay * attackSpeedFactor);
+        // pick targets and damage them
+        audioSource.PlayOneShot(soundAttack);
+        foreach (Hitable h in pickAttackTargets(hitmask)) {
+            h.GetHit(attackDamage, this);
         }
-        if (isAlive) { // hit
+        yield return new WaitForSeconds(attackRecoverTime * attackSpeedFactor);
+        isAttacking = false;
+        attackCoroutine = null;
+    }
 
-            // pick targets and damage them
-            audioSource.PlayOneShot(soundAttack);
-            foreach (Hitable h in pickAttackTargets(hitmask)) {
-                h.GetHit(attackDamage, this);
-            }
-            yield return new WaitForSeconds(attackRecoverTime * attackSpeedFactor);
-        }
-        if (isAlive) { // recover
-                       // back to idle
+    protected void InterruptAttack() {
+        if (attackCoroutine != null) {
+            StopCoroutine(attackCoroutine);
+            attackCoroutine = null;
             isAttacking = false;
+        }
+    }
+
+    public void Stun() {
+        if (isAlive) {
+            InterruptMove();
+            InterruptAttack();
+            InterruptStun();
+            stunCoroutine = StartCoroutine(DoStun());
+        }
+    }
+
+    public IEnumerator DoStun() {
+        isStunt = true;
+        yield return new WaitForSeconds(0.5f);
+        isStunt = false;
+        stunCoroutine = null;
+    }
+
+    protected void InterruptStun() {
+        if (stunCoroutine != null) {
+            StopCoroutine(stunCoroutine);
+            stunCoroutine = null;
         }
     }
 
@@ -227,7 +259,11 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     }
 
     public virtual void Die(Entity killer) {
-        Die();
+        audioSource.PlayOneShot(soundDie);
+        isAttacking = false;
+        isWalking = false;
+        StopAllCoroutines();
+        StartCoroutine(Remove());
     }
 
     protected virtual IEnumerator Remove() {

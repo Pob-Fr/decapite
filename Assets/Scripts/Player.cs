@@ -46,14 +46,12 @@ public class Player : Entity {
 
     public override void Heal(int heal) {
         base.Heal(heal);
-        Debug.Log("Player healed");
         GameDirector.singleton.UpdatePlayerHealth(this);
     }
 
     public override void GetHit(int damage) {
         if (isAlive) {
             base.GetHit(damage);
-            Debug.Log("Player damaged");
             GameDirector.singleton.UpdatePlayerHealth(this);
             GameDirector.singleton.ShakeCamera(8);
         }
@@ -62,7 +60,6 @@ public class Player : Entity {
     public override void GetHit(int damage, Entity hitter) {
         if (isAlive) {
             base.GetHit(damage, hitter);
-            Debug.Log("Player damaged");
             GameDirector.singleton.UpdatePlayerHealth(this);
             GameDirector.singleton.ShakeCamera(8);
         }
@@ -70,6 +67,11 @@ public class Player : Entity {
 
     public override void Die() {
         base.Die();
+        GameDirector.singleton.OnePlayerDead(gameObject);
+    }
+
+    public override void Die(Entity killer) {
+        base.Die(killer);
         GameDirector.singleton.OnePlayerDead(gameObject);
     }
 

@@ -4,7 +4,8 @@ using UnityEngine;
 public abstract class ZombieAbstract : Entity {
 
     public AudioClip soundIdle;
-    public GameObject bloodParticleSystem;
+    public GameObject deathParticleSystem;
+    public GameObject hitParticleSystem;
 
     protected Vector2 roamDirection;
 
@@ -32,17 +33,37 @@ public abstract class ZombieAbstract : Entity {
         }
     }
 
+    public override void GetHit(int damage) {
+        if (isAlive) {
+            base.GetHit(damage);
+            Stun();
+        }
+        if (isAlive) {
+            if (deathParticleSystem != null) PlayHitParticle(null);
+        }
+    }
+
+    public override void GetHit(int damage, Entity hitter) {
+        if (isAlive) {
+            base.GetHit(damage, hitter);
+            Stun();
+        }
+        if(isAlive) {
+            if (deathParticleSystem != null) PlayHitParticle(hitter);
+        }
+    }
+
     public override void Die() {
         base.Die();
-        if (bloodParticleSystem != null) PlayDeathParticle(null);
         GetComponent<BoxCollider2D>().enabled = false;
+        if (deathParticleSystem != null) PlayDeathParticle(null);
         Object.Destroy(GetComponent<Rigidbody2D>());
     }
 
     public override void Die(Entity killer) {
         base.Die(killer);
-        if (bloodParticleSystem != null) PlayDeathParticle(killer);
         GetComponent<BoxCollider2D>().enabled = false;
+        if (deathParticleSystem != null) PlayDeathParticle(killer);
         Object.Destroy(GetComponent<Rigidbody2D>());
     }
 
@@ -73,16 +94,27 @@ public abstract class ZombieAbstract : Entity {
         Animate();
     }
 
-    private void PlayDeathParticle(Entity killer)
-    {
+    private void PlayDeathParticle(Entity killer = null) {
         Vector3 particlePos = transform.position + new Vector3(0, 1.5f, 0);
-        GameObject bloodParticleObj = Instantiate(bloodParticleSystem, particlePos, Quaternion.identity);
+        GameObject bloodParticleObj = Instantiate(deathParticleSystem, particlePos, Quaternion.identity);
         ParticleSystem bloodParticleSys = bloodParticleObj.GetComponent<ParticleSystem>();
         var vel = bloodParticleSys.velocityOverLifetime;
-        if (killer != null)
-        {
+        if (killer != null) {
             int direction = 1;
             if (killer.transform.position.x > transform.position.x) direction = -1;
+            vel.xMultiplier = direction * Random.Range(3, 8);
+        }
+        vel.yMultiplier = Random.Range(-1, 2);
+    }
+
+    private void PlayHitParticle(Entity hitter = null) {
+        Vector3 particlePos = transform.position + new Vector3(0, 1.5f, 0);
+        GameObject bloodParticleObj = Instantiate(hitParticleSystem, particlePos, Quaternion.identity);
+        ParticleSystem bloodParticleSys = bloodParticleObj.GetComponent<ParticleSystem>();
+        var vel = bloodParticleSys.velocityOverLifetime;
+        if (hitter != null) {
+            int direction = 1;
+            if (hitter.transform.position.x > transform.position.x) direction = -1;
             vel.xMultiplier = direction * Random.Range(3, 8);
         }
         vel.yMultiplier = Random.Range(-1, 2);

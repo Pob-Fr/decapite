@@ -208,7 +208,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 68ea27b8a4777464bb2ae7f232751835, type: 3}
   isSpawning: 1
   spawnDuration: 0.75
-  currentHealth: 1
+  currentHealth: 3
   movementSpeed: 1.5
   attackDamage: 1
   attackReach: 1
@@ -219,9 +219,10 @@ MonoBehaviour:
   bodyThickness: 0.4
   bodyWidth: 1
   isLookinkRight: 1
-  lastHitter: {fileID: 0}
   soundIdle: {fileID: 8300000, guid: a326113a64ccb57479d94e38e1ee514e, type: 3}
-  bloodParticleSystem: {fileID: 1524734035476150, guid: 59b4839aed3bdfe40bb9bb86d613ee98,
+  deathParticleSystem: {fileID: 1524734035476150, guid: 59b4839aed3bdfe40bb9bb86d613ee98,
+    type: 2}
+  hitParticleSystem: {fileID: 1406329624957796, guid: a8e3587eeb2cbf047825913bd236f89f,
     type: 2}
 --- !u!212 &212549701863987958
 SpriteRenderer:

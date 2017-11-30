@@ -182,6 +182,7 @@ public class Dice : MonoBehaviour, Hitable {
             audioSource.PlayOneShot(clipBonus);
         else if (effect.isMalus())
             audioSource.PlayOneShot(clipMalus);
+        yield return new WaitForEndOfFrame();
         Die();
     }
 
