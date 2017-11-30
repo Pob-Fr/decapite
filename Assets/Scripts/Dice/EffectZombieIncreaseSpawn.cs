@@ -15,7 +15,7 @@ public class EffectZombieIncreaseSpawn : Effect {
         return true;
     }
 
-    public override void DoSomething() {
+    public override void DoSomething(Player lastAttacker) {
         GameDirector.singleton.IncreaseZombieSpawnCount(zombieSpawnIncr);
         GameDirector.singleton.Event("<color=#FF0000>Infestation !</color>");
     }

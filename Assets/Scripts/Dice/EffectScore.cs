@@ -15,8 +15,8 @@ public class EffectScore : Effect {
         return true;
     }
 
-    public override void DoSomething() {
-        GameDirector.singleton.AddScore(score);
+    public override void DoSomething(Player lastAttacker) {
+        GameDirector.singleton.AddScore(lastAttacker, score);
         GameDirector.singleton.Event("Score <color=#FFFF00>+" + score + "</color> !");
     }
 }

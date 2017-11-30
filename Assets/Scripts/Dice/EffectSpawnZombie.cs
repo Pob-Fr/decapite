@@ -10,7 +10,7 @@ public class EffectSpawnZombie : Effect {
         return true;
     }
 
-    public override void DoSomething() {
+    public override void DoSomething(Player lastAttacker) {
         GameDirector.singleton.SpawnZombies();
         GameDirector.singleton.Event("<color=#FF0000>Wave !</color>");
     }

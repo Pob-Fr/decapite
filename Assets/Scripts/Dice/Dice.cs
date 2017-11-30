@@ -22,6 +22,8 @@ public class Dice : MonoBehaviour, Hitable {
 
     public int life;
 
+    private Player lastAttacker = null;
+
     // Bounce stats
     int bounce = 0;
     public int maxBounce;
@@ -52,7 +54,7 @@ public class Dice : MonoBehaviour, Hitable {
         crushAreaMax = new Vector2(bodyWidth / 2, bodyThickness / 2);
 
         // Init the content of the dice
-        diceContent.AddEffectHolder(new EffectHolder(new EffectScore(this,100), 50));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectScore(this, 100), 50));
         diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnZombie(this), 40));
         diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnHorde(this, 2), 30));
         diceContent.AddEffectHolder(new EffectHolder(new EffectSpawnMaggot(this), 50));
@@ -107,6 +109,8 @@ public class Dice : MonoBehaviour, Hitable {
     }
 
     public void GetHit(int damage, Entity hitter) {
+        if (hitter is Player)
+            lastAttacker = (Player)hitter;
         audioSource.PlayOneShot(sounds[0]);
         animator.SetBool("isRolling", true);
         isUsed = true;
@@ -128,6 +132,10 @@ public class Dice : MonoBehaviour, Hitable {
     public void Die() {
         // Must wait to be immobile before die and do his stuff.
         Destroy(gameObject);
+    }
+
+    public virtual void Die(Entity killer) {
+        Die();
     }
 
     public void Throw(float speed) {
@@ -158,15 +166,18 @@ public class Dice : MonoBehaviour, Hitable {
         // Play animation
         animator.SetBool("isOpening", true);
         GameDirector.singleton.StopTrackingDice(this);
+        if (lastAttacker is Player) {
+            Player p = (Player)lastAttacker;
+            if (kills > p.score.bestDiceStreak) {
+                p.score.bestDiceStreak = kills;
+                if (kills > 5)
+                    GameDirector.singleton.PlayerPunchLine(p);
+            }
+        }
         yield return new WaitForSeconds(timeToDie);
         // Run the effect
         Effect effect = diceContent.RandomEffect();
-
-        if (kills > ScoreHelper.bestDiceStreak && kills > 5) {
-            ScoreHelper.bestDiceStreak = kills;
-            GameDirector.singleton.PlayerPunchLine();
-        }
-        effect.DoSomething();
+        effect.DoSomething(lastAttacker);
         if (effect.isBonus())
             audioSource.PlayOneShot(clipBonus);
         else if (effect.isMalus())

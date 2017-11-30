@@ -144,7 +144,16 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
     }
 
     public virtual void GetHit(int damage, Entity hitter) {
-        GetHit(damage);
+        if (isAlive) {
+            audioSource.PlayOneShot(soundDamaged);
+            if (soundsBatHit.Length != 0) {
+                int soundToPlay = Random.Range(0, 1);
+                audioSource.PlayOneShot(soundsBatHit[soundToPlay]);
+            }
+            currentHealth -= damage;
+            if (currentHealth <= 0)
+                Die(hitter);
+        }
     }
 
     public float GetBodyWidth() {
@@ -172,7 +181,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
 
             // pick targets and damage them
             audioSource.PlayOneShot(soundAttack);
-            foreach (Hitable h in pickTargets(hitmask)) {
+            foreach (Hitable h in pickAttackTargets(hitmask)) {
                 h.GetHit(attackDamage, this);
             }
             yield return new WaitForSeconds(attackRecoverTime * attackSpeedFactor);
@@ -183,7 +192,7 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
         }
     }
 
-    protected virtual List<Hitable> pickTargets(int hitmask) {
+    protected virtual List<Hitable> pickAttackTargets(int hitmask) {
         List<Hitable> output = new List<Hitable>();
         Collider2D[] colliders;
         if (isLookinkRight) {
@@ -215,6 +224,10 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
         isWalking = false;
         StopAllCoroutines();
         StartCoroutine(Remove());
+    }
+
+    public virtual void Die(Entity killer) {
+        Die();
     }
 
     protected virtual IEnumerator Remove() {

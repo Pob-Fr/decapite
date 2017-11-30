@@ -6,7 +6,7 @@
         this.dice = dice;
     }
 
-    public abstract void DoSomething();
+    public abstract void DoSomething(Player lastAttacker);
     public virtual bool isBonus() {
         return false;
     }
