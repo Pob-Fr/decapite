@@ -15,7 +15,7 @@ public class EffectZombieRageFaster : Effect {
         return true;
     }
 
-    public override void DoSomething() {
+    public override void DoSomething(Player lastAttacker) {
         GameDirector.singleton.DecreaseZombieRageDelay(zombieRageDelayDecr);
         GameDirector.singleton.Event("<color=#FF0000>Frenzy !</color>");
     }

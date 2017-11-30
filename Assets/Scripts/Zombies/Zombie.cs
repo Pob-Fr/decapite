@@ -20,9 +20,12 @@ public class Zombie : ZombieAbstract {
         if (GameDirector.singleton.numberPlayers > 1) StartCoroutine(AutoChangeTarget());
     }
 
-    public override void Die() {
-        base.Die();
-        ScoreHelper.totalZombieKills++;
+    public override void Die(Entity killer) {
+        base.Die(killer);
+        if (killer is Player) {
+            Player p = (Player)killer;
+            p.score.totalZombieKills += 1;
+        }
     }
 
     public IEnumerator Enrage(float rageDelay) {

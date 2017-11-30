@@ -15,8 +15,8 @@ public class EffectHealth : Effect {
         return true;
     }
 
-    public override void DoSomething() {
-        GameDirector.singleton.HealPlayer(hp);
+    public override void DoSomething(Player lastAttacker) {
+        GameDirector.singleton.HealPlayer(lastAttacker, hp);
         GameDirector.singleton.Event("Life <color=#00FF00>+" + hp + "</color> !");
     }
 }

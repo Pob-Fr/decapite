@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4891765314535972}
   - component: {fileID: 61506377962819652}
   - component: {fileID: 114806981736652258}
+  - component: {fileID: 114179220845864110}
   - component: {fileID: 50410360357462814}
   - component: {fileID: 212513298929122424}
   - component: {fileID: 95980759532164390}
@@ -187,6 +188,22 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114179220845864110
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1497773986489562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96a3f5405df6c9048acf134ab577a820, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentScore: 0
+  totalZombieKills: 0
+  totalMaggotKills: 0
+  bestDiceStreak: 0
+  totalTimeSurvived: 0
 --- !u!114 &114806981736652258
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -217,6 +234,7 @@ MonoBehaviour:
   bodyThickness: 0.4
   bodyWidth: 1
   isLookinkRight: 1
+  score: {fileID: 114179220845864110}
   soundsVoice:
   - {fileID: 8300000, guid: cbc5beed544aac24682a3fe4b8924b67, type: 3}
   - {fileID: 8300000, guid: f3bdf42f502c5c946a6fb4b348e77514, type: 3}
@@ -229,6 +247,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: eb7d0f24e3083dd409de990364dc4283, type: 3}
   - {fileID: 8300000, guid: d39c5d587f2bc4b4ba4453264cb9e704, type: 3}
   - {fileID: 8300000, guid: 62b393219546e5c4dbad365d392bb053, type: 3}
+  playerNum: 1
 --- !u!212 &212513298929122424
 SpriteRenderer:
   m_ObjectHideFlags: 1

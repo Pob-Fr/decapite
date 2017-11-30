@@ -9,7 +9,7 @@ public class EffectSpawnMaggot : Effect {
         return true;
     }
 
-    public override void DoSomething() {
+    public override void DoSomething(Player lastAttacker) {
         GameDirector.singleton.SpawnMaggots(dice.transform.position, 5);
         GameDirector.singleton.Event("<color=#FF0000>Rotten !</color>");
     }

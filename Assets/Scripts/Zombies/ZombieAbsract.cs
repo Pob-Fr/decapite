@@ -34,7 +34,14 @@ public abstract class ZombieAbstract : Entity {
 
     public override void Die() {
         base.Die();
-        if (bloodParticleSystem != null) PlayDeathParticle();
+        if (bloodParticleSystem != null) PlayDeathParticle(null);
+        GetComponent<BoxCollider2D>().enabled = false;
+        Object.Destroy(GetComponent<Rigidbody2D>());
+    }
+
+    public override void Die(Entity killer) {
+        base.Die(killer);
+        if (bloodParticleSystem != null) PlayDeathParticle(killer);
         GetComponent<BoxCollider2D>().enabled = false;
         Object.Destroy(GetComponent<Rigidbody2D>());
     }
@@ -66,16 +73,16 @@ public abstract class ZombieAbstract : Entity {
         Animate();
     }
 
-    private void PlayDeathParticle()
+    private void PlayDeathParticle(Entity killer)
     {
         Vector3 particlePos = transform.position + new Vector3(0, 1.5f, 0);
         GameObject bloodParticleObj = Instantiate(bloodParticleSystem, particlePos, Quaternion.identity);
         ParticleSystem bloodParticleSys = bloodParticleObj.GetComponent<ParticleSystem>();
         var vel = bloodParticleSys.velocityOverLifetime;
-        if (lastHitter != null)
+        if (killer != null)
         {
             int direction = 1;
-            if (lastHitter.transform.position.x > transform.position.x) direction = -1;
+            if (killer.transform.position.x > transform.position.x) direction = -1;
             vel.xMultiplier = direction * Random.Range(3, 8);
         }
         vel.yMultiplier = Random.Range(-1, 2);

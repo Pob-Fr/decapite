@@ -8,6 +8,7 @@ public class GameDirector : MonoBehaviour {
 
     public static GameDirector singleton;
 
+    public float currentGameTime = 0;
 
     public bool isMultiplayer = false;
     private bool isPlaying = true;
@@ -37,15 +38,18 @@ public class GameDirector : MonoBehaviour {
     public AudioClip gameoverMusic;
     public AudioClip gameoverJingle;
 
-    public UnityEngine.UI.Text scoreDisplayer;
     public UnityEngine.UI.Text timerDisplayer;
     public UnityEngine.UI.Text eventDisplayer;
-    public UnityEngine.UI.Text lifeDisplayer;
     public UnityEngine.UI.Image gameoverDisplayer;
+    public UnityEngine.UI.Text statsTitle;
+    public UnityEngine.UI.Text scoreTitle;
+    public UnityEngine.UI.Text totalZombiekillsTitle;
+    public UnityEngine.UI.Text bestDiceStreakTitle;
+    public UnityEngine.UI.Text timeAliveTitle;
     public UnityEngine.UI.Text highscoreDisplayer;
-    public UnityEngine.UI.Text totalZombiekillsDisplayer;
-    public UnityEngine.UI.Text bestDiceStreakDisplayer;
     public UnityEngine.UI.Text tryagainDisplayer;
+
+    public PlayerScoreViewController[] playerScoreViewControllers;
 
     public AudioClip hordeJingle; // instant zombies
     public AudioClip scoreJingle; // extra score
@@ -57,10 +61,11 @@ public class GameDirector : MonoBehaviour {
     void Start() {
         singleton = this;
         numberPlayers = players.Count;
-        ScoreHelper.Reset();
         EffectSpawnHorde.eventClip = hordeJingle;
         StartCoroutine(PeriodicZombieSpawn());
         StartCoroutine(PeriodicDiceSpawn());
+        foreach (PlayerScoreViewController psvc in playerScoreViewControllers)
+            psvc.UpdateView();
     }
 
     void Update() {
@@ -69,7 +74,14 @@ public class GameDirector : MonoBehaviour {
         if (Input.GetButton("Quit"))
             Application.Quit();
         if (isPlaying) {
-            float currentGameTime = ScoreHelper.totalTimeSurvived += Time.deltaTime;
+            float delta = Time.deltaTime;
+            // update time alive
+            foreach (PlayerScoreViewController vc in playerScoreViewControllers) {
+                if (vc.player.isAlive)
+                    vc.score.totalTimeSurvived += delta;
+            }
+            // update time displayer
+            currentGameTime += delta;
             string h = "", m = "", s = "";
             int amount;
             if (currentGameTime > 3600) {
@@ -219,11 +231,21 @@ public class GameDirector : MonoBehaviour {
 
     #region DICE_EVENTS
 
-    public void AddScore(int score) {
+    public void PlayerPunchLine(Player p) {
+        if (isPlaying)
+            p.PunchLine();
+    }
+
+    public void AddScore(Player p, int score) {
         if (isPlaying) {
-            scoreDisplayer.text = "" + (ScoreHelper.currentScore += score);
-            if (!scoreDisplayer.enabled)
-                scoreDisplayer.enabled = true;
+            p.score.currentScore += score;
+            UpdatePlayerScore(p);
+        }
+    }
+
+    public void HealPlayer(Player p, int health) {
+        if (isPlaying) {
+            p.Heal(health);
         }
     }
 
@@ -239,21 +261,16 @@ public class GameDirector : MonoBehaviour {
         }
     }
 
-    public void PlayerPunchLine() {
-        if (isPlaying)
-            players[0].GetComponent<Player>().PunchLine();
+    #endregion
+
+    #region INTERFACE
+
+    public void UpdatePlayerScore(Player p) {
+        playerScoreViewControllers[p.playerNumber - 1].UpdateView();
     }
 
-    public void HealPlayer(int health) {
-        if (isPlaying) {
-            players[0].GetComponent<Player>().Heal(health);
-        }
-    }
-
-    public void UpdatePlayerHealth(int health) {
-        if (isPlaying) {
-            lifeDisplayer.text = "LIFE : " + health;
-        }
+    public void UpdatePlayerHealth(Player p) {
+        playerScoreViewControllers[p.playerNumber - 1].UpdateView();
     }
 
     public void ShakeCamera(int iterations) {
@@ -265,6 +282,7 @@ public class GameDirector : MonoBehaviour {
             gameCamera.transform.position = new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), -10);
             yield return null;
         }
+        gameCamera.transform.position = new Vector3(0, 0, -10);
     }
 
     public void Event(string text, AudioClip jingle = null) {
@@ -314,28 +332,77 @@ public class GameDirector : MonoBehaviour {
         isPlaying = false;
         audioPlayer.clip = gameoverMusic;
         audioPlayer.Play();
-        lifeDisplayer.enabled = false;
         yield return new WaitForSeconds(1f);
-        //gameoverDisplayer.enabled = true;
         audioPlayer.PlayOneShot(gameoverJingle, 1f);
-        yield return new WaitForSeconds(0.5f);
-        if (ScoreHelper.currentScore > ScoreHelper.highScore) {
-            highscoreDisplayer.text = "New high score : " + (ScoreHelper.highScore = ScoreHelper.currentScore);
-            highscoreDisplayer.enabled = true;
-        } else if (ScoreHelper.highScore > 0) {
-            highscoreDisplayer.text = "High score : " + ScoreHelper.highScore;
-            highscoreDisplayer.enabled = true;
+        DisplayGameOver();
+        yield return new WaitForSeconds(1f);
+        DisplayStats();
+        yield return new WaitForSeconds(0.3f);
+        DisplayScore();
+        yield return new WaitForSeconds(0.3f);
+        DisplayTZK();
+        yield return new WaitForSeconds(0.3f);
+        DisplayBDS();
+        yield return new WaitForSeconds(0.3f);
+        DisplayTS();
+        yield return new WaitForSeconds(0.3f);
+        DisplayHighScore();
+        yield return new WaitForSeconds(0.3f);
+        DisplayTryAgain();
+    }
+
+    public void DisplayGameOver() {
+
+    }
+
+    public void DisplayStats() {
+        statsTitle.enabled = true;
+        foreach (PlayerScoreViewController vc in playerScoreViewControllers)
+            vc.ShowNameEnd();
+    }
+
+    public void DisplayScore() {
+        scoreTitle.enabled = true;
+        foreach (PlayerScoreViewController vc in playerScoreViewControllers)
+            vc.ShowScoreEnd();
+    }
+
+    public void DisplayTZK() {
+        totalZombiekillsTitle.enabled = true;
+        foreach (PlayerScoreViewController vc in playerScoreViewControllers)
+            vc.ShowTZKEnd();
+    }
+
+    public void DisplayBDS() {
+        bestDiceStreakTitle.enabled = true;
+        foreach (PlayerScoreViewController vc in playerScoreViewControllers)
+            vc.ShowBDSEnd();
+    }
+
+    public void DisplayTS() {
+        timeAliveTitle.enabled = true;
+        foreach (PlayerScoreViewController vc in playerScoreViewControllers)
+            vc.ShowTSEnd();
+
+    }
+
+    public void DisplayHighScore() {
+        int newHighScore = 0;
+        foreach (PlayerScoreViewController p in playerScoreViewControllers) {
+            if (p.score.currentScore > PlayerScore.highScore)
+                newHighScore = p.score.currentScore;
+        }
+        if (newHighScore > PlayerScore.highScore) {
+            highscoreDisplayer.text = "New high score : " + (PlayerScore.highScore = newHighScore);
+        } else if (PlayerScore.highScore > 0) {
+            highscoreDisplayer.text = "High score : " + PlayerScore.highScore;
         } else {
             highscoreDisplayer.text = "No score";
-            highscoreDisplayer.enabled = true;
         }
-        yield return new WaitForSeconds(0.5f);
-        totalZombiekillsDisplayer.text = "Total Zombie kills : " + ScoreHelper.totalZombieKills;
-        totalZombiekillsDisplayer.enabled = true;
-        yield return new WaitForSeconds(0.5f);
-        bestDiceStreakDisplayer.text = "Best dice streak : " + ScoreHelper.bestDiceStreak;
-        bestDiceStreakDisplayer.enabled = true;
-        yield return new WaitForSeconds(0.5f);
+        highscoreDisplayer.enabled = true;
+    }
+
+    public void DisplayTryAgain() {
         tryagainDisplayer.enabled = true;
     }
 

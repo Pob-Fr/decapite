@@ -18,7 +18,7 @@ public class EffectSpawnHorde : Effect {
         return true;
     }
 
-    public override void DoSomething() {
+    public override void DoSomething(Player lastAttacker) {
         GameDirector.singleton.SpawnHorde(multiplier);
         GameDirector.singleton.Event("<color=#FF0000>Horde x" + multiplier + " !!!</color>", eventClip);
         GameDirector.singleton.ShakeCamera(10);

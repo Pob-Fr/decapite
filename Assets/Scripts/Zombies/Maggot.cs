@@ -19,9 +19,12 @@ public class Maggot : ZombieAbstract {
         attackMask = (1 << 8); // MASK player
     }
 
-    public override void Die() {
-        base.Die();
-        ScoreHelper.totalMaggotKills++;
+    public override void Die(Entity killer) {
+        base.Die(killer);
+        if (killer is Player) {
+            Player p = (Player)killer;
+            p.score.totalMaggotKills += 1;
+        }
     }
 
 }
