@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 198976004965882968}
   - component: {fileID: 199206124608821090}
   m_Layer: 0
-  m_Name: Blood Particle Death
+  m_Name: Blood Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
