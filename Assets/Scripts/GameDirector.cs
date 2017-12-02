@@ -71,8 +71,6 @@ public class GameDirector : MonoBehaviour {
     void Update() {
         if (Input.GetButton("Menu"))
             SceneManager.LoadScene("Scenes/MainMenu");
-        if (Input.GetButton("Quit"))
-            Application.Quit();
         if (isPlaying) {
             float delta = Time.deltaTime;
             // update time alive
@@ -96,7 +94,7 @@ public class GameDirector : MonoBehaviour {
             s = (amount < 10 ? "0" + amount : "" + amount);
             timerDisplayer.text = h + m + s;
         } else {
-            if (tryagainDisplayer.enabled && (Input.GetButton("AttackC") || Input.GetButton("AttackK")))
+            if (tryagainDisplayer.enabled && (PlayerControls.player1Control.GetAttack() || PlayerControls.player2Control.GetAttack()))
                 Restart();
         }
     }
@@ -266,11 +264,11 @@ public class GameDirector : MonoBehaviour {
     #region INTERFACE
 
     public void UpdatePlayerScore(Player p) {
-        playerScoreViewControllers[p.playerNumber - 1].UpdateView();
+        playerScoreViewControllers[(int)p.playerSlot].UpdateView();
     }
 
     public void UpdatePlayerHealth(Player p) {
-        playerScoreViewControllers[p.playerNumber - 1].UpdateView();
+        playerScoreViewControllers[(int)p.playerSlot].UpdateView();
     }
 
     public void ShakeCamera(int iterations) {

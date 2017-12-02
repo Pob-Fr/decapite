@@ -5,18 +5,29 @@ using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour {
 
-    // Use this for initialization
-    void Start() {
+    public GameObject mainMenu;
+    public GameObject optionsMenu;
 
+    public void BackToMainMenu() {
+        mainMenu.SetActive(true);
+        optionsMenu.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update() {
-        if (Input.GetButton("AttackC")|| Input.GetButton("AttackK"))
-            SceneManager.LoadScene("Scenes/Game");
-        if (Input.GetButton("AttackC_2") || Input.GetButton("AttackK_2"))
-            SceneManager.LoadScene("Scenes/Game_Duo");
-        if (Input.GetButton("Quit"))
-            Application.Quit();
+    public void StartGameSolo() {
+        SceneManager.LoadScene("Scenes/Game");
     }
+
+    public void StartGameDuo() {
+        SceneManager.LoadScene("Scenes/Game_Duo");
+    }
+
+    public void OpenOptionsMenu() {
+        mainMenu.SetActive(false);
+        optionsMenu.SetActive(true);
+    }
+
+    public void CloseGame() {
+        Application.Quit();
+    }
+
 }
