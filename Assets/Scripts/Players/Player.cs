@@ -5,8 +5,7 @@ using UnityEngine;
 public class Player : Entity {
 
     public PlayerScore score;
-
-    public AudioClip[] soundsVoice = new AudioClip[5];
+    
     public List<AudioClip> killShouts = new List<AudioClip>();
 
     public PlayerSlot playerSlot = PlayerSlot.Player1;
@@ -16,7 +15,7 @@ public class Player : Entity {
         base.Init();
         if (playerSlot == PlayerSlot.Player1) controls = PlayerControls.player1Control;
         else controls = PlayerControls.player2Control;
-        attackMask = (1 << 9) + (1 << 10); // MASK zombi + dice
+        attackMask = (1 << 9) + (1 << 10); // MASK zombie + dice
         StartCoroutine(PlaySpawnSound());
     }
 
@@ -28,7 +27,7 @@ public class Player : Entity {
     public void PunchLine() {
         int index = Random.Range(0, killShouts.Count);
         audioSource.PlayOneShot(killShouts[index], 1);
-        if (index > 2)
+        if (index > 4)
             killShouts.Remove(killShouts[index]);
     }
 
