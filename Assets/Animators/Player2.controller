@@ -5,7 +5,7 @@ AnimatorController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Player
+  m_Name: Player2
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: isWalking
@@ -206,7 +206,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 2871e59d20edf60469d6801d37b65f4b, type: 2}
+  m_Motion: {fileID: 7400000, guid: b6fdc97791565624e87df2e80aa3cf4d, type: 2}
   m_Tag: 
   m_SpeedParameter: attackDuration
   m_MirrorParameter: 
@@ -231,7 +231,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 0ba91f23122efed418e814115a319424, type: 2}
+  m_Motion: {fileID: 7400000, guid: 9c450be421506244da64b46378ff3125, type: 2}
   m_Tag: 
   m_SpeedParameter: deathDuration
   m_MirrorParameter: 
@@ -257,7 +257,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: a67f1195e21a7ff47b0d2aa26aa0f28c, type: 2}
+  m_Motion: {fileID: 7400000, guid: 3f595311e731bbc4aae45cb147ce4379, type: 2}
   m_Tag: 
   m_SpeedParameter: walkDuration
   m_MirrorParameter: 
@@ -285,7 +285,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 3dce920fb39b4c4408e6c604774d3f49, type: 2}
+  m_Motion: {fileID: 7400000, guid: 0a17854010c7cb64eb0ff19360099134, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
