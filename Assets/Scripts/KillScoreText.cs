@@ -14,6 +14,6 @@ public class KillScoreText : MonoBehaviour
     {
         currentAlpha -= Time.deltaTime;
         transform.position = new Vector3(transform.position.x, transform.position.y + (2 * Time.deltaTime), transform.position.z);
-        renderer.material.color = new Color(1, 1, 1, currentAlpha);
+        renderer.material.color = new Color(1, 1, 0, currentAlpha);
 	}
 }
