@@ -29,7 +29,7 @@ public class PlayerControls {
     public string horizontalAxisName = "HorizontalC";
     public string verticalAxisName = "VerticalC";
 
-    private const float deadzone = 0.2f;
+    private const float deadzone = 0.5f;
 
     public bool GetAttack() {
         return Input.GetKey(attackKey);
@@ -64,10 +64,12 @@ public class PlayerControls {
         if (CONTROL_TYPE == ControlType.Controller) {
             if (playerSlot == PlayerSlot.Player1) {
                 attackKey = KeyCode.Joystick1Button0;
-                horizontalAxisName = "";
+                horizontalAxisName = "Horizontal1";
+                verticalAxisName = "Vertical1";
             } else {
                 attackKey = KeyCode.Joystick2Button0;
-                verticalAxisName = "";
+                horizontalAxisName = "Horizontal2";
+                verticalAxisName = "Vertical2";
             }
         } else {
             if (playerSlot == PlayerSlot.Player1) {
@@ -89,16 +91,16 @@ public class PlayerControls {
     public static PlayerControls BuildPlayer1Controls() {
         PlayerControls controls = new PlayerControls();
         controls.playerSlot = PlayerSlot.Player1;
-        controls.ResetDefault();
         controls.name = "Player 1";
+        controls.ResetDefault();
         return controls;
     }
 
     public static PlayerControls BuildPlayer2Controls() {
         PlayerControls controls = new PlayerControls();
         controls.playerSlot = PlayerSlot.Player2;
-        controls.ResetDefault();
         controls.name = "Player 2";
+        controls.ResetDefault();
         return controls;
     }
 

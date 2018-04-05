@@ -141,7 +141,6 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
 
     public virtual void GetHit(int damage) {
         if (isAlive) {
-            audioSource.PlayOneShot(soundDamaged);
             if (soundsBatHit.Length != 0) {
                 int soundToPlay = Random.Range(0, 1);
                 audioSource.PlayOneShot(soundsBatHit[soundToPlay]);
@@ -149,12 +148,13 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
             currentHealth -= damage;
             if (currentHealth <= 0)
                 Die();
+            else
+                audioSource.PlayOneShot(soundDamaged);
         }
     }
 
     public virtual void GetHit(int damage, Entity hitter) {
         if (isAlive) {
-            audioSource.PlayOneShot(soundDamaged);
             if (soundsBatHit.Length != 0) {
                 int soundToPlay = Random.Range(0, 1);
                 audioSource.PlayOneShot(soundsBatHit[soundToPlay]);
@@ -162,6 +162,8 @@ public abstract class Entity : MonoBehaviour, Movable, Hitable {
             currentHealth -= damage;
             if (currentHealth <= 0)
                 Die(hitter);
+            else
+                audioSource.PlayOneShot(soundDamaged);
         }
     }
 

@@ -111,7 +111,7 @@ public class Dice : MonoBehaviour, Hitable {
     public void GetHit(int damage, Entity hitter) {
         if (hitter is Player)
             lastAttacker = (Player)hitter;
-        audioSource.PlayOneShot(sounds[0]);
+        audioSource.PlayOneShot(sounds[0],1);
         animator.SetBool("isRolling", true);
         isUsed = true;
         throwSpeed = throwSpeedMax;
@@ -179,9 +179,9 @@ public class Dice : MonoBehaviour, Hitable {
         Effect effect = diceContent.RandomEffect();
         effect.DoSomething(lastAttacker);
         if (effect.isBonus())
-            audioSource.PlayOneShot(clipBonus);
+            audioSource.PlayOneShot(clipBonus,1);
         else if (effect.isMalus())
-            audioSource.PlayOneShot(clipMalus);
+            audioSource.PlayOneShot(clipMalus,1);
         yield return new WaitForEndOfFrame();
         Die();
     }
