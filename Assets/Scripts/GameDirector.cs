@@ -333,7 +333,6 @@ public class GameDirector : MonoBehaviour {
         yield return new WaitForSeconds(1f);
         audioPlayer.PlayOneShot(gameoverJingle, 1f);
         DisplayGameOver();
-        yield return new WaitForSeconds(1f);
         DisplayStats();
         yield return new WaitForSeconds(0.3f);
         DisplayScore();
@@ -350,7 +349,7 @@ public class GameDirector : MonoBehaviour {
     }
 
     public void DisplayGameOver() {
-
+        gameoverDisplayer.enabled = true;
     }
 
     public void DisplayStats() {

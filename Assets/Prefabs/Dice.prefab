@@ -251,6 +251,8 @@ MonoBehaviour:
   defaultSpeedUp: 20
   bodyThickness: 1
   bodyWidth: 1
+  killScoreTextPrefab: {fileID: 1846927586617958, guid: 9fbb2fbd15448f649a1877cfc5845752,
+    type: 2}
 --- !u!212 &212359164675834630
 SpriteRenderer:
   m_ObjectHideFlags: 1

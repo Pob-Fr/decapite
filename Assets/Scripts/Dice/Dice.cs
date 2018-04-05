@@ -44,6 +44,8 @@ public class Dice : MonoBehaviour, Hitable {
     public float bodyThickness = 0.4f;
     public float bodyWidth = 1f;
     private int kills = 0;
+    public GameObject killScoreTextPrefab;
+    private readonly int killScore = 2;
 
 
     // Use this for initialization
@@ -97,11 +99,26 @@ public class Dice : MonoBehaviour, Hitable {
                 e = c.GetComponent<Entity>();
                 if (e != null && e.isAlive) {
                     e.GetHit(100);
-                    kills++;
+                    ++kills;
+                    GainKillScore(e);
                     continue;
                 }
             }
         }
+    }
+
+    private void GainKillScore(Entity e)
+    {
+        if (lastAttacker == null) return;
+        int finalKillScore = killScore * kills;
+        GameDirector.singleton.AddScore(lastAttacker, finalKillScore);
+        //Instantiate the text mesh printing the score
+        Vector3 textPos = new Vector3(e.transform.position.x, e.transform.position.y + 1.5f, e.transform.position.z - 1f);
+        GameObject textObj = Instantiate(killScoreTextPrefab, textPos, Quaternion.identity, e.transform);
+        //Set correct size and value
+        TextMesh textMesh = textObj.GetComponent<TextMesh>();
+        textMesh.fontSize = (int)(textMesh.fontSize * (1 + 0.1f * (kills - 1))); //Make the text 10% bigger for each kill
+        textMesh.text = '+' + finalKillScore.ToString();
     }
 
     public void GetHit(int damage) {
