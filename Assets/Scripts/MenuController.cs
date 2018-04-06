@@ -8,9 +8,18 @@ public class MenuController : MonoBehaviour {
     public GameObject mainMenu;
     public GameObject optionsMenu;
 
+    private void Start() {
+        OpenGame();
+    }
+
+    public void OpenGame() {
+        PlayerControls.LoadSettings();
+    }
+
     public void BackToMainMenu() {
         mainMenu.SetActive(true);
         optionsMenu.SetActive(false);
+        PlayerControls.SaveSettings();
     }
 
     public void StartGameSolo() {

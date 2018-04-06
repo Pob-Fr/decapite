@@ -67,6 +67,7 @@ public class PlayerOptionController : MonoBehaviour {
         get { return playerController.controlType; }
         set {
             playerController.controlType = value;
+            playerController.ResetDefault();
             UpdateInputText();
         }
     }

@@ -1,24 +1,49 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class PlayerControls {
 
-    public static PlayerControls player1Control = BuildPlayer1Controls();
-    public static PlayerControls player2Control = BuildPlayer2Controls();
+    public static PlayerControls player1Control;
+    public static PlayerControls player2Control;
+
+    public static void LoadSettings() {
+        string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OTSU/Decapite/Input";
+        if (File.Exists(path + "1.xml") && File.Exists(path + "2.xml")) { // load existing settings
+            System.Xml.Serialization.XmlSerializer reader =
+                new System.Xml.Serialization.XmlSerializer(typeof(PlayerControls));
+            StreamReader file1 = new StreamReader(path+"1.xml");
+            player1Control = (PlayerControls)reader.Deserialize(file1);
+            file1.Close();
+            StreamReader file2 = new StreamReader(path + "2.xml");
+            player2Control = (PlayerControls)reader.Deserialize(file2);
+            file2.Close();
+        } else { // load default settings
+            player1Control = BuildPlayer1Controls();
+            player2Control = BuildPlayer2Controls();
+        }
+    }
+
+    public static void SaveSettings() {
+        string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OTSU/Decapite";
+        Directory.CreateDirectory(path);
+        System.Xml.Serialization.XmlSerializer writer =
+            new System.Xml.Serialization.XmlSerializer(typeof(PlayerControls));
+        FileStream file1 = System.IO.File.Create(path + "/Input1.xml");
+        writer.Serialize(file1, player1Control);
+        file1.Close();
+        FileStream file2 = System.IO.File.Create(path + "/Input2.xml");
+        writer.Serialize(file2, player2Control);
+        file2.Close();
+    }
 
     public string name = "Player X";
     public PlayerSlot playerSlot;
 
 
-    public ControlType controlType {
-        get { return CONTROL_TYPE; }
-        set {
-            CONTROL_TYPE = value;
-            ResetDefault();
-        }
-    }
-    public ControlType CONTROL_TYPE;
+    public ControlType controlType;
 
     public KeyCode attackKey;
     public KeyCode leftKey;
@@ -61,30 +86,33 @@ public class PlayerControls {
     }
 
     public void ResetDefault() {
-        if (CONTROL_TYPE == ControlType.Controller) {
+        if (controlType == ControlType.Controller) {
             if (playerSlot == PlayerSlot.Player1) {
                 attackKey = KeyCode.Joystick1Button0;
-                horizontalAxisName = "Horizontal1";
-                verticalAxisName = "Vertical1";
             } else {
                 attackKey = KeyCode.Joystick2Button0;
-                horizontalAxisName = "Horizontal2";
-                verticalAxisName = "Vertical2";
             }
         } else {
             if (playerSlot == PlayerSlot.Player1) {
                 attackKey = KeyCode.Mouse0;
-                leftKey = KeyCode.LeftArrow;
-                rightKey = KeyCode.RightArrow;
-                upKey = KeyCode.UpArrow;
-                downKey = KeyCode.DownArrow;
             } else {
                 attackKey = KeyCode.Space;
-                leftKey = KeyCode.Q;
-                rightKey = KeyCode.D;
-                upKey = KeyCode.Z;
-                downKey = KeyCode.S;
             }
+        }
+        if (playerSlot == PlayerSlot.Player1) {
+            leftKey = KeyCode.LeftArrow;
+            rightKey = KeyCode.RightArrow;
+            upKey = KeyCode.UpArrow;
+            downKey = KeyCode.DownArrow;
+            horizontalAxisName = "Horizontal1";
+            verticalAxisName = "Vertical1";
+        } else {
+            leftKey = KeyCode.Q;
+            rightKey = KeyCode.D;
+            upKey = KeyCode.Z;
+            downKey = KeyCode.S;
+            horizontalAxisName = "Horizontal2";
+            verticalAxisName = "Vertical2";
         }
     }
 
