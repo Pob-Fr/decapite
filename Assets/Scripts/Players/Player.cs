@@ -16,6 +16,7 @@ public class Player : Entity {
         if (playerSlot == PlayerSlot.Player1) controls = PlayerControls.player1Control;
         else controls = PlayerControls.player2Control;
         attackMask = (1 << 9) + (1 << 10); // MASK zombie + dice
+        audioSource.volume = AudioOptionController.GetPlayersVolume();
         StartCoroutine(PlaySpawnSound());
     }
 
@@ -26,7 +27,7 @@ public class Player : Entity {
 
     public void PunchLine() {
         int index = Random.Range(0, killShouts.Count);
-        audioSource.PlayOneShot(killShouts[index], 1);
+        audioSource.PlayOneShot(killShouts[index]);
         if (index > 4)
             killShouts.Remove(killShouts[index]);
     }

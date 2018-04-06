@@ -14,12 +14,14 @@ public class MenuController : MonoBehaviour {
 
     public void OpenGame() {
         PlayerControls.LoadSettings();
+        AudioOptionController.LoadSettings();
     }
 
     public void BackToMainMenu() {
         mainMenu.SetActive(true);
         optionsMenu.SetActive(false);
         PlayerControls.SaveSettings();
+        AudioOptionController.SaveSettings();
     }
 
     public void StartGameSolo() {

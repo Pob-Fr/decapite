@@ -22,6 +22,7 @@ public abstract class ZombieAbstract : Entity {
 
     protected override void Init() {
         base.Init();
+        audioSource.volume = AudioOptionController.GetZombiesVolume();
         audioSource.PlayOneShot(soundSpawn);
         StartCoroutine(RepickRoamDirection());
     }

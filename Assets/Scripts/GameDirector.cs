@@ -60,6 +60,7 @@ public class GameDirector : MonoBehaviour {
     // Use this for initialization
     void Start() {
         singleton = this;
+        audioPlayer.volume = AudioOptionController.GetMusicVolume();
         numberPlayers = players.Count;
         EffectSpawnHorde.eventClip = hordeJingle;
         StartCoroutine(PeriodicZombieSpawn());
@@ -287,7 +288,7 @@ public class GameDirector : MonoBehaviour {
         if (isPlaying) {
             StartCoroutine(ShowEvent(text));
             if (jingle != null)
-                audioPlayer.PlayOneShot(jingle, 1f);
+                audioPlayer.PlayOneShot(jingle, AudioOptionController.GetJinglesVolume());
         }
     }
 
@@ -331,7 +332,7 @@ public class GameDirector : MonoBehaviour {
         audioPlayer.clip = gameoverMusic;
         audioPlayer.Play();
         yield return new WaitForSeconds(1f);
-        audioPlayer.PlayOneShot(gameoverJingle, 1f);
+        audioPlayer.PlayOneShot(gameoverJingle, AudioOptionController.GetJinglesVolume());
         DisplayGameOver();
         DisplayStats();
         yield return new WaitForSeconds(0.3f);
