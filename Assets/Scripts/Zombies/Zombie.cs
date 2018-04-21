@@ -31,6 +31,9 @@ public class Zombie : ZombieAbstract {
     public IEnumerator Enrage(float rageDelay) {
         if (isAlive) {
             yield return new WaitForSeconds(rageDelay);
+            // do enrage effect cue
+            GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.7f, 0.7f);
+            yield return new WaitForSeconds(0.5f);
             movementSpeedFactor = 2.5f;
             attackSpeedFactor = 0.5f;
             GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.4f, 0.4f);

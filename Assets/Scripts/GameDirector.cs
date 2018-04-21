@@ -260,6 +260,12 @@ public class GameDirector : MonoBehaviour {
         }
     }
 
+    public void IncreasePlayerMovementSpeed(Player p, float boost) {
+        if (isPlaying) {
+            p.movementSpeedFactor += boost;
+        }
+    }
+
     #endregion
 
     #region INTERFACE

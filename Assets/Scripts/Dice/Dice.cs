@@ -65,6 +65,7 @@ public class Dice : MonoBehaviour, Hitable {
         diceContent.AddEffectHolder(new EffectHolder(new EffectZombieIncreaseSpawn(this, 1), 50));
         diceContent.AddEffectHolder(new EffectHolder(new EffectZombieRageFaster(this, 1f), 10));
         diceContent.AddEffectHolder(new EffectHolder(new EffectScore(this, 200), 30));
+        diceContent.AddEffectHolder(new EffectHolder(new EffectPlayerIncreaseMovementSpeed(this, 0.1f), 10));
 
         isUsed = false;
         timeToDie = 3f;
@@ -107,8 +108,7 @@ public class Dice : MonoBehaviour, Hitable {
         }
     }
 
-    private void GainKillScore(Entity e)
-    {
+    private void GainKillScore(Entity e) {
         if (lastAttacker == null) return;
         int finalKillScore = killScore * kills;
         GameDirector.singleton.AddScore(lastAttacker, finalKillScore);
@@ -128,7 +128,7 @@ public class Dice : MonoBehaviour, Hitable {
     public void GetHit(int damage, Entity hitter) {
         if (hitter is Player)
             lastAttacker = (Player)hitter;
-        audioSource.PlayOneShot(sounds[0],1);
+        audioSource.PlayOneShot(sounds[0], 1);
         animator.SetBool("isRolling", true);
         isUsed = true;
         throwSpeed = throwSpeedMax;
@@ -196,9 +196,9 @@ public class Dice : MonoBehaviour, Hitable {
         Effect effect = diceContent.RandomEffect();
         effect.DoSomething(lastAttacker);
         if (effect.isBonus())
-            audioSource.PlayOneShot(clipBonus,1);
+            audioSource.PlayOneShot(clipBonus, 1);
         else if (effect.isMalus())
-            audioSource.PlayOneShot(clipMalus,1);
+            audioSource.PlayOneShot(clipMalus, 1);
         yield return new WaitForEndOfFrame();
         Die();
     }
