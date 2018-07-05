@@ -11,6 +11,10 @@ public class Player : Entity {
     public PlayerSlot playerSlot = PlayerSlot.Player1;
     private PlayerControls controls;
 
+    public string GetPlayerName() {
+        return controls.name;
+    }
+
     protected override void Init() {
         base.Init();
         if (playerSlot == PlayerSlot.Player1) controls = PlayerControls.player1Control;

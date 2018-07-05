@@ -28,7 +28,7 @@ public class PlayerScoreViewController : MonoBehaviour {
 
     public void ShowNameEnd() {
         endNameDisplayer.enabled = true;
-        //endNameDisplayer.text = "" + score.currentScore;
+        endNameDisplayer.text = "" + player.GetPlayerName();
     }
 
     public void ShowScoreEnd() {

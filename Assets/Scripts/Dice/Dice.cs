@@ -76,6 +76,9 @@ public class Dice : MonoBehaviour, Hitable {
         collisionBox.size = new Vector2(bodyWidth, bodyThickness);
         collisionBox.offset = new Vector2(0, 0);
 
+
+        audioSource.volume = AudioOptionController.GetZombiesVolume();
+
         GameDirector.singleton.StartTrackingDice(this);
     }
 
@@ -128,7 +131,7 @@ public class Dice : MonoBehaviour, Hitable {
     public void GetHit(int damage, Entity hitter) {
         if (hitter is Player)
             lastAttacker = (Player)hitter;
-        audioSource.PlayOneShot(sounds[0], 1);
+        audioSource.PlayOneShot(sounds[0]);
         animator.SetBool("isRolling", true);
         isUsed = true;
         throwSpeed = throwSpeedMax;
@@ -196,9 +199,9 @@ public class Dice : MonoBehaviour, Hitable {
         Effect effect = diceContent.RandomEffect();
         effect.DoSomething(lastAttacker);
         if (effect.isBonus())
-            audioSource.PlayOneShot(clipBonus, 1);
+            audioSource.PlayOneShot(clipBonus);
         else if (effect.isMalus())
-            audioSource.PlayOneShot(clipMalus, 1);
+            audioSource.PlayOneShot(clipMalus);
         yield return new WaitForEndOfFrame();
         Die();
     }
